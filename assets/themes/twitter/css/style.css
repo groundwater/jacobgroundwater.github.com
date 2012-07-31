@@ -68,4 +68,15 @@ html, body {
 	border:1px solid #4C964D;
 	color:#FFF;
 }
-	
+
+/* Index Page */
+
+.post-entry {
+  margin-bottom:25px;
+}
+.post-entry-date {
+  font-style:italic;
+}
+.post-entry-rule {
+  margin:0 20px;
+}
