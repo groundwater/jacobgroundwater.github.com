@@ -2,9 +2,8 @@
 layout: post
 title: "Migration to Jekyll"
 tagline: Embracing a New Wave of Content Generation
-description: ""
-category: 
-tags: []
+category: Journal
+tags: [jekyll,blog,wordpress]
 ---
 {% include JB/setup %}
 
