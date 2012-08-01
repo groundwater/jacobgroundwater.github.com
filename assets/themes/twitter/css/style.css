@@ -95,3 +95,7 @@ html, body {
 .post-entry-rule {
     clear:both;
 }
+
+h4.sidebar {
+    margin-top:14px;
+}
