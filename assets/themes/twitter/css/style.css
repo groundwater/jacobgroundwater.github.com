@@ -72,11 +72,26 @@ html, body {
 /* Index Page */
 
 .post-entry {
-  margin-bottom:25px;
+    margin:25px 0;
 }
 .post-entry-date {
   font-style:italic;
+  float:right;
+  line-height:30px;
 }
 .post-entry-rule {
   margin:0 20px;
+}
+
+.post-entry-image {
+    float:left;
+    padding-right:10px;
+    padding-bottom:10px;
+}
+.post-entry-title {
+    margin-bottom:12px;
+}
+
+.post-entry-rule {
+    clear:both;
 }
