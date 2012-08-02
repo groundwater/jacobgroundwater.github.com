@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Underflow &#187; pattern-matching</title>
+	<atom:link href="http://www.underflow.ca/blog/tag/pattern-matching/feed" rel="self" type="application/rss+xml" />
+	<link>http://www.underflow.ca/blog</link>
+	<description>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</description>
+	<lastBuildDate>Wed, 25 Apr 2012 07:12:26 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.4.1</generator>
+	<div style="color: #C09853;background-color: #FCF8E3;border: 1px solid #FBEED5;padding: 8px 35px 8px 14px;margin-bottom: 18px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">This site has been archived, for my current blog please go <a href=../../../../index.html>here</a>.</div>	<item>
+		<title>Scala, Play! and Databases</title>
+		<link>http://www.underflow.ca/blog/606/scala-play-and-databases?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=scala-play-and-databases</link>
+		<comments>http://www.underflow.ca/blog/606/scala-play-and-databases#comments</comments>
+		<pubDate>Mon, 26 Mar 2012 02:07:37 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[anorm]]></category>
+		<category><![CDATA[database]]></category>
+		<category><![CDATA[lean-startup]]></category>
+		<category><![CDATA[pattern-matching]]></category>
+		<category><![CDATA[play]]></category>
+		<category><![CDATA[playframework]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[rapid-application-development]]></category>
+		<category><![CDATA[scala]]></category>
+		<category><![CDATA[sql]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=606</guid>
+		<description><![CDATA[I keep thinking that Play! is a Scala version of Ruby on Rails. I'm also drinking the Lean Startup cool-aid, so rapid application development pre-empts doing it right1. I'm interested to know how quickly and easily I can throw up an application. When planning a project, I often think first of the data I wish to store. The speed at which I can define and modify the data model is important. The Play! framework comes with Anorm, a low-level yet pragmatic layer to manage persistent objects. Anorm is basically a collection of clever methods for generating and parsing SQL queries, and interfacing with the JDBC layer. It is not an ORM2, however Anorm provides a lot of tools to create your own ORM with very little code. In fact, you just may end up writing less code that using Java annotations with JPA or Hibernate. You can create your classes any way you wish, but most people use case classes because the compiler does half the work for you3. Here, it's typical (but not required) to create a companion object in the same file to handle the ORM functionality. This is handy if your object has private members, since the companion object will have access to those fields. In the companion object you can create any methods here you wish, for example: create - create a new saved object update - update a previously saved object findAll - retrieve all saved objects find - retrieve a saved object identified by a specific key Eager coders might want to combine create and update into a single method. That's probably a good idea, but it would pollute the introductory material here. Define your companion object as follows: Your controllers specified in /app/controllers will then use code similar to the following snippets: To Create and Save a New Person: To Retrieve an Existing Person: Writing Queries Okay time to complete those methods in your Person object. We must manually decide how the database table is structured, and write the query that will create it. These are called database evolutions and they belong in the file conf/evolutions/default/1.sq. As we create more evolutions later, they will go into files 2.sql and so on. You can design your database any way you wish, it just has to be consistent between the SQL definitions in your evolution files, and the code in your Person object. Here is a snipped of the evolution file4: The code to save an object would be simple, if not for the fact that we should retrieve the newly created primary key associated with the newly saved object. The executeInsert() method returns the optional value Option[Long]5. Use match to extract the primary key. Notice this method will generate a new row in the database each time it's called, even if called twice on the same object. The executeInsert code is useful because it return the new primary key. The Primary key is not automatically added to the Person object. Another implementation would insert [...]]]></description>
+			<content:encoded><![CDATA[<p>I keep thinking that Play! is a Scala version of Ruby on Rails. I'm also drinking the Lean Startup cool-aid, so rapid application development pre-empts doing it <em>right</em><sup><a href="../../../606/scala-play-and-databases/index.html#footnote_0_606" id="identifier_0_606" class="footnote-link footnote-identifier-link" title="See Pretotyping by Jeremy Clark and Patrick Copeland">1</a></sup>. I'm interested to know how quickly and easily I can throw up an application.</p>
+<div id='stb-container-3372' class='stb-container'><div id='stb-caption-box-3372' class='stb-info-caption_box stb_caption' >Note</div><div id='stb-body-box-3372' class='stb-info-body_box stb_body' ></p>
+<div style="text-align:justify; padding:0 25px;">I write these blogs not as an expert, but as someone learning these topics for the first time. </p>
+<p>I choose to write them now because I can better identify the points of confusion in learning the material and address them. My examples are not always the best or most advanced way of doing things; in fact they are usually not the way you would write production code. What I attempt to do is focus in on thing at a time, leaving all else as simple as possible to avoid unnecessary confusion. </p>
+<p>I will, whenever possible, include links to more complete references.</p></div>
+<p></div></div>
+<p>When planning a project, I often think first of the data I wish to store. The speed at which I can define and modify the data model is important. The Play! framework comes with Anorm, a low-level yet pragmatic layer to manage persistent objects.</p>
+<p>Anorm is basically a collection of clever methods for generating and parsing SQL queries, and interfacing with the JDBC layer. It is not an ORM<sup><a href="../../../606/scala-play-and-databases/index.html#footnote_1_606" id="identifier_1_606" class="footnote-link footnote-identifier-link" title="See the Anorm Documentation">2</a></sup>, however Anorm provides a lot of tools to create your own ORM with very little code. In fact, you just may end up writing less code that using Java annotations with JPA or Hibernate.</p>
+<p>You can create your classes any way you wish, but most people use case classes because the compiler does half the work for you<sup><a href="../../../606/scala-play-and-databases/index.html#footnote_2_606" id="identifier_2_606" class="footnote-link footnote-identifier-link" title="The compiler generates a companion object, giving you access to the staticy method MyObject() vs. calling new MyObject(). See Scala for the Impatient by Cay Horstmann">3</a></sup>.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+import anorm.Pk
+
+case class Person( 
+    var id: Pk[Long], 
+    var firstName: String, 
+    var lastName: String 
+)
+</pre>
+<div id='stb-container-8767' class='stb-container'><div id='stb-caption-box-8767' class='stb-black-caption_box stb_caption' >Note</div><div id='stb-body-box-8767' class='stb-black-body_box stb_body' ><br />
+There is a lot of debate about creating mutable case classes. Most notably that the compiler overrides the <code>hash</code> method creating a time-dependent hash of your object.</p>
+<p>I'm the type of person who believes that any style works, as long as you bear in mind the consequences. Yes, there are perhaps better ways. That is left as an exercise to the reader =]<br />
+</div></div>
+<p>Here, it's typical (but not required) to create a companion object in the same file to handle the ORM functionality. This is handy if your object has private members, since the companion object will have access to those fields.</p>
+<p>In the companion object you can create any methods here you wish, for example:</p>
+<ol>
+<li><code>create</code> - create a new saved object</li>
+<li><code>update</code> - update a previously saved object</li>
+<li><code>findAll</code> - retrieve all saved objects</li>
+<li><code>find</code> - retrieve a saved object identified by a specific key</li>
+</ol>
+<p>Eager coders might want to combine <code>create</code> and <code>update</code> into a single method. That's probably a good idea, but it would pollute the introductory material here. </p>
+<p>Define your companion object as follows:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object Person {
+    def create( p:Person ) : Pk[Long] = {...}
+    def update( p:Person ) {...}
+    def find( id:Long ) : Person = {...}
+    def findAll() : List[Person] = {...}
+}
+</pre>
+<p>Your controllers specified in <code>/app/controllers</code> will then use code similar to the following snippets:</p>
+<p><strong>To Create and Save a New Person:</strong></p>
+<pre><pre class="brush: scala; title: ; notranslate">
+import anorm.NotAssigned
+
+// let the database set the primary key
+val me = Person( id:NotAssigned, firstName:&quot;Big&quot;, lastName:&quot;Guy&quot; )
+
+Person.create(me)
+</pre>
+<p><strong>To Retrieve an Existing Person:</strong></p>
+<pre><pre class="brush: scala; title: ; notranslate">
+// Assuming we have an object with Primary Key = 12
+val person = Person.find(12)
+</pre>
+<h2>Writing Queries</h2>
+<p>Okay time to complete those methods in your <code>Person</code> object. We must manually decide how the database table is structured, and write the query that will create it. These are called database evolutions and they belong in the file <code>conf/evolutions/default/1.sq</code>. As we create more evolutions later, they will go into files <code>2.sql</code> and so on.</p>
+<p>You can design your database any way you wish, it just has to be consistent between the SQL definitions in your evolution files, and the code in your <code>Person</code> object. Here is a snipped of the evolution file<sup><a href="../../../606/scala-play-and-databases/index.html#footnote_3_606" id="identifier_3_606" class="footnote-link footnote-identifier-link" title="See Managing Database Evolutions on how to write the complete file.">4</a></sup>:</p>
+<pre class="brush: sql; title: ; notranslate">
+CREATE TABLE todo (
+  id          SERIAL PRIMARY KEY,
+  firstName   VARCHAR(255),
+  lastName    VARCHAR(255)
+);
+</pre>
+<p>The code to save an object would be simple, if not for the fact that we should retrieve the newly created primary key associated with the newly saved object. The <code>executeInsert()</code> method returns the optional value <code>Option[Long]</code><sup><a href="../../../606/scala-play-and-databases/index.html#footnote_4_606" id="identifier_4_606" class="footnote-link footnote-identifier-link" title="See Scala Options: http://www.scala-lang.org/api/current/scala/Option.html">5</a></sup>. Use <code>match</code> to extract the primary key.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object Person {
+    def create(p:Person) : Pk[Long] {
+        
+        // Open the default database
+        DB.withConnection (&quot;default&quot;) { implicit connection =&gt;
+            
+            // Use string-replacement to construct the SQL query
+            SQL(&quot;&quot;&quot;INSERT INTO person(firstName,lastName) 
+                 values ({firstName},{lastName})&quot;&quot;&quot;).on(
+                &quot;firstName&quot; -&gt; p.firstName,
+                &quot;lastName&quot;  -&gt; p.lastName
+            
+            // Execute the statement
+            ).executeInsert() // returns Option[Long] 
+        } match {
+            
+            // Extracts the Long value, if it exists
+            case Some(long) =&gt; new Id[Long](long)
+            
+            // If no value is returned, the Insert failed
+            case None    =&gt; throw new Exception(
+               &quot;SQL Error - Did not save Person&quot;
+            )
+        }
+        p
+    }
+}
+</pre>
+<p>Notice this method will generate a new row in the database each time it's called, even if called twice on the same object. The <code>executeInsert</code> code is useful because it return the new primary key.</p>
+<p>The Primary key is not automatically added to the <code>Person</code> object. Another implementation would insert the primary key into <code>Person</code> and return the <em>tagged</em> object.</p>
+<h2>Retrieval</h2>
+<p>Retrieving an object is tricker, at first. Anorm lends a hand with something called a <code>RowParser</code>. The parser is the piece that asserts types coming from the database.</p>
+<p>A parser is created by joining smaller parsers together by the tilde (~) method. The following is a parser:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+import anorm.SqlParser.{get,str}
+import anorm.Pk
+
+val rowparser = get[Pk[Long]](&quot;id&quot;) ~ str(&quot;firstName&quot;) ~ str(&quot;lastName&quot;)
+</pre>
+<p>The above will extract the rows named "id", "firstName", and "lastName"; the types <code>Pk[Long]</code>, <code>String</code>, and <code>String</code> will be checked against the results coming from the database.</p>
+<p>Okay, now comes the pattern-matching-gymnastics. The following could be contained in your <code>findAll</code> method. I have added types signatures for clarity.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+// Create a row parser object
+val rp: RowParser[Pk[Long]~String~String] = 
+    get[Pk[Long]](&quot;id&quot;) ~ str(&quot;firstName&quot;) ~ str(&quot;lastName&quot;)
+
+DB.withConnection { implicit connection =&gt;
+
+    // Parse All Results from SQL Statement
+    val rsp : ResultSetParser[List[Pk[Long]~String~String]] = rp *
+
+    // The type of results depends on the type of rsp
+    // In this case List[Pk[Long]~String~String]
+    val results = SQL(&quot;SELECT * FROM person&quot;) as ( rsp )
+
+    // Use pattern matching to re-construct our objects
+    results map {
+        case pk~fname~lname =&gt; Person(pk,fname,lname)
+    }
+
+}
+</pre>
+<p>From here you can get creative. Clearly pattern matching can be stored and reused. It also has the nice property of not caring about exactly <em>what</em> the SQL statement returned, it will do it's best to extract the necessary column data.</p>
+<h2>Footnotes</h2>
+<ol class="footnotes"><li id="footnote_0_606" class="footnote">See <a href="http://www.pretotyping.org/">Pretotyping</a> by Jeremy Clark and Patrick Copeland</li><li id="footnote_1_606" class="footnote">See the <a href="https://github.com/playframework/Play20/wiki/ScalaAnorm">Anorm Documentation</a></li><li id="footnote_2_606" class="footnote">The compiler generates a companion object, giving you access to the <em>staticy</em> method <code>MyObject()</code> vs. calling <code>new MyObject()</code>. See <a href="http://typesafe.com/resources/scala-for-the-impatient">Scala for the Impatient</a> by Cay Horstmann</li><li id="footnote_3_606" class="footnote">See <a href="http://www.playframework.org/documentation/2.0/Evolutions">Managing Database Evolutions</a> on how to write the complete file.</li><li id="footnote_4_606" class="footnote">See Scala Options: <a href="http://www.scala-lang.org/api/current/scala/Option.html">http://www.scala-lang.org/api/current/scala/Option.html</a></li></ol>]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/606/scala-play-and-databases/feed</wfw:commentRss>
+		<slash:comments>7</slash:comments>
+		</item>
+		<item>
+		<title>Learning Scala: Case Classes and Pattern Matching</title>
+		<link>http://www.underflow.ca/blog/584/learning-scala-case-classes-and-pattern-matching?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=learning-scala-case-classes-and-pattern-matching</link>
+		<comments>http://www.underflow.ca/blog/584/learning-scala-case-classes-and-pattern-matching#comments</comments>
+		<pubDate>Sat, 24 Mar 2012 09:25:35 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[case-class]]></category>
+		<category><![CDATA[pattern-matching]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[scala]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=584</guid>
+		<description><![CDATA[Case Classes I wish to share and record some of my recent insights into the Scala language. I have been trying to wrap my head around case classes. These are very terse class definitions, but end up being extremely useful. Most of the case classes I've run across are defined in a single line: What isn't immediately obvious is what the compiler does upon encountering a case class definition. This is roughly translated into the Java code I have to admit, this is a data pattern that I use often. I like my objects simple. As such, having the ability to define them in a single line is pretty nice. I hope the following is immediately clear: By default, case classes define their members with val, that is they are immutable. In Scala val is like the Java final modifier. This can be overridden by explicitly using var. More Now what's really interesting is how helpful the Scala compiler can be. After processing, a case class is no different than a regular class. Suppose we begin with: which is called by the client code: As our code base becomes larger, we wish to add more sanity checks to the code, we want it to fail fast. Thus products with negative prices should not be allowed. We can add this behavior to our Product without modifying the client code. This is much more verbose, but it's only necessary when we require more behavior than the case class provides. Further more, the original client code works unmodified! Fantastic. Pattern Matching Case classes are often paired with Scala pattern matching, much like a switch statement but more powerful. The compiler will ensure that, even though send accepts Any type, each case specified in the match statement will be properly typed. That is, in case hello:Hello => ... the hello object has the proper type, and we can call methods associated with Hello. At this point, we can divide cases by opaque types. Scala also supports a more granular approach, types can be made transparent to the pattern matcher1, For matches that require more precision, Footnotes See this reddit comment for a more complete example.]]></description>
+			<content:encoded><![CDATA[<h2>Case Classes</h2>
+<p>I wish to share and record some of my recent insights into the Scala language. I have been trying to wrap my head around case classes. These are very terse class definitions, but end up being extremely useful. Most of the case classes I've run across are defined in a single line:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Demo( title : String, author : String )
+</pre>
+<p>What isn't immediately obvious is what the compiler does upon encountering a case class definition. This is roughly translated into the Java code</p>
+<pre><pre class="brush: java; title: ; notranslate">
+public class Demo {
+    public final String title;
+    public final String author;
+    public Demo( String title, String author ) {
+        this.title = title;
+        this.author = author;
+    }
+}
+</pre>
+<p>I have to admit, this is a data pattern that I use often. I like my objects simple. As such, having the ability to define them in a single line is pretty nice. I hope the following is immediately clear:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Demo( title : String, author : String )
+
+val demo = Demo( title = &quot;How to win at Blackjack&quot;, author = &quot;Jacob&quot; )
+
+println(&quot;My Demo : &quot; + demo.title )
+println(&quot; by : &quot; + demo.author )
+</pre>
+<p>By default, case classes define their members with <code>val</code>, that is they are immutable. In Scala <code>val</code> is like the Java <code>final</code> modifier. This can be overridden by explicitly using <code>var</code>.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Demo( var title : String, var author : String )
+</pre>
+<h3>More</h3>
+<p>Now what's really interesting is how helpful the Scala compiler can be. After processing, a case class is no different than a regular class.</p>
+<p>Suppose we begin with:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Product( var price : Double )
+</pre>
+<p>which is called by the client code:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+val iPhone = Product( 499.99 )
+println( iPhone.price )
+
+// Discount
+iPhone.price = 399.99
+println( iPhone.price )
+</pre>
+<p>As our code base becomes larger, we wish to add more sanity checks to the code, we want it to fail fast. Thus products with negative prices should not be allowed.</p>
+<p>We can add this behavior to our <code>Product</code> <em>without</em> modifying the client code.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+class Product {
+    private var _price : Double = 0
+    def price = _price
+    def price_= ( price : Double ) {
+        if (price &lt; 0) throw new Exception(&quot;Prices cannot be negative&quot;)
+        _price = price
+    }
+}
+object Product {
+    def apply( price : Double ) = {
+        val p = new Product()
+        p.price = price
+        p
+    }
+}
+</pre>
+<p>This is much more verbose, but it's only necessary when we require <em>more</em> behavior than the case class provides. Further more, the original client code works unmodified! Fantastic.</p>
+<h2>Pattern Matching</h2>
+<p>Case classes are often paired with Scala pattern matching, much like a <code>switch</code> statement but more powerful.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Hello( greeting : String )
+case class Goodbye( valediction : String )
+
+def send( x : Any ) = {
+    x match {
+        case hello:Hello =&gt; 
+            printf( &quot;Received Greeting: %s&quot;, hello.greeting )
+        case goodbye:Goodbye =&gt; 
+            printf( &quot;Received valediction: %s&quot;, goodbye.valediction )
+    }
+}
+
+send( Hello(&quot;Good morning&quot;) )
+send( Goodbye(&quot;See you tomorrow&quot;) )
+</pre>
+<p>The compiler will ensure that, even though <code>send</code> accepts <code>Any</code> type, each case specified in the match statement will be properly typed. That is, in <code>case hello:Hello => ...</code> the <code>hello</code> object has the proper type, and we can call methods associated with <code>Hello</code>.</p>
+<p>At this point, we can divide cases by opaque types. Scala also supports a more granular approach, types can be made transparent to the pattern matcher<sup><a href="../../../584/learning-scala-case-classes-and-pattern-matching/index.html#footnote_0_584" id="identifier_0_584" class="footnote-link footnote-identifier-link" title="See this reddit comment for a more complete example.">1</a></sup>,</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Grade( letter : String, passed : Boolean )
+
+def check( grade : Grade ) = {
+    grade match {
+        case Grade(letter,true)  =&gt; 
+            printf( &quot;You have passed with grade: %s&quot;, letter )
+        case Grade(letter,false) =&gt; 
+            printf( &quot;You have failed with grade: %s&quot;, letter )
+    }
+}
+
+check( Grade(&quot;A&quot;,true) )
+check( Grade(&quot;F&quot;,false) )
+</pre>
+<p>For matches that require more precision, </p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Grade( score : Double )
+
+def check( grade : Grade ) = {
+    grade match {
+        case Grade(score) if (score &gt;= 0.5) =&gt; 
+            printf( &quot;You have passed with score: %2.1f%%&quot;, score*100 )
+        case Grade(score) =&gt; 
+            printf( &quot;You have failed with score: %2.1f%%&quot;, score*100 )
+    }
+}
+</pre>
+<h2>Footnotes</h2>
+<ol class="footnotes"><li id="footnote_0_584" class="footnote">See this <a href="http://www.reddit.com/r/scala/comments/rb932/case_classes_and_pattern_matching_for_beginners/c44igwf">reddit comment</a> for a more complete example.</li></ol>]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/584/learning-scala-case-classes-and-pattern-matching/feed</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 21/27 queries in 0.220 seconds using disk: basic
+Object Caching 557/584 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:29:41 -->
+<!-- Localized -->

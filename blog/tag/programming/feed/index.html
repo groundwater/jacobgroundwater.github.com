@@ -1,0 +1,1053 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Underflow &#187; programming</title>
+	<atom:link href="http://www.underflow.ca/blog/tag/programming/feed" rel="self" type="application/rss+xml" />
+	<link>http://www.underflow.ca/blog</link>
+	<description>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</description>
+	<lastBuildDate>Wed, 25 Apr 2012 07:12:26 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.4.1</generator>
+	<div style="color: #C09853;background-color: #FCF8E3;border: 1px solid #FBEED5;padding: 8px 35px 8px 14px;margin-bottom: 18px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">This site has been archived, for my current blog please go <a href=../../../../index.html>here</a>.</div>	<item>
+		<title>Mock Dependency Injection in Play! 2.0</title>
+		<link>http://www.underflow.ca/blog/935/mock-dependency-injection-in-play-2-0?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=mock-dependency-injection-in-play-2-0</link>
+		<comments>http://www.underflow.ca/blog/935/mock-dependency-injection-in-play-2-0#comments</comments>
+		<pubDate>Wed, 25 Apr 2012 07:12:26 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[playframework]]></category>
+		<category><![CDATA[plugins]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[scala]]></category>
+		<category><![CDATA[testing]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=935</guid>
+		<description><![CDATA[Dependency injection can look elegant, or like a nightmare. I appreciate elegance, sometimes too much. In the last few months I've been learning the discipline of getting things done at the expense of elegance. I have been learning the Playframework, a rapid development platform using Scala, and blogging about my experiences. Although dependency injection is a more-or-less solved problem in Scala with the cake pattern, meshing it with play is a little more difficult. I would like a DI strategy that accommodates the easy mocking of controllers, actors and database without much effort. Some of my goals before proceeding: i don't want to revolve my code around it not yet another framework should not interfere with RAD the compiler should be able to notify me of problems (no casting) not a lot of thinking to get it right (get it right the first time) The road I set down, and ultimately settled upon is by using the Play plugins. Whether this road is practical and/or elegant remains to be seen. The main reason for plugins is because anything that loads via a plugin can be swapped out during testing. Thus, anything we need to mock must load via a plugin. From here there are two approaches, either: use micro-plugins, i.e. one for each controller, actor and database use a single, monolithic plugin A micro-plugin architecture would define a plugin for each controller, set of actors, and other testable components. Dependencies are injected via plugins at runtime. Plugins are capable of querying for other plugins when booting. While this would define an incredibly modular design, I think it's massive overkill. I want a design that is easy to understand at a single glance. The micro plugin approach requires many configuration lines in the play.plugins file. It's easy to miss one, and the compiler errors are not that helpful. In addition, in all your efforts to become modular you can accidentally couple your code in some other way. At some point in the future, I believe we will shift to a more modular design, but that idea is still immature and needs time to form. Thus we're left with monolithic plugins. Monolithic plugins are nice because all your wiring is in one place. There should be no surprises. A quick glance at the plugin code reveals all your applications configurations and components. What's nice is that the monolithic plugin is somewhat orthogonal to your dependency injection framework, you can define and wire your dependencies with the standard cake pattern. Use the Cake Pattern The cake pattern has been described as _slices_ of a cake. I prefer to think in terms of ingredients, or mixins. The Kitchen Pattern I would love to coin a new scale term, so here is my attempt. I present what I call the kitchen pattern for play applications, which is inspired by the following quote. All problems in computer science can be solved by another level of indirection The kitchen pattern uses the cake patter. It does not [...]]]></description>
+			<content:encoded><![CDATA[<p>Dependency injection can look elegant, or like a nightmare. I appreciate elegance, sometimes too much. In the last few months I've been learning the discipline of getting things done at the expense of elegance.</p>
+<p>I have been learning the Playframework, a rapid development platform using Scala, and blogging about my experiences. Although dependency injection is a more-or-less solved problem in Scala with the cake pattern, meshing it with play is a little more difficult. I would like a DI strategy that accommodates the easy mocking of controllers, actors and database without much effort.</p>
+<p>Some of my goals before proceeding:</p>
+<ul>
+<li>i don't want to revolve my code around it</li>
+<li>not yet <em>another</em> framework</li>
+<li>should not interfere with RAD</li>
+<li>the compiler should be able to notify me of problems (no casting)</li>
+<li>not a lot of thinking to get it right (get it right the first time)</li>
+</ul>
+<p>The road I set down, and ultimately settled upon is by using the Play plugins. Whether this road is practical and/or elegant remains to be seen.</p>
+<p>The main reason for plugins is because anything that loads via a plugin can be swapped out during testing. Thus, anything we need to mock must load via a plugin.</p>
+<p>From here there are two approaches, either:</p>
+<ol>
+<li>use micro-plugins, i.e. one for each controller, actor and database</li>
+<li>use a single, monolithic plugin</li>
+</ol>
+<p>A micro-plugin architecture would define a plugin for each controller, set of actors, and other testable components. Dependencies are injected via plugins at runtime. Plugins are capable of querying for other plugins when booting. While this would define an incredibly modular design, I think it's massive overkill.</p>
+<p>I want a design that is easy to understand at a single glance.</p>
+<p>The micro plugin approach requires many configuration lines in the play.plugins file. It's easy to miss one, and the compiler errors are not that helpful.</p>
+<p>In addition, in all your efforts to become modular you can accidentally couple your code in some other way.</p>
+<p>At some point in the future, I believe we will shift to a more modular design, but that idea is still immature and needs time to form.</p>
+<p>Thus we're left with monolithic plugins.</p>
+<p>Monolithic plugins are nice because all your wiring is in one place.<br />
+There should be no surprises. A quick glance at the plugin code reveals all your applications configurations and components.</p>
+<p>What's nice is that the monolithic plugin is somewhat orthogonal to your dependency injection framework, you can define and wire your dependencies with the standard cake pattern.</p>
+<h2>Use the Cake Pattern</h2>
+<p>The cake pattern has been described as _slices_ of a cake. I prefer to think in terms of ingredients, or mixins.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+package controllers
+
+case class Application(actor: ActorRef) extends Controller {
+    def index = Action{...}
+}
+
+trait ApplicationMixin {
+    val actor: ActorRef
+    lazy val application = Application(actor)
+}
+
+object MixingBowl extends ApplicationMixin {
+    val actor = current.actorOf(Props[MyActor])
+}
+
+// a valid application controller is avaialble
+// at controllers.MixingBowl.application
+</pre>
+<h2>The Kitchen Pattern</h2>
+<p>I would love to coin a new scale term, so here is my attempt. I present what I call the kitchen pattern for play applications, which is inspired by the following quote.</p>
+<blockquote><p>All problems in computer science can be solved by another level of indirection</p></blockquote>
+<p>The kitchen pattern <em>uses</em> the cake patter. It does not modify the cake ingredients, your dependency injection code remains <em>unchanged</em>. Instead the kitchen pattern is used to serve various cakes, depending on the requirements. The three components of the kitchen patter are:</p>
+<ol>
+<li>the menu (trait)</li>
+<li>the chef (class)</li>
+<li>the kitchen (object)</li>
+</ol>
+<p>The menu makes promises of what to expect, like a chocolate cake or an application controller. The chef decides <em>how</em> to bake the cake; different chefs can satisfy the menu in different ways. Your <code>test</code> chefs will serve up mock cakes, your production chef serves the real deal. The kitchen is necessary to combine the menu and chef. Without the kitchen, nothing gets made. In summary:</p>
+<ul>
+<li>there is one menu</li>
+<li>there can be many chefs</li>
+<li>there is one kitchen</li>
+</ul>
+<p>The kitchen pattern is another layer on top of the cake pattern. Keep the above cake pattern intact, but add the following:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+// --- Kitchen pattern --- //
+package restaurant
+
+import play.api.Play.current
+import play.api.Plugin
+
+trait Menu extends Plugin {
+    val application: controllers.Application
+}
+
+class HeadChef(playapp: play.api.Application) extends Menu {
+    val application = controllers.MixingBowl.application
+}
+
+object Kitchen {
+    val menu: Menu = current.plugin(classOf[Menu]).get
+}
+
+// A pluggable controller is available at
+// restaurant.Kitchen.menu.application
+</pre>
+<p>The head chef will not be found by the application unless it is listed as a plugin.<br />
+Add the following to the <code>conf/play.plugins</code> file:</p>
+<pre><pre class="brush: plain; title: ; notranslate">5000:restaurant.HeadChef</pre>
+<p>The number is used to weigh competing plugins, I use 5000 because that's what the plugin tutorial uses.</p>
+<p>Our application will now load the head chef whenever running in production.</p>
+<h2>Testing</h2>
+<p>By having the router traverse the kitchen plugin, our application can be re-programmed at test time.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+class TestChef extends Menu {
+    val application = // Mock Controller
+}
+
+class Test extends Specification {
+    &quot;application&quot; should {
+        &quot;load mock dependency&quot; in {
+            running(TestServer(9000, FakeApplication(
+
+            additionalPlugins = Seq(&quot;test.TestChef&quot;)
+
+            )), HTMLUNIT) { browser =&amp;gt;
+            browser.goTo(&quot;http://localhost:9000&quot;)
+            // Test mock controller
+            }
+        }
+    }
+}
+</pre>
+<p>The TestChef plugin loaded by our test server will override the HeadChef. Since the application router traverses our kitchen, which has now load the test chef, and selenium tests will encounter mock controllers along the way. A mock controller can be used to test your views. Create additional chefs for mocking other components such as actors and databases.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/935/mock-dependency-injection-in-play-2-0/feed</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Monads in Scala</title>
+		<link>http://www.underflow.ca/blog/820/monads-in-scala?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=monads-in-scala</link>
+		<comments>http://www.underflow.ca/blog/820/monads-in-scala#comments</comments>
+		<pubDate>Mon, 23 Apr 2012 10:22:00 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[monad]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[scala]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=820</guid>
+		<description><![CDATA[Preamble I hate it when I don't understand something. It bugs me; it nags at me. I like to straddle that thin line between confidence and over-confidence, believing that there is no topic I can't learn. There are of course many topics I don't care to learn, but there is an endless sea of topics I do want MUST learn. I like programming, not pure theory, not pure application. I am obsessed with good practices. This at times radically cuts into my productivity, but I am too stubborn to change. Instead I try to find how to apply my obsession. I like to think I'm a decent teacher, thankfully I usually receive feedback validating my opinion. I enjoy tackling complex ideas and breaking them down into more teachable components. This applies as much to programming as anything. My most recent conceptual-nemesis has been Monads. (I think the name Monad belongs in the hall of mathematical jargon that makes me giggle, along with Homomorphism, Wiener Measure1, and the Hairy Ball Theorem2.) *ahem* Anyways... &#60;awkward silence&#62; if you pay any attention to functional programming you'll have heard of them. I don't know why, but Monads just would not mentally digest for the longest time. I read Wikipedia, I read blogs, I watched videos. I just couldn't fully realize them in my head. Mission Accomplished? I think I now understand Monads, and if what I said above is true now I should be able to teach them to others. One technique I've learned from teaching is that teaching is a lot like the movie Inception... I mean I N C E P T I O N. One only needs to completely communicate the seed of the idea, not the complete picture. The complete picture should however follow from a series of what I call natural questions3. I will explain Monads not as a complete picture, but as a seed of an idea. Further more, I will explain in the context of programming, not category theory. What is a Monad? A Monad is an object that wraps another object. Instead of manipulating the underlying object directly, you pass the Monad mini-programs, i.e. functions, to perform the data manipulation of the underlying object. The Monad chooses how to apply the program to the underlying object. A trivial Monad just applies any such function directly, game over. Non-trivial Monads will do something else entirely. It is not a requirement of the Monad to apply the function in a specific way, or at all. One example of a Monad that ignores all programs it receives is the None Monad from Scala. The Monad None indicates its wrapped data is either incomplete, missing or corrupt, so further data manipulation, via received programs, makes no sense. Monads in Action Imagine that we are building an e-commerce site. It's our first attempt so we wish to remain agile and prefer loose coupling between the various components. When it comes to processing orders, we imagine a workflow roughly as follows: However [...]]]></description>
+			<content:encoded><![CDATA[<h2>Preamble</h2>
+<p>I hate it when I don't understand something. It bugs me; it nags at me. I like to straddle that thin line between confidence and over-confidence, believing that there is no topic I can't learn. There are of course many topics I don't care to learn, but there is an endless sea of topics I do <del>want</del> MUST learn.</p>
+<p>I like programming, not pure theory, not pure application. I am obsessed with good practices. This at times radically cuts into my productivity, but I am too stubborn to change. Instead I try to find how to apply my obsession.</p>
+<p>I like to think I'm a decent teacher, thankfully I usually receive feedback validating my opinion. I enjoy tackling complex ideas and breaking them down into more teachable components. This applies as much to programming as anything.</p>
+<p>My most recent conceptual-nemesis has been Monads. (I think the name Monad belongs in the hall of mathematical jargon that makes me giggle, along with Homomorphism, Wiener Measure<sup><a href="../../../820/monads-in-scala/index.html#footnote_0_820" id="identifier_0_820" class="footnote-link footnote-identifier-link" title="http://planetmath.org/encyclopedia/WienerMeasure.html">1</a></sup>, and the Hairy Ball Theorem<sup><a href="../../../820/monads-in-scala/index.html#footnote_1_820" id="identifier_1_820" class="footnote-link footnote-identifier-link" title="http://en.wikipedia.org/wiki/Hairy_ball_theorem">2</a></sup>.) *ahem*</p>
+<p>Anyways... &lt;awkward silence&gt; if you pay any attention to functional programming you'll have heard of them. I don't know why, but Monads just would not mentally digest for the longest time.</p>
+<p>I read Wikipedia, I read blogs, I watched videos. I just couldn't fully realize them in my head.</p>
+<h2>Mission Accomplished?</h2>
+<p>I think I now understand Monads, and if what I said above is true now I should be able to teach them to others. One technique I've learned from teaching is that teaching is a lot like the movie Inception...<br />
+I mean <strong>I N C E P T I O N</strong>.</p>
+<p>One only needs to completely communicate the seed of the idea, not the complete picture. The complete picture should however follow from a series of what I call <strong>natural questions</strong><sup><a href="../../../820/monads-in-scala/index.html#footnote_2_820" id="identifier_2_820" class="footnote-link footnote-identifier-link" title="A natural question is hard to explain, I don&#039;t have a good definition just yet. It&#039;s kind of a what if question.">3</a></sup>.</p>
+<p>I will explain Monads not as a complete picture, but as a seed of an idea. Further more, I will explain in the context of programming, not category theory.</p>
+<h3>What is a Monad?</h3>
+<p>A Monad is an object that wraps another object. Instead of manipulating the underlying object directly, you pass the Monad mini-programs, i.e. functions, to perform the data manipulation <em>of the underlying object</em>. The Monad chooses how to apply the program to the underlying object.</p>
+<p>A trivial Monad just applies any such function directly, game over. Non-trivial Monads will do something else entirely. It is not a requirement of the Monad to apply the function in a specific way, or at all.</p>
+<p>One example of a Monad that ignores all programs it receives is the <code>None</code> Monad from Scala. The Monad <code>None</code> indicates its wrapped data is either incomplete, missing or corrupt, so further data manipulation, via received programs, makes no sense.</p>
+<h2>Monads in Action</h2>
+<p>Imagine that we are building an e-commerce site. It's our first attempt so we wish to remain agile and prefer loose coupling between the various components.</p>
+<p>When it comes to processing orders, we imagine a workflow roughly as follows:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+getOrderForm -&gt; creditCheck -&gt; stockCheck -&gt; process
+</pre>
+<p>However being a first attempt, there may be other steps required along the way. Any step can alter the order, or produce an error. We choose to capture any errors or deviations not by throwing an exception but by wrapping orders in a <code>MaybeOrder</code> trait:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Order()
+
+trait MaybeOrder {
+    def -&gt; ( process: Order =&gt; Order )      : MaybeOrder
+    def ~&gt; ( process: Order =&gt; MaybeOrder ) : MaybeOrder
+}
+</pre>
+<p>Any object with the <code>MaybeOrder</code> trait qualifies as a monad since it accepts programs that manipulate its underlying type <code>Order</code>. Notice we cannot modify the data directly, we can only pass the monad functions for manipulating an <code>Order</code>. Back to our example.</p>
+<p>We call this monad <code>MaybeOrder</code> because it can contain two basic types of orders, good and bad. A bad order indicates an error has occurred somewhere while processing the order. Bad orders should not be processed further once they occur. We represent these two states with two classes implementing the <code>MaybeOrder</code> trait:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class GoodOrder( order: Order ) extends MaybeOrder {
+    def -&gt; ( process: Order =&gt; Order ) = {
+        GoodOrder( process(order) )
+    }
+    def ~&gt; ( process: Order =&gt; MaybeOrder ) = {
+        process(order)
+    }
+}
+case class BadOrder() extends MaybeOrder {
+    def -&gt; ( process: Order =&gt; Order ) = {
+        BadOrder()
+    }
+    def ~&gt; ( process: Order =&gt; MaybeOrder ) = {
+        BadOrder()
+    }
+}
+</pre>
+<p>Notice that the bad order will always return another bad order, further more bad orders do not call any processes they are passed. This will matter because it has the effect of stopping bad orders from being processed further by the system. The behaviour we have encoded is that bad orders stay bad, good orders propagate through the system.</p>
+<p>We can apply this setup as follows:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+val goodOrder = GoodOrder( new Order() )
+val badOrder  = BadOrder()
+
+def creditCheck ( order: Order ) : MaybeOrder = {
+    GoodOrder(order)
+}
+
+def stockCheck  ( order: Order ) : MaybeOrder = {
+    GoodOrder(order)
+}
+
+def process ( order: Order ) : Order = {
+    println(&quot;Order Successfully Placed&quot;)
+    order
+}
+
+def save( order: Order ) : Order = {
+    println(&quot;Order Saved to System&quot;)
+    order
+}
+</pre>
+<p>The entire business process can be captured in the following:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+getGoodOrder ~&gt; { creditCheck } ~&gt; { stockCheck } -&gt; process -&gt; save
+getBadOrder  ~&gt; { creditCheck } ~&gt; { stockCheck } -&gt; process -&gt; save
+</pre>
+<p>The first line will print <code>"Order Successfully Placed"</code> however the second line will not. This is the why the above pattern is useful. We can easily develop new functions to process the order and chain them without much modification to the code:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+def addressValid  ( order: Order ) : MaybeOrder = {
+    GoodOrder(order)
+}
+</pre>
+<p>Our order processes then becomes:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+goodOrder ~&gt; { creditCheck } ~&gt; { stockCheck } ~&gt;
+    { addressValid } -&gt; process -&gt; save
+</pre>
+<h2>Monadic Conventions</h2>
+<p>The previous example was nice, but I think the syntax obscures what's really going on. First of all, why are there two continuation methods <code>~></code> and <code>-></code>? When you generalize this concept, the two methods are required because method overloading can produce ambiguous situations.</p>
+<p>Let's rename our methods in the <code>MaybeOrder</code> trait to the more standard <code>map</code> and <code>flatMap</code> :</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+trait MaybeOrder {
+    def map     ( process: Order =&gt; Order )      : MaybeOrder
+    def flatMap ( process: Order =&gt; MaybeOrder ) : MaybeOrder
+}
+</pre>
+<p>If we rewrite the previous section with <code>map</code> and <code>flatMap</code> we can use for-loop comprehension in Scala to rewrite the order processing code to<sup><a href="../../../820/monads-in-scala/index.html#footnote_3_820" id="identifier_3_820" class="footnote-link footnote-identifier-link" title="I highly recommend watching Scala Monads: Declutter Your Code With Monadic Design">4</a></sup></p>
+<pre><pre class="brush: scala; title: ; notranslate">
+for ( o1 &lt;- goodOrder;
+      o2 &lt;- creditCheck (o1);
+      o3 &lt;- stockCheck  (o2);
+      o4 &lt;- addressValid(o3)
+    ) yield process     (o4)
+</pre>
+<p>Understanding for-comprehension is a little tricky at first. What you need to know is that each subsequent step in the for-loop (<code>foo <- bar</code>) is invoked by either <code>map</code> or <code>flatMap</code>. It is syntactic shorthand, and entirely equivalent to calling <code>map</code> and <code>flatMap</code> directly. Thus should a <code>BadOrder</code> creep in at <code>stockCheck</code> the functions <code>addressValid</code> and <code>process</code> will not be called.</p>
+<h2>Conclusion</h2>
+<p>I do not expect anyone to walk away from this understanding monads in their entirety. What I hope is to have planted a seed around which your understanding of them can grow.</p>
+<h2>Code</h2>
+<p>A runnable example of the above is available on my github page: </p>
+<ul>
+<li><a href="https://github.com/jacobgroundwater/Monads-in-Scala">https://github.com/jacobgroundwater/Monads-in-Scala</a></li>
+</ul>
+<h2>Footnotes</h2>
+<ol class="footnotes"><li id="footnote_0_820" class="footnote"><a href="http://planetmath.org/encyclopedia/WienerMeasure.html">http://planetmath.org/encyclopedia/WienerMeasure.html</a></li><li id="footnote_1_820" class="footnote"><a href="http://en.wikipedia.org/wiki/Hairy_ball_theorem">http://en.wikipedia.org/wiki/Hairy_ball_theorem</a></li><li id="footnote_2_820" class="footnote">A natural question is hard to explain, I don't have a good definition just yet. It's kind of a <strong>what if</strong> question.</li><li id="footnote_3_820" class="footnote">I highly recommend watching <a href="http://www.youtube.com/watch?v=Mw_Jnn_Y5iA">Scala Monads: Declutter Your Code With Monadic Design</a></li></ol>]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/820/monads-in-scala/feed</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>Play[ing] with Actions</title>
+		<link>http://www.underflow.ca/blog/798/playing-with-actions?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=playing-with-actions</link>
+		<comments>http://www.underflow.ca/blog/798/playing-with-actions#comments</comments>
+		<pubDate>Tue, 17 Apr 2012 05:42:05 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[actions]]></category>
+		<category><![CDATA[mvc]]></category>
+		<category><![CDATA[play]]></category>
+		<category><![CDATA[playframework]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[scala]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=798</guid>
+		<description><![CDATA[Introduction Actions in the Play framework could also be called Request Processors. They are designed in such a way that it is easy to compose actions to create rich controller behaviour without excess code clutter. In Play, incoming HTTP requests are matched against the conf/routes file and routed to a single controller method. These methods must return an Action object, or any object satisfying the interface: Looking closer, the controller does not actually handle the request, but generates an object that will handle it. A controller can even re-use objects as the following trivial example shows: In each case, only a single object is created and used to handle each request. Why then create multiple objects? It's not really necessary unless you have concurrency-issues or closures in the action that are time-dependent. Syntax The syntax of an action can catch you off guard, especially for newcomers to Scala like myself. The code can be rewritten as The apply method accepts either a Result type, or a Request[A]=>Result type. Composing Actions Actions can be composed in a way that maintains code clarity in your controller code. Not only can actions pre-process requests, they can inject new values into other actions. For example: The first action Authenticated will read the request and parse out the current user, providing the user object in the scope of the second action. Any number of actions can be combined in this way, there are endless possibilities. I like actions because they promote re-usable code. Actions exhibit just the right abstractions to be useful, however figuring out how to code an Action can be difficult. I have provided some templates: Single Injection Use the following template for creating your own actions. This example injects a single variable into the scope of the next: Actions are monadic, they invert control of the application. Any action may return early, effectively terminating the chain of actions. Terminations are handled gracefully, exceptions are not necessary to interrupt the chain.]]></description>
+			<content:encoded><![CDATA[<h2>Introduction</h2>
+<p>Actions in the Play framework could also be called <strong>Request Processors</strong>. They are designed in such a way that it is easy to compose actions to create rich controller behaviour without excess code clutter.</p>
+<p>In Play, incoming HTTP requests are matched against the <code>conf/routes</code> file and routed to a single controller method. These methods must return an <code>Action</code> object, or any object satisfying the interface:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+Request[A] =&gt; Result
+</pre>
+<p>Looking closer, the controller does not actually handle the request, but generates an object that will handle it. A controller can even re-use objects as the following trivial example shows:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object Application extends Controller {
+    val page1 = Action { Ok(&quot;Hello&quot;) } 
+    val page2 = page1
+    val page3 = page2
+}
+</pre>
+<p>In each case, only a single object is created and used to handle each request. Why then create multiple objects? It's not really necessary unless you have concurrency-issues or closures in the action that are time-dependent.</p>
+<h2>Syntax</h2>
+<p>The syntax of an action can catch you off guard, especially for newcomers to Scala like myself. The code</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object Application extends Controller {
+	def page1 = Action { Ok(&quot;Hello&quot;) } 
+}
+</pre>
+<p>can be rewritten as</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object Application extends Controller {
+    val f : Result = { Ok(&quot;Hello&quot;) }
+    def page1 = Action( f )
+    // i.e. Action.apply( f )
+}
+</pre>
+<p>The <code>apply</code> method accepts either a <code>Result</code> type, or a <code>Request[A]=>Result</code> type. </p>
+<h2>Composing Actions</h2>
+<p>Actions can be composed in a way that maintains code clarity in your controller code. Not only can actions pre-process requests, they can inject new values into other actions. For example:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object Application extends Controller {
+    def home = Authenticated { implicit user =&gt; 
+        Action { implicit request =&gt;
+            Ok( views.html.hello(user) )
+        }
+    }
+}
+</pre>
+<p>The first action <code>Authenticated</code> will read the request and parse out the current user, providing the user object in the scope of the second action. Any number of actions can be combined in this way, there are endless possibilities.</p>
+<p>I like actions because they promote re-usable code. Actions exhibit just the right abstractions to be useful, however figuring out how to code an <code>Action</code> can be difficult. I have provided some templates:</p>
+<h3>Single Injection</h3>
+<p>Use the following template for creating your own actions. This example injects a single variable into the scope of the next:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+trait InjectionAction[A] extends Action[A]
+object InjectionAction {
+    def apply[A] (bodyParser: BodyParser[A])
+                 (block: INJECTED_TYPE =&gt; Request[A] =&gt; Result ) = 
+                 new InjectionAction[A] {
+        def parser = bodyParser
+        def apply(request: Request[A]) = {
+            val injected = // Anything you wish, can access request object
+            block(injected)(request)
+        }
+    }
+    def apply (block: INJECTED_TYPE =&gt; 
+                      Request[AnyContent] =&gt; 
+                      Result): InjectionAction[AnyContent] = {
+        InjectionAction(BodyParsers.parse.anyContent)(block)
+    }
+}
+</pre>
+<p>Actions are monadic, they invert control of the application. Any action may return early, effectively terminating the chain of actions. Terminations are handled gracefully, exceptions are not necessary to interrupt the chain. </p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/798/playing-with-actions/feed</wfw:commentRss>
+		<slash:comments>11</slash:comments>
+		</item>
+		<item>
+		<title>Playing with Actors!</title>
+		<link>http://www.underflow.ca/blog/702/playing-with-actors?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=playing-with-actors</link>
+		<comments>http://www.underflow.ca/blog/702/playing-with-actors#comments</comments>
+		<pubDate>Sun, 08 Apr 2012 08:00:32 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[akka]]></category>
+		<category><![CDATA[playframework]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[scala]]></category>
+		<category><![CDATA[types]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=702</guid>
+		<description><![CDATA[How to write web applications seem to be a source of endless debate on the internet, much like anything that is largely a matter of opinion. What exactly constitutes a good platform? It can be hard to say. Some of the largest successes are written on what are generally regarded as poor platforms. Facebook is written in PHP (or used to be), Twitter started as a Ruby on Rails application. In truth, I think whatever personally gets you going is the way to work. If you love Abstract Singleton Proxy Factories then perhaps Java is the way to go! On the other hand, if you insist on being a mathematical heavyweight, Haskell might be your pleasure. Personally, I like the whole asynchronous messaging workflow. I don't know why; it makes sense in my head. I am pleased that Play framework comes with Akka, a message-driven asynchronous framework. I will present a simple Play example and try to explain why I did what I did. Just for kicks, I threw in dependency injection because it fits well with creating an actor-messaging framework. Overview Play routes incoming HTTP requests to Controllers, these are objects you create. A controller can do it all if you wish, it can process the entire request all the way down to accessing the database, but that was not my goal. Below is an example of a totally synchronous design, where the controller handles everything: Time to throw some actors into the mix. Instead of programming the business logic directly in the controller, a message object encapsulating the request will be fired off to a background Actor asynchronously. The controller is then immediately free to handle more incoming requests. The response is no longer sent from the controller, but from a one-time object called a Future or Promise that awaits the actors reply. Actors and Controllers are permanent parts of the system. Futures and messages exist only during a request. Actors can be as simple or as complicated as necessary. For example different actors could be in charge of different business objects in the system. Alternatively one actor could handle everything, dividing messages up by convenient case-classes and pattern matching.1 Talking to Actors The controller will look like this: As the controller receives a request, it will be forwarded to the relevant actor by way of an asynchronous message. Since eventually the browser of our website will expect a reply, it's not as simple as: We need to process the request then send a reply while maintaining the context and scope of the open client connection. Play provides a sort of boilerplate solution for us: The code Async and AkkaPromise handle the Future returned by `actor ? message` that will eventually contain our reply back to the users browser.2 Note: This does not handle timeouts gracefully. This is left as an exercise to the reader... and myself. Better Communication Actors represent the business logic of the system. As such, they don't really need to know any HTTP details. [...]]]></description>
+			<content:encoded><![CDATA[<p>How to write web applications seem to be a source of endless debate on the internet, much like anything that is largely a matter of opinion. What exactly constitutes a good platform? It can be hard to say. Some of the largest successes are written on what are generally regarded as poor platforms. Facebook is written in PHP (or used to be), Twitter started as a Ruby on Rails application.</p>
+<p>In truth, I think whatever personally gets you going is the way to work. If you love <a href="http://static.springsource.org/spring/docs/2.5.x/api/org/springframework/aop/framework/AbstractSingletonProxyFactoryBean.html">Abstract Singleton Proxy Factories</a> then perhaps Java is the way to go! On the other hand, if you insist on being a <a href="http://stackoverflow.com/questions/3870088/a-monad-is-just-a-monoid-in-the-category-of-endofunctors-whats-the-problem">mathematical heavyweight</a>, Haskell might be your pleasure.</p>
+<p>Personally, I like the whole asynchronous messaging workflow. I don't know why; it makes sense in my head. I am pleased that Play framework comes with Akka, a message-driven asynchronous framework. I will present a simple Play example and try to explain why I did what I did.</p>
+<p>Just for kicks, I threw in dependency injection because it fits well with creating an actor-messaging framework.</p>
+<h2>Overview</h2>
+<p>Play routes incoming HTTP requests to <code>Controllers</code>, these are objects you create. A controller can do it all if you wish, it can process the entire request all the way down to accessing the database, but that was not my goal. Below is an example of a totally synchronous design, where the controller handles everything:</p>
+<p><img src='../../../wp-content/gallery/play/akkasync.png' alt='akkasync' class='ngg-singlepic ngg-none' /></p>
+<p>Time to throw some actors into the mix.</p>
+<p>Instead of programming the business logic directly in the controller, a message object encapsulating the request will be fired off to a background Actor asynchronously. The controller is then immediately free to handle more incoming requests. The response is no longer sent from the controller, but from a one-time object called a Future or Promise that awaits the actors reply.</p>
+<p><img src="../../../wp-content/uploads/2012/03/AkkaAsync.png" alt="" title="AkkaAsync" class="alignnone size-full wp-image-706" /></p>
+<p>Actors and Controllers are permanent parts of the system. Futures and messages exist only during a request.</p>
+<p><img src="../../../wp-content/uploads/2012/03/AkkaAll.png" alt="" title="AkkaAll" width="787" height="451" class="alignnone size-full wp-image-708" /></p>
+<p>Actors can be as simple or as complicated as necessary. For example different actors could be in charge of different business objects in the system. Alternatively one actor could handle everything, dividing messages up by convenient case-classes and pattern matching.<sup><a href="../../../702/playing-with-actors/index.html#footnote_0_702" id="identifier_0_702" class="footnote-link footnote-identifier-link" title="See my previous post Learning Scala: Case Classes and Pattern Matching">1</a></sup></p>
+<h2>Talking to Actors</h2>
+<p>The controller will look like this:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+class Application( val actor: ActorRef ) extends Controller {
+    
+    def index = Action { implicit request =&gt;
+        
+        // Talk to actor
+        
+    }
+}
+</pre>
+<p>As the controller receives a request, it will be forwarded to the relevant actor by way of an asynchronous message. Since eventually the browser of our website will expect a reply, it's not as simple as:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+actor ! message
+</pre>
+<p>We need to process the request then send a reply while maintaining the context and scope of the open client connection. Play provides a sort of boilerplate solution for us:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+class Application( val actor: ActorRef ) extends Controller {
+    
+    implicit val timeout : Timeout = Timeout(Duration(5,&quot;seconds&quot;))
+    
+    def index = Action { implicit request =&gt;
+        
+        Async {
+            new AkkaPromise( actor ? &quot;Incoming Message!&quot; ) map {
+
+                // Handle Reply
+
+            }
+        }        
+    }
+}
+</pre>
+<p>The code <code>Async</code> and <code>AkkaPromise</code> handle the <code>Future</code> returned by <code>`actor ? message`</code> that will eventually contain our reply back to the users browser.<sup><a href="../../../702/playing-with-actors/index.html#footnote_1_702" id="identifier_1_702" class="footnote-link footnote-identifier-link" title="Read more about Async in the Scala Async API">2</a></sup></p>
+<p><em>Note</em>: This does not handle timeouts gracefully. This is left as an exercise to the reader... and myself.</p>
+<h3>Better Communication</h3>
+<p>Actors represent the business logic of the system. As such, they don't really need to know any HTTP details. The controller's job is thus to parse the HTTP request into a more generic request that the actors would prefer.</p>
+<p>The power of case classes will come into play. Case classes are the meat and potatoes of actor messaging. Need a specific kind of message? Make a case class. Let's make one now, something simple.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Get(path: String)
+</pre>
+<p>By using case classes the compiler will help check our message logic. Now the controller can send better messages</p>
+<pre><pre class="brush: scala; highlight: [8]; title: ; notranslate">
+class Application( val actor: ActorRef ) extends Controller {
+    
+    implicit val timeout : Timeout = Timeout(Duration(5,&quot;seconds&quot;))
+    
+    def index = Action { implicit request =&gt;
+        
+        Async {
+            new AkkaPromise( actor ? Get(request.path) ) map {
+
+                // Handle Reply
+
+            }
+        }        
+    }
+}
+</pre>
+<p>The actor receiving the message can easily parse this using pattern matching:</p>
+<pre><pre class="brush: scala; highlight: [3]; title: ; notranslate">
+class Getter extends Actor {
+    def receive = {
+        case Get(path) =&gt; 
+            // Get and process your data using `path`
+            // Create and send a response
+            sender ! response
+    }
+}
+</pre>
+<p>The final line <code>sender ! response</code> will trigger the controllers asynchronous reply (line 10).</p>
+<h2>Dependency Injection</h2>
+<p>I'm going to pollute the focus of this article by also addressing dependency injection. Injecting actors into controllers feels like the right thing to do; I call it gut programming! So let's do it.</p>
+<p>I am using what I understand to be the cake pattern<sup><a href="../../../702/playing-with-actors/index.html#footnote_2_702" id="identifier_2_702" class="footnote-link footnote-identifier-link" title="See Real-World Scala: Dependency Injection by Jonas Bon&eacute;r /">3</a></sup>. This is by far the most delicious sounding of all dependency injection frameworks, although Google Guice is a close second.</p>
+<p>IMHO your objects do not need to know about the injection framework. If your object has a dependency, put it in the constructor.<sup><a href="../../../702/playing-with-actors/index.html#footnote_3_702" id="identifier_3_702" class="footnote-link footnote-identifier-link" title="The val is necessary if you wish to later reference the parameter by object.actor">4</a></sup></p>
+<pre><pre class="brush: scala; title: ; notranslate">
+class Application( val actor: ActorRef ) extends Controller {
+    
+    def index = Action { 
+
+        // Use `actor` here
+
+    }
+
+}
+</pre>
+<p>For each class that requires injection, we add a trait that acts as the injector:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+trait ApplicationInjector {
+    
+    // To be injected by a mixing bowl
+    val applicationActor: ActorRef 
+    
+    // must be `lazy val` or `def` otherwise it will not inject properly
+    lazy val application: Application = 
+        new Application(applicationActor)
+    
+}
+</pre>
+<p>In the above case, we directly create an injected object. You can also create a subclass within the injector where dependencies are pre-filled.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+trait ApplicationInjector {
+    
+    // To be injected by a mixing bowl
+    val applicationActor: ActorRef 
+    
+    class InjectedApplication extends 
+        Application( applicationActor )
+    
+}
+</pre>
+<p>To handle the injections, use a mixing bowl:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object MixingBowl extends ApplicationInjector {
+    
+    val applicationActor = system.actorOf( 
+        Props[Getter], name=&quot;application&quot; 
+    )
+    
+}
+</pre>
+<p>There is now a fully injected application controller at <code>MixingBowl.application</code>.<sup><a href="../../../702/playing-with-actors/index.html#footnote_4_702" id="identifier_4_702" class="footnote-link footnote-identifier-link" title="Although I haven&#039;t really covered it here, this pattern is necessary to survive more complicated injection setups.">5</a></sup></p>
+<h2>Full Example</h2>
+<p>The full example, with lots of comments is hosted on github. The names of classes and objects have been changed slightly to protect the innocent.</p>
+<div style="text-align:center; margin:25px 20px 50px 20px; padding:25px; border:1px dashed black;"><a href="https://github.com/jacobgroundwater/Akka-Actors">https://github.com/jacobgroundwater/Akka-Actors</a></div>
+<h2>Footnotes</h2>
+<ol class="footnotes"><li id="footnote_0_702" class="footnote">See my previous post <a href="../../../584/learning-scala-case-classes-and-pattern-matching/index.html">Learning Scala: Case Classes and Pattern Matching</a></li><li id="footnote_1_702" class="footnote">Read more about <code>Async</code> in the <a href="http://www.playframework.org/documentation/2.0/ScalaAsync">Scala Async API</a></li><li id="footnote_2_702" class="footnote">See <a href="http://jonasboner.com/2008/10/06/real-world-scala-dependency-injection-di">Real-World Scala: Dependency Injection</a> by Jonas Bonér /</li><li id="footnote_3_702" class="footnote">The <code>val</code> is necessary if you wish to later reference the parameter by <code>object.actor</code></li><li id="footnote_4_702" class="footnote">Although I haven't really covered it here, this pattern is necessary to survive more complicated injection setups.</li></ol>]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/702/playing-with-actors/feed</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Thinking Scala</title>
+		<link>http://www.underflow.ca/blog/655/thinking-scala?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=thinking-scala</link>
+		<comments>http://www.underflow.ca/blog/655/thinking-scala#comments</comments>
+		<pubDate>Wed, 04 Apr 2012 08:00:15 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[scala]]></category>
+		<category><![CDATA[types]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=655</guid>
+		<description><![CDATA[Scala is one of those languages that's almost too smart for it's own good. I like everything about it, but I still think it lacks appeal to a wide audience. I want to share my experiences learning the language, so perhaps more people can see why the language definitely has appeal. An appeal which begins to form when one "thinks in scala". Coming from Python, I used to think that the equals sign ( = ) was what defined a name in the current scope. The following is valid Python: I kept this thinking moving into Scala, but this thinking must be abandoned. Names are defined in scope by the keywords var, val, and def. The first two terms behave like Python equals, the last does not, nor does it behave like Python def which defines a function. In Scala def behaves a lot like a value; we do not always have to explicitly call apply on the defined function to receive a value. Calling a Nullary Function in Python Although we can define function in scala that look identical to the above, We can also create argument-less functions that are accessed exactly like other values and variables. Calling a Nullary Function in Scala In Python, def creates a function that must be explicitly called. In Scala, despite looking like a value from the outside a is indeed a function that is being executed every time its value is accessed: The block of code is executed each time a is read. To explicitly reveal the function we call The a _ tells Scala to create a partial function, and return a function, yes even if the function originally has zero arguments. Code Blocks In Scala, every expression has a value1. Specifically code blocks have values; the value of their last expression. The above block has type Int, despite printing the string "Hi" when first defined. We can assign code blocks, using equals ( = ), to a name defined by val, var, or def. Thus we can have: The value of i is assigned the value produced by the code block on the right, in this case the integer 10. Upon assignment, the code block is executed and the string "hi" is printed immediately. Similarly we can use def, but the result will be different: In the former example, the code block is evaluated one, at the beginning. The resulting integer is then stored in the name i. Accessing i merely accesses the pre-computed value as seen below: The latter case does not execute the code block during definition, there is no pre-computed value. The code block is accessed every time j is subsequently accessed in the code. Scala also calls this property pass by name. There's more! We can get a hybrid behavior with lazy values. A lazy value computes the block once and only once, but the computation is delayed until the value is first accessed. Lazy values may seem almost identical to non-lazy values. In a purely-functional [...]]]></description>
+			<content:encoded><![CDATA[<p>Scala is one of those languages that's almost too smart for it's own good. I like everything about it, but I still think it lacks appeal to a wide audience.</p>
+<p>I want to share my experiences learning the language, so perhaps more people can see why the language definitely has appeal. An appeal which begins to form when one <em>"thinks in scala"</em>.</p>
+<p>Coming from Python, I used to think that the equals sign ( = ) was what <em>defined</em> a name in the current scope. The following is valid Python:</p>
+<pre class="brush: python; title: ; notranslate">
+x = 10
+y = 11
+z = x + y
+print z
+</pre>
+<p>I kept this thinking moving into Scala, but this thinking must be abandoned. Names are defined in scope by the keywords <code>var</code>, <code>val</code>, and <code>def</code>. The first two terms behave like Python equals, the last does not, nor does it behave like Python <code>def</code> which defines a function.</p>
+<p>In Scala <code>def</code> behaves a lot like a value; we do not always have to explicitly call apply on the defined function to receive a value.</p>
+<p><strong>Calling a Nullary Function in Python</strong></p>
+<pre class="brush: python; title: ; notranslate">
+&gt;&gt;&gt; def a() : return &quot;I'm a function&quot;
+&gt;&gt;&gt; print a
+&lt;function a at 0x102020c08&gt;
+&gt;&gt;&gt; print a()
+I'm a function
+</pre>
+<p>Although we can define function in scala that look identical to the above,</p>
+<pre class="brush: scala; title: ; notranslate">
+&gt; def a() : String = &quot;I'm a function&quot;
+&gt; a()
+&quot;I'm a function&quot;
+</pre>
+<p>We can also create argument-less functions that are accessed <em>exactly</em> like other values and variables.</p>
+<p><strong>Calling a Nullary Function in Scala</strong></p>
+<pre class="brush: scala; title: ; notranslate">
+&gt; def a : String = &quot;I'm a function&quot;
+&gt; println(a)
+I'm a function
+</pre>
+<p>In Python, <code>def</code> creates a function that must be explicitly called. In Scala, despite looking like a value from the outside <code>a</code> is indeed a function that is being executed every time its value is accessed:</p>
+<pre class="brush: scala; title: ; notranslate">
+&gt; def a : String = { &quot;My favorite number is &quot; + util.Random.nextInt }
+&gt; println(a)
+My favorite number is 571571362
+&gt; println(a)
+My favorite number is 1115839303
+</pre>
+<p>The block of code is executed each time <code>a</code> is read. To explicitly reveal the function we call </p>
+<pre class="brush: scala; title: ; notranslate">
+scala&gt; a _
+res0: () =&gt; java.lang.String = &lt;function0&gt;
+</pre>
+<p>The <code>a _</code> tells Scala to create a partial function, and return a <em>function</em>, yes even if the function originally has zero arguments.</p>
+<h2>Code Blocks</h2>
+<p>In Scala, every expression has a value<sup><a href="../../../655/thinking-scala/index.html#footnote_0_655" id="identifier_0_655" class="footnote-link footnote-identifier-link" title="See Scala for the Impatient p.15">1</a></sup>. Specifically code blocks have values; the value of their last expression.</p>
+<pre class="brush: scala; title: ; notranslate">
+&gt; {
+|     println(&quot;Hi&quot;)
+|     10
+| }
+Hi
+res: Int = 10
+</pre>
+<p>The above block has type <code>Int</code>, despite printing the string "Hi" when first defined. We can assign code blocks, using equals ( = ), to a name defined by <code>val</code>, <code>var</code>, or <code>def</code>. Thus we can have:</p>
+<pre class="brush: scala; title: ; notranslate">
+val i:Int = {
+    println(&quot;Hi&quot;)
+    10
+}
+</pre>
+<p>The value of <code>i</code> is assigned the value produced by the code block on the right, in this case the integer 10. Upon assignment, the code block is executed and the string "hi" is printed immediately.</p>
+<p>Similarly we can use <code>def</code>, but the result will be different:</p>
+<pre class="brush: scala; title: ; notranslate">
+def j:Int = {
+    println(&quot;Hi&quot;)
+    10
+}
+</pre>
+<p>In the former example, the code block is evaluated one, at the beginning. The resulting integer is then stored in the name <code>i</code>. Accessing <code>i</code> merely accesses the pre-computed value as seen below:</p>
+<pre class="brush: scala; title: ; notranslate">
+&gt; val i:Int = { println(&quot;Hi&quot;); 10 }
+Hi
+i: Int = 10
+&gt; i
+res: Int = 10
+&gt; i
+res: Int = 10
+</pre>
+<p>The latter case does not execute the code block during definition, there is no pre-computed value. The code block is accessed <em>every</em> time <code>j</code> is subsequently accessed in the code.</p>
+<pre class="brush: scala; title: ; notranslate">
+&gt; def j:Int = { println(&quot;Hi&quot;); 10 }
+i: Int
+&gt; j
+Hi
+res: Int = 10
+&gt; j
+Hi
+res: Int = 10
+</pre>
+<p>Scala also calls this property pass by name.</p>
+<p>There's more!</p>
+<p>We can get a hybrid behavior with lazy values. A lazy value computes the block once and only once, but the computation is delayed until the value is first accessed.</p>
+<pre class="brush: scala; title: ; notranslate">
+&gt; lazy val l:Int = {
+|    println(&quot;Hi&quot;)
+|    10
+|}
+l: Int
+&gt; l
+Hi
+res: Int = 10
+&gt; l
+res: Int = 10
+</pre>
+<p>Lazy values may seem almost identical to non-lazy values. In a purely-functional language like Haskell, where almost all values are lazy, it makes no difference when something is computed. Scala is functional-like, but does not guarantee the same referential transparency<sup><a href="../../../655/thinking-scala/index.html#footnote_1_655" id="identifier_1_655" class="footnote-link footnote-identifier-link" title="See One or Two">2</a></sup>.</p>
+<p>Scala supports closures, meaning a block can close over a variable in the outer scope.</p>
+<h6>Non-Lazy Closure</h6>
+<pre class="brush: scala; title: ; notranslate">
+var price = 100
+var quantity = 100
+
+val profit: Int = { price * quantity }
+
+price = 50 // Price drop
+println(profit)
+// 10000
+</pre>
+<h6>Lazy Closure</h6>
+<pre class="brush: scala; title: ; notranslate">
+var price = 100
+var quantity = 100
+
+lazy val profit: Int = { price * quantity }
+
+price = 50 // Price drop
+println(profit)
+// 5000
+</pre>
+<p>The code is identical except for the <code>lazy</code> keyword, but as you can see produce different results. Either behavior is fine, just know what to expect.</p>
+<p>Of course, the different behavior only arises because we used <code>var</code> which is mutable. If we used only <code>val</code> the second result is not possible.</p>
+<h2>Footnotes</h2>
+<ol class="footnotes"><li id="footnote_0_655" class="footnote">See <a href="http://typesafe.com/resources/scala-for-the-impatient">Scala for the Impatient</a> p.15</li><li id="footnote_1_655" class="footnote">See <a href="http://www.haskell.org/haskellwiki/Functional_programming#Referential_transparency">One</a> or <a href="http://www.haskell.org/haskellwiki/Referential_transparency">Two</a></li></ol>]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/655/thinking-scala/feed</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Scala, Play! and Databases</title>
+		<link>http://www.underflow.ca/blog/606/scala-play-and-databases?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=scala-play-and-databases</link>
+		<comments>http://www.underflow.ca/blog/606/scala-play-and-databases#comments</comments>
+		<pubDate>Mon, 26 Mar 2012 02:07:37 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[anorm]]></category>
+		<category><![CDATA[database]]></category>
+		<category><![CDATA[lean-startup]]></category>
+		<category><![CDATA[pattern-matching]]></category>
+		<category><![CDATA[play]]></category>
+		<category><![CDATA[playframework]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[rapid-application-development]]></category>
+		<category><![CDATA[scala]]></category>
+		<category><![CDATA[sql]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=606</guid>
+		<description><![CDATA[I keep thinking that Play! is a Scala version of Ruby on Rails. I'm also drinking the Lean Startup cool-aid, so rapid application development pre-empts doing it right1. I'm interested to know how quickly and easily I can throw up an application. When planning a project, I often think first of the data I wish to store. The speed at which I can define and modify the data model is important. The Play! framework comes with Anorm, a low-level yet pragmatic layer to manage persistent objects. Anorm is basically a collection of clever methods for generating and parsing SQL queries, and interfacing with the JDBC layer. It is not an ORM2, however Anorm provides a lot of tools to create your own ORM with very little code. In fact, you just may end up writing less code that using Java annotations with JPA or Hibernate. You can create your classes any way you wish, but most people use case classes because the compiler does half the work for you3. Here, it's typical (but not required) to create a companion object in the same file to handle the ORM functionality. This is handy if your object has private members, since the companion object will have access to those fields. In the companion object you can create any methods here you wish, for example: create - create a new saved object update - update a previously saved object findAll - retrieve all saved objects find - retrieve a saved object identified by a specific key Eager coders might want to combine create and update into a single method. That's probably a good idea, but it would pollute the introductory material here. Define your companion object as follows: Your controllers specified in /app/controllers will then use code similar to the following snippets: To Create and Save a New Person: To Retrieve an Existing Person: Writing Queries Okay time to complete those methods in your Person object. We must manually decide how the database table is structured, and write the query that will create it. These are called database evolutions and they belong in the file conf/evolutions/default/1.sq. As we create more evolutions later, they will go into files 2.sql and so on. You can design your database any way you wish, it just has to be consistent between the SQL definitions in your evolution files, and the code in your Person object. Here is a snipped of the evolution file4: The code to save an object would be simple, if not for the fact that we should retrieve the newly created primary key associated with the newly saved object. The executeInsert() method returns the optional value Option[Long]5. Use match to extract the primary key. Notice this method will generate a new row in the database each time it's called, even if called twice on the same object. The executeInsert code is useful because it return the new primary key. The Primary key is not automatically added to the Person object. Another implementation would insert [...]]]></description>
+			<content:encoded><![CDATA[<p>I keep thinking that Play! is a Scala version of Ruby on Rails. I'm also drinking the Lean Startup cool-aid, so rapid application development pre-empts doing it <em>right</em><sup><a href="../../../606/scala-play-and-databases/index.html#footnote_0_606" id="identifier_0_606" class="footnote-link footnote-identifier-link" title="See Pretotyping by Jeremy Clark and Patrick Copeland">1</a></sup>. I'm interested to know how quickly and easily I can throw up an application.</p>
+<div id='stb-container-2902' class='stb-container'><div id='stb-caption-box-2902' class='stb-info-caption_box stb_caption' >Note</div><div id='stb-body-box-2902' class='stb-info-body_box stb_body' ></p>
+<div style="text-align:justify; padding:0 25px;">I write these blogs not as an expert, but as someone learning these topics for the first time. </p>
+<p>I choose to write them now because I can better identify the points of confusion in learning the material and address them. My examples are not always the best or most advanced way of doing things; in fact they are usually not the way you would write production code. What I attempt to do is focus in on thing at a time, leaving all else as simple as possible to avoid unnecessary confusion. </p>
+<p>I will, whenever possible, include links to more complete references.</p></div>
+<p></div></div>
+<p>When planning a project, I often think first of the data I wish to store. The speed at which I can define and modify the data model is important. The Play! framework comes with Anorm, a low-level yet pragmatic layer to manage persistent objects.</p>
+<p>Anorm is basically a collection of clever methods for generating and parsing SQL queries, and interfacing with the JDBC layer. It is not an ORM<sup><a href="../../../606/scala-play-and-databases/index.html#footnote_1_606" id="identifier_1_606" class="footnote-link footnote-identifier-link" title="See the Anorm Documentation">2</a></sup>, however Anorm provides a lot of tools to create your own ORM with very little code. In fact, you just may end up writing less code that using Java annotations with JPA or Hibernate.</p>
+<p>You can create your classes any way you wish, but most people use case classes because the compiler does half the work for you<sup><a href="../../../606/scala-play-and-databases/index.html#footnote_2_606" id="identifier_2_606" class="footnote-link footnote-identifier-link" title="The compiler generates a companion object, giving you access to the staticy method MyObject() vs. calling new MyObject(). See Scala for the Impatient by Cay Horstmann">3</a></sup>.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+import anorm.Pk
+
+case class Person( 
+    var id: Pk[Long], 
+    var firstName: String, 
+    var lastName: String 
+)
+</pre>
+<div id='stb-container-1792' class='stb-container'><div id='stb-caption-box-1792' class='stb-black-caption_box stb_caption' >Note</div><div id='stb-body-box-1792' class='stb-black-body_box stb_body' ><br />
+There is a lot of debate about creating mutable case classes. Most notably that the compiler overrides the <code>hash</code> method creating a time-dependent hash of your object.</p>
+<p>I'm the type of person who believes that any style works, as long as you bear in mind the consequences. Yes, there are perhaps better ways. That is left as an exercise to the reader =]<br />
+</div></div>
+<p>Here, it's typical (but not required) to create a companion object in the same file to handle the ORM functionality. This is handy if your object has private members, since the companion object will have access to those fields.</p>
+<p>In the companion object you can create any methods here you wish, for example:</p>
+<ol>
+<li><code>create</code> - create a new saved object</li>
+<li><code>update</code> - update a previously saved object</li>
+<li><code>findAll</code> - retrieve all saved objects</li>
+<li><code>find</code> - retrieve a saved object identified by a specific key</li>
+</ol>
+<p>Eager coders might want to combine <code>create</code> and <code>update</code> into a single method. That's probably a good idea, but it would pollute the introductory material here. </p>
+<p>Define your companion object as follows:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object Person {
+    def create( p:Person ) : Pk[Long] = {...}
+    def update( p:Person ) {...}
+    def find( id:Long ) : Person = {...}
+    def findAll() : List[Person] = {...}
+}
+</pre>
+<p>Your controllers specified in <code>/app/controllers</code> will then use code similar to the following snippets:</p>
+<p><strong>To Create and Save a New Person:</strong></p>
+<pre><pre class="brush: scala; title: ; notranslate">
+import anorm.NotAssigned
+
+// let the database set the primary key
+val me = Person( id:NotAssigned, firstName:&quot;Big&quot;, lastName:&quot;Guy&quot; )
+
+Person.create(me)
+</pre>
+<p><strong>To Retrieve an Existing Person:</strong></p>
+<pre><pre class="brush: scala; title: ; notranslate">
+// Assuming we have an object with Primary Key = 12
+val person = Person.find(12)
+</pre>
+<h2>Writing Queries</h2>
+<p>Okay time to complete those methods in your <code>Person</code> object. We must manually decide how the database table is structured, and write the query that will create it. These are called database evolutions and they belong in the file <code>conf/evolutions/default/1.sq</code>. As we create more evolutions later, they will go into files <code>2.sql</code> and so on.</p>
+<p>You can design your database any way you wish, it just has to be consistent between the SQL definitions in your evolution files, and the code in your <code>Person</code> object. Here is a snipped of the evolution file<sup><a href="../../../606/scala-play-and-databases/index.html#footnote_3_606" id="identifier_3_606" class="footnote-link footnote-identifier-link" title="See Managing Database Evolutions on how to write the complete file.">4</a></sup>:</p>
+<pre class="brush: sql; title: ; notranslate">
+CREATE TABLE todo (
+  id          SERIAL PRIMARY KEY,
+  firstName   VARCHAR(255),
+  lastName    VARCHAR(255)
+);
+</pre>
+<p>The code to save an object would be simple, if not for the fact that we should retrieve the newly created primary key associated with the newly saved object. The <code>executeInsert()</code> method returns the optional value <code>Option[Long]</code><sup><a href="../../../606/scala-play-and-databases/index.html#footnote_4_606" id="identifier_4_606" class="footnote-link footnote-identifier-link" title="See Scala Options: http://www.scala-lang.org/api/current/scala/Option.html">5</a></sup>. Use <code>match</code> to extract the primary key.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object Person {
+    def create(p:Person) : Pk[Long] {
+        
+        // Open the default database
+        DB.withConnection (&quot;default&quot;) { implicit connection =&gt;
+            
+            // Use string-replacement to construct the SQL query
+            SQL(&quot;&quot;&quot;INSERT INTO person(firstName,lastName) 
+                 values ({firstName},{lastName})&quot;&quot;&quot;).on(
+                &quot;firstName&quot; -&gt; p.firstName,
+                &quot;lastName&quot;  -&gt; p.lastName
+            
+            // Execute the statement
+            ).executeInsert() // returns Option[Long] 
+        } match {
+            
+            // Extracts the Long value, if it exists
+            case Some(long) =&gt; new Id[Long](long)
+            
+            // If no value is returned, the Insert failed
+            case None    =&gt; throw new Exception(
+               &quot;SQL Error - Did not save Person&quot;
+            )
+        }
+        p
+    }
+}
+</pre>
+<p>Notice this method will generate a new row in the database each time it's called, even if called twice on the same object. The <code>executeInsert</code> code is useful because it return the new primary key.</p>
+<p>The Primary key is not automatically added to the <code>Person</code> object. Another implementation would insert the primary key into <code>Person</code> and return the <em>tagged</em> object.</p>
+<h2>Retrieval</h2>
+<p>Retrieving an object is tricker, at first. Anorm lends a hand with something called a <code>RowParser</code>. The parser is the piece that asserts types coming from the database.</p>
+<p>A parser is created by joining smaller parsers together by the tilde (~) method. The following is a parser:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+import anorm.SqlParser.{get,str}
+import anorm.Pk
+
+val rowparser = get[Pk[Long]](&quot;id&quot;) ~ str(&quot;firstName&quot;) ~ str(&quot;lastName&quot;)
+</pre>
+<p>The above will extract the rows named "id", "firstName", and "lastName"; the types <code>Pk[Long]</code>, <code>String</code>, and <code>String</code> will be checked against the results coming from the database.</p>
+<p>Okay, now comes the pattern-matching-gymnastics. The following could be contained in your <code>findAll</code> method. I have added types signatures for clarity.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+// Create a row parser object
+val rp: RowParser[Pk[Long]~String~String] = 
+    get[Pk[Long]](&quot;id&quot;) ~ str(&quot;firstName&quot;) ~ str(&quot;lastName&quot;)
+
+DB.withConnection { implicit connection =&gt;
+
+    // Parse All Results from SQL Statement
+    val rsp : ResultSetParser[List[Pk[Long]~String~String]] = rp *
+
+    // The type of results depends on the type of rsp
+    // In this case List[Pk[Long]~String~String]
+    val results = SQL(&quot;SELECT * FROM person&quot;) as ( rsp )
+
+    // Use pattern matching to re-construct our objects
+    results map {
+        case pk~fname~lname =&gt; Person(pk,fname,lname)
+    }
+
+}
+</pre>
+<p>From here you can get creative. Clearly pattern matching can be stored and reused. It also has the nice property of not caring about exactly <em>what</em> the SQL statement returned, it will do it's best to extract the necessary column data.</p>
+<h2>Footnotes</h2>
+<ol class="footnotes"><li id="footnote_0_606" class="footnote">See <a href="http://www.pretotyping.org/">Pretotyping</a> by Jeremy Clark and Patrick Copeland</li><li id="footnote_1_606" class="footnote">See the <a href="https://github.com/playframework/Play20/wiki/ScalaAnorm">Anorm Documentation</a></li><li id="footnote_2_606" class="footnote">The compiler generates a companion object, giving you access to the <em>staticy</em> method <code>MyObject()</code> vs. calling <code>new MyObject()</code>. See <a href="http://typesafe.com/resources/scala-for-the-impatient">Scala for the Impatient</a> by Cay Horstmann</li><li id="footnote_3_606" class="footnote">See <a href="http://www.playframework.org/documentation/2.0/Evolutions">Managing Database Evolutions</a> on how to write the complete file.</li><li id="footnote_4_606" class="footnote">See Scala Options: <a href="http://www.scala-lang.org/api/current/scala/Option.html">http://www.scala-lang.org/api/current/scala/Option.html</a></li></ol>]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/606/scala-play-and-databases/feed</wfw:commentRss>
+		<slash:comments>7</slash:comments>
+		</item>
+		<item>
+		<title>Learning Scala: Case Classes and Pattern Matching</title>
+		<link>http://www.underflow.ca/blog/584/learning-scala-case-classes-and-pattern-matching?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=learning-scala-case-classes-and-pattern-matching</link>
+		<comments>http://www.underflow.ca/blog/584/learning-scala-case-classes-and-pattern-matching#comments</comments>
+		<pubDate>Sat, 24 Mar 2012 09:25:35 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[case-class]]></category>
+		<category><![CDATA[pattern-matching]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[scala]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=584</guid>
+		<description><![CDATA[Case Classes I wish to share and record some of my recent insights into the Scala language. I have been trying to wrap my head around case classes. These are very terse class definitions, but end up being extremely useful. Most of the case classes I've run across are defined in a single line: What isn't immediately obvious is what the compiler does upon encountering a case class definition. This is roughly translated into the Java code I have to admit, this is a data pattern that I use often. I like my objects simple. As such, having the ability to define them in a single line is pretty nice. I hope the following is immediately clear: By default, case classes define their members with val, that is they are immutable. In Scala val is like the Java final modifier. This can be overridden by explicitly using var. More Now what's really interesting is how helpful the Scala compiler can be. After processing, a case class is no different than a regular class. Suppose we begin with: which is called by the client code: As our code base becomes larger, we wish to add more sanity checks to the code, we want it to fail fast. Thus products with negative prices should not be allowed. We can add this behavior to our Product without modifying the client code. This is much more verbose, but it's only necessary when we require more behavior than the case class provides. Further more, the original client code works unmodified! Fantastic. Pattern Matching Case classes are often paired with Scala pattern matching, much like a switch statement but more powerful. The compiler will ensure that, even though send accepts Any type, each case specified in the match statement will be properly typed. That is, in case hello:Hello => ... the hello object has the proper type, and we can call methods associated with Hello. At this point, we can divide cases by opaque types. Scala also supports a more granular approach, types can be made transparent to the pattern matcher1, For matches that require more precision, Footnotes See this reddit comment for a more complete example.]]></description>
+			<content:encoded><![CDATA[<h2>Case Classes</h2>
+<p>I wish to share and record some of my recent insights into the Scala language. I have been trying to wrap my head around case classes. These are very terse class definitions, but end up being extremely useful. Most of the case classes I've run across are defined in a single line:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Demo( title : String, author : String )
+</pre>
+<p>What isn't immediately obvious is what the compiler does upon encountering a case class definition. This is roughly translated into the Java code</p>
+<pre><pre class="brush: java; title: ; notranslate">
+public class Demo {
+    public final String title;
+    public final String author;
+    public Demo( String title, String author ) {
+        this.title = title;
+        this.author = author;
+    }
+}
+</pre>
+<p>I have to admit, this is a data pattern that I use often. I like my objects simple. As such, having the ability to define them in a single line is pretty nice. I hope the following is immediately clear:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Demo( title : String, author : String )
+
+val demo = Demo( title = &quot;How to win at Blackjack&quot;, author = &quot;Jacob&quot; )
+
+println(&quot;My Demo : &quot; + demo.title )
+println(&quot; by : &quot; + demo.author )
+</pre>
+<p>By default, case classes define their members with <code>val</code>, that is they are immutable. In Scala <code>val</code> is like the Java <code>final</code> modifier. This can be overridden by explicitly using <code>var</code>.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Demo( var title : String, var author : String )
+</pre>
+<h3>More</h3>
+<p>Now what's really interesting is how helpful the Scala compiler can be. After processing, a case class is no different than a regular class.</p>
+<p>Suppose we begin with:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Product( var price : Double )
+</pre>
+<p>which is called by the client code:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+val iPhone = Product( 499.99 )
+println( iPhone.price )
+
+// Discount
+iPhone.price = 399.99
+println( iPhone.price )
+</pre>
+<p>As our code base becomes larger, we wish to add more sanity checks to the code, we want it to fail fast. Thus products with negative prices should not be allowed.</p>
+<p>We can add this behavior to our <code>Product</code> <em>without</em> modifying the client code.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+class Product {
+    private var _price : Double = 0
+    def price = _price
+    def price_= ( price : Double ) {
+        if (price &lt; 0) throw new Exception(&quot;Prices cannot be negative&quot;)
+        _price = price
+    }
+}
+object Product {
+    def apply( price : Double ) = {
+        val p = new Product()
+        p.price = price
+        p
+    }
+}
+</pre>
+<p>This is much more verbose, but it's only necessary when we require <em>more</em> behavior than the case class provides. Further more, the original client code works unmodified! Fantastic.</p>
+<h2>Pattern Matching</h2>
+<p>Case classes are often paired with Scala pattern matching, much like a <code>switch</code> statement but more powerful.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Hello( greeting : String )
+case class Goodbye( valediction : String )
+
+def send( x : Any ) = {
+    x match {
+        case hello:Hello =&gt; 
+            printf( &quot;Received Greeting: %s&quot;, hello.greeting )
+        case goodbye:Goodbye =&gt; 
+            printf( &quot;Received valediction: %s&quot;, goodbye.valediction )
+    }
+}
+
+send( Hello(&quot;Good morning&quot;) )
+send( Goodbye(&quot;See you tomorrow&quot;) )
+</pre>
+<p>The compiler will ensure that, even though <code>send</code> accepts <code>Any</code> type, each case specified in the match statement will be properly typed. That is, in <code>case hello:Hello => ...</code> the <code>hello</code> object has the proper type, and we can call methods associated with <code>Hello</code>.</p>
+<p>At this point, we can divide cases by opaque types. Scala also supports a more granular approach, types can be made transparent to the pattern matcher<sup><a href="../../../584/learning-scala-case-classes-and-pattern-matching/index.html#footnote_0_584" id="identifier_0_584" class="footnote-link footnote-identifier-link" title="See this reddit comment for a more complete example.">1</a></sup>,</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Grade( letter : String, passed : Boolean )
+
+def check( grade : Grade ) = {
+    grade match {
+        case Grade(letter,true)  =&gt; 
+            printf( &quot;You have passed with grade: %s&quot;, letter )
+        case Grade(letter,false) =&gt; 
+            printf( &quot;You have failed with grade: %s&quot;, letter )
+    }
+}
+
+check( Grade(&quot;A&quot;,true) )
+check( Grade(&quot;F&quot;,false) )
+</pre>
+<p>For matches that require more precision, </p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Grade( score : Double )
+
+def check( grade : Grade ) = {
+    grade match {
+        case Grade(score) if (score &gt;= 0.5) =&gt; 
+            printf( &quot;You have passed with score: %2.1f%%&quot;, score*100 )
+        case Grade(score) =&gt; 
+            printf( &quot;You have failed with score: %2.1f%%&quot;, score*100 )
+    }
+}
+</pre>
+<h2>Footnotes</h2>
+<ol class="footnotes"><li id="footnote_0_584" class="footnote">See this <a href="http://www.reddit.com/r/scala/comments/rb932/case_classes_and_pattern_matching_for_beginners/c44igwf">reddit comment</a> for a more complete example.</li></ol>]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/584/learning-scala-case-classes-and-pattern-matching/feed</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>Learning Scala and Playframework</title>
+		<link>http://www.underflow.ca/blog/571/learning-scala-and-playframework?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=learning-scala-and-playframework</link>
+		<comments>http://www.underflow.ca/blog/571/learning-scala-and-playframework#comments</comments>
+		<pubDate>Sat, 24 Mar 2012 02:42:12 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[playframework]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[scala]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=571</guid>
+		<description><![CDATA[I am learning the Play! framework for Java/Scala which is inspired by Ruby on Rails. I like Scala, but it's not an easy language to learn. Simple operations are cloaked behind open-ended syntax. For example in the code below from the API Reference, It took me a while to decipher what's really going on. scala methods can omit parenthesis the apply() method of object x is called by x() anonymous functions can be created by the syntax { x =&#62; x+1 } Adding these three together we see what's really going on,]]></description>
+			<content:encoded><![CDATA[<p>I am learning the <a href="http://www.playframework.org/">Play!</a> framework for Java/Scala which is inspired by Ruby on Rails. I like Scala, but it's not an easy language to learn. Simple operations are cloaked behind open-ended syntax.</p>
+<p>For example in the code below from the <a href="http://www.playframework.org/documentation/api/2.0/scala/index.html#play.api.mvc.Action">API Reference</a>,</p>
+<pre>
+<pre class="brush: scala; title: ; notranslate">
+import play.api.mvc.Action
+
+val echo = Action { request =&gt;
+  Ok(&quot;Got request [&quot; + request + &quot;]&quot;)
+}
+</pre>
+<p>It took me a while to decipher what's really going on.</p>
+<ol>
+<li>scala methods can omit parenthesis</li>
+<li>the <code>apply()</code> method of object <code>x</code> is called by <code>x()</code></li>
+<li>anonymous functions can be created by the syntax <code>{ x =&gt; x+1 }</code></li>
+</ol>
+<p>Adding these three together we see what's really going on,</p>
+<pre>
+<pre class="brush: scala; title: ; notranslate">
+val anon = { ... anonymous function ... }
+val echo = Action.apply( anon )
+</pre>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/571/learning-scala-and-playframework/feed</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>Syntax Highlighting</title>
+		<link>http://www.underflow.ca/blog/1/syntax-highlighting?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=syntax-highlighting</link>
+		<comments>http://www.underflow.ca/blog/1/syntax-highlighting#comments</comments>
+		<pubDate>Sat, 20 Aug 2011 03:08:29 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Technology]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[programming]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=1</guid>
+		<description><![CDATA[I have installed a syntax highlighter, as demonstrated below. It renders the code in-browser using Javascript, no server-side processing necessary. PHP Python Java]]></description>
+			<content:encoded><![CDATA[I have installed a <a href="http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/">syntax highlighter</a>, as demonstrated below. It renders the code in-browser using Javascript, no server-side processing necessary.
+<h4><strong>PHP</strong></h4>
+<pre class="brush: php; title: ; notranslate">
+&lt;?php
+echo &quot;Hello World&quot;
+?&gt;
+</pre>
+<h4><strong>Python</strong></h4>
+<pre class="brush: python; title: ; notranslate">
+def f() :
+    return &quot;Hello World&quot;
+</pre>
+<h4><strong>Java</strong></h4>
+<pre class="brush: java; title: ; notranslate">
+public class S {
+    public static void main ( String[] args ) {
+        System.out.println(&quot;Hello World&quot;);
+    }
+}
+</pre>]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/1/syntax-highlighting/feed</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 60/69 queries in 0.161 seconds using disk: basic
+Object Caching 1314/1341 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:27:56 -->
+<!-- Localized -->

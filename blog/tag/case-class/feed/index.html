@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Underflow &#187; case-class</title>
+	<atom:link href="http://www.underflow.ca/blog/tag/case-class/feed" rel="self" type="application/rss+xml" />
+	<link>http://www.underflow.ca/blog</link>
+	<description>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</description>
+	<lastBuildDate>Wed, 25 Apr 2012 07:12:26 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.4.1</generator>
+	<div style="color: #C09853;background-color: #FCF8E3;border: 1px solid #FBEED5;padding: 8px 35px 8px 14px;margin-bottom: 18px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">This site has been archived, for my current blog please go <a href=../../../../index.html>here</a>.</div>	<item>
+		<title>Learning Scala: Case Classes and Pattern Matching</title>
+		<link>http://www.underflow.ca/blog/584/learning-scala-case-classes-and-pattern-matching?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=learning-scala-case-classes-and-pattern-matching</link>
+		<comments>http://www.underflow.ca/blog/584/learning-scala-case-classes-and-pattern-matching#comments</comments>
+		<pubDate>Sat, 24 Mar 2012 09:25:35 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[case-class]]></category>
+		<category><![CDATA[pattern-matching]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[scala]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=584</guid>
+		<description><![CDATA[Case Classes I wish to share and record some of my recent insights into the Scala language. I have been trying to wrap my head around case classes. These are very terse class definitions, but end up being extremely useful. Most of the case classes I've run across are defined in a single line: What isn't immediately obvious is what the compiler does upon encountering a case class definition. This is roughly translated into the Java code I have to admit, this is a data pattern that I use often. I like my objects simple. As such, having the ability to define them in a single line is pretty nice. I hope the following is immediately clear: By default, case classes define their members with val, that is they are immutable. In Scala val is like the Java final modifier. This can be overridden by explicitly using var. More Now what's really interesting is how helpful the Scala compiler can be. After processing, a case class is no different than a regular class. Suppose we begin with: which is called by the client code: As our code base becomes larger, we wish to add more sanity checks to the code, we want it to fail fast. Thus products with negative prices should not be allowed. We can add this behavior to our Product without modifying the client code. This is much more verbose, but it's only necessary when we require more behavior than the case class provides. Further more, the original client code works unmodified! Fantastic. Pattern Matching Case classes are often paired with Scala pattern matching, much like a switch statement but more powerful. The compiler will ensure that, even though send accepts Any type, each case specified in the match statement will be properly typed. That is, in case hello:Hello => ... the hello object has the proper type, and we can call methods associated with Hello. At this point, we can divide cases by opaque types. Scala also supports a more granular approach, types can be made transparent to the pattern matcher1, For matches that require more precision, Footnotes See this reddit comment for a more complete example.]]></description>
+			<content:encoded><![CDATA[<h2>Case Classes</h2>
+<p>I wish to share and record some of my recent insights into the Scala language. I have been trying to wrap my head around case classes. These are very terse class definitions, but end up being extremely useful. Most of the case classes I've run across are defined in a single line:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Demo( title : String, author : String )
+</pre>
+<p>What isn't immediately obvious is what the compiler does upon encountering a case class definition. This is roughly translated into the Java code</p>
+<pre><pre class="brush: java; title: ; notranslate">
+public class Demo {
+    public final String title;
+    public final String author;
+    public Demo( String title, String author ) {
+        this.title = title;
+        this.author = author;
+    }
+}
+</pre>
+<p>I have to admit, this is a data pattern that I use often. I like my objects simple. As such, having the ability to define them in a single line is pretty nice. I hope the following is immediately clear:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Demo( title : String, author : String )
+
+val demo = Demo( title = &quot;How to win at Blackjack&quot;, author = &quot;Jacob&quot; )
+
+println(&quot;My Demo : &quot; + demo.title )
+println(&quot; by : &quot; + demo.author )
+</pre>
+<p>By default, case classes define their members with <code>val</code>, that is they are immutable. In Scala <code>val</code> is like the Java <code>final</code> modifier. This can be overridden by explicitly using <code>var</code>.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Demo( var title : String, var author : String )
+</pre>
+<h3>More</h3>
+<p>Now what's really interesting is how helpful the Scala compiler can be. After processing, a case class is no different than a regular class.</p>
+<p>Suppose we begin with:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Product( var price : Double )
+</pre>
+<p>which is called by the client code:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+val iPhone = Product( 499.99 )
+println( iPhone.price )
+
+// Discount
+iPhone.price = 399.99
+println( iPhone.price )
+</pre>
+<p>As our code base becomes larger, we wish to add more sanity checks to the code, we want it to fail fast. Thus products with negative prices should not be allowed.</p>
+<p>We can add this behavior to our <code>Product</code> <em>without</em> modifying the client code.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+class Product {
+    private var _price : Double = 0
+    def price = _price
+    def price_= ( price : Double ) {
+        if (price &lt; 0) throw new Exception(&quot;Prices cannot be negative&quot;)
+        _price = price
+    }
+}
+object Product {
+    def apply( price : Double ) = {
+        val p = new Product()
+        p.price = price
+        p
+    }
+}
+</pre>
+<p>This is much more verbose, but it's only necessary when we require <em>more</em> behavior than the case class provides. Further more, the original client code works unmodified! Fantastic.</p>
+<h2>Pattern Matching</h2>
+<p>Case classes are often paired with Scala pattern matching, much like a <code>switch</code> statement but more powerful.</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Hello( greeting : String )
+case class Goodbye( valediction : String )
+
+def send( x : Any ) = {
+    x match {
+        case hello:Hello =&gt; 
+            printf( &quot;Received Greeting: %s&quot;, hello.greeting )
+        case goodbye:Goodbye =&gt; 
+            printf( &quot;Received valediction: %s&quot;, goodbye.valediction )
+    }
+}
+
+send( Hello(&quot;Good morning&quot;) )
+send( Goodbye(&quot;See you tomorrow&quot;) )
+</pre>
+<p>The compiler will ensure that, even though <code>send</code> accepts <code>Any</code> type, each case specified in the match statement will be properly typed. That is, in <code>case hello:Hello => ...</code> the <code>hello</code> object has the proper type, and we can call methods associated with <code>Hello</code>.</p>
+<p>At this point, we can divide cases by opaque types. Scala also supports a more granular approach, types can be made transparent to the pattern matcher<sup><a href="../../../584/learning-scala-case-classes-and-pattern-matching/index.html#footnote_0_584" id="identifier_0_584" class="footnote-link footnote-identifier-link" title="See this reddit comment for a more complete example.">1</a></sup>,</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Grade( letter : String, passed : Boolean )
+
+def check( grade : Grade ) = {
+    grade match {
+        case Grade(letter,true)  =&gt; 
+            printf( &quot;You have passed with grade: %s&quot;, letter )
+        case Grade(letter,false) =&gt; 
+            printf( &quot;You have failed with grade: %s&quot;, letter )
+    }
+}
+
+check( Grade(&quot;A&quot;,true) )
+check( Grade(&quot;F&quot;,false) )
+</pre>
+<p>For matches that require more precision, </p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Grade( score : Double )
+
+def check( grade : Grade ) = {
+    grade match {
+        case Grade(score) if (score &gt;= 0.5) =&gt; 
+            printf( &quot;You have passed with score: %2.1f%%&quot;, score*100 )
+        case Grade(score) =&gt; 
+            printf( &quot;You have failed with score: %2.1f%%&quot;, score*100 )
+    }
+}
+</pre>
+<h2>Footnotes</h2>
+<ol class="footnotes"><li id="footnote_0_584" class="footnote">See this <a href="http://www.reddit.com/r/scala/comments/rb932/case_classes_and_pattern_matching_for_beginners/c44igwf">reddit comment</a> for a more complete example.</li></ol>]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/584/learning-scala-case-classes-and-pattern-matching/feed</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 13/17 queries in 0.120 seconds using disk: basic
+Object Caching 396/423 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:29:03 -->
+<!-- Localized -->

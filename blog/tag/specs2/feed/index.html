@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Underflow &#187; specs2</title>
+	<atom:link href="http://www.underflow.ca/blog/tag/specs2/feed" rel="self" type="application/rss+xml" />
+	<link>http://www.underflow.ca/blog</link>
+	<description>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</description>
+	<lastBuildDate>Wed, 25 Apr 2012 07:12:26 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.4.1</generator>
+	<div style="color: #C09853;background-color: #FCF8E3;border: 1px solid #FBEED5;padding: 8px 35px 8px 14px;margin-bottom: 18px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">This site has been archived, for my current blog please go <a href=../../../../index.html>here</a>.</div>	<item>
+		<title>HBase Coprocessor Test with Mocked HTableInterface and CoprocessorEnvironment</title>
+		<link>http://www.underflow.ca/blog/1040/hbase-coprocessor-test-with-mocked-htableinterface-and-coprocessorenvironment?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=hbase-coprocessor-test-with-mocked-htableinterface-and-coprocessorenvironment</link>
+		<comments>http://www.underflow.ca/blog/1040/hbase-coprocessor-test-with-mocked-htableinterface-and-coprocessorenvironment#comments</comments>
+		<pubDate>Fri, 20 Apr 2012 10:28:38 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Gist]]></category>
+		<category><![CDATA[hbase]]></category>
+		<category><![CDATA[mockito]]></category>
+		<category><![CDATA[scala]]></category>
+		<category><![CDATA[specs2]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=1040</guid>
+		<description><![CDATA[I wanted to inject a a mock HTable into my HBase application. We can mock <code>HTableInterface</code> using mockito. It's quite simple and straightforward to check that the application is calling the HTable correctly.]]></description>
+			<content:encoded><![CDATA[<p>I wanted to inject a a mock HTable into my HBase application. We can mock <code>HTableInterface</code> using mockito. It's quite simple and straightforward to check that the application is calling the HTable correctly.</p>
+<p><b>Edit: Sat 21 Apr 2012 13:51:34 HKT</b></p>
+<p>We want to provide a mock HBase table to our application in order to test that HBase is being called correctly. <a href="http://code.google.com/p/mockito/">Mockito</a> is provided and scalaized by Specs2.</p>
+<p>Mockito let's us quickly create a mock table and coprocessor environment, wiring the relevant parts together.</p>
+<p>In our application below, we call an operation that would insert a row to the HTable, thus we check to see if a <em>put</em> has been called.</p>
+<h2>From Github</h2>
+<p><html><script src="https://gist.github.com/2427340.js"> </script></html></p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/1040/hbase-coprocessor-test-with-mocked-htableinterface-and-coprocessorenvironment/feed</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 10/14 queries in 0.012 seconds using disk: basic
+Object Caching 355/382 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:28:04 -->
+<!-- Localized -->

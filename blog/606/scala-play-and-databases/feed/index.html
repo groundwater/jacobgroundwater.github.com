@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Scala, Play! and Databases</title>
+	<atom:link href="http://www.underflow.ca/blog/606/scala-play-and-databases/feed" rel="self" type="application/rss+xml" />
+	<link>http://www.underflow.ca/blog/606/scala-play-and-databases?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=scala-play-and-databases</link>
+	<description>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</description>
+	<lastBuildDate>Fri, 29 Jun 2012 08:43:47 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.4.1</generator>
+	<item>
+		<title>By: jacob</title>
+		<link>http://www.underflow.ca/blog/606/scala-play-and-databases#comment-156</link>
+		<dc:creator>jacob</dc:creator>
+		<pubDate>Tue, 17 Apr 2012 11:10:44 +0000</pubDate>
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=606#comment-156</guid>
+		<description>Thread safety is an obvious example, but to illustrate that almost requires an entire blog post.
+
+When you pair case classes with Akka it&#039;s easier to justify why they should be immutable, since the class represents a &quot;message&quot; versus actual domain data. I think I refer to it somewhere as &quot;an immutable snapshot of mutable data&quot; in yet _another_ upcoming blog post.
+
+I like functional style mostly because concurrency is the next &quot;big thing&quot; in programming, and it&#039;s really easy to achieve that with functional programming.</description>
+		<content:encoded><![CDATA[<p>Thread safety is an obvious example, but to illustrate that almost requires an entire blog post.</p>
+<p>When you pair case classes with Akka it&#8217;s easier to justify why they should be immutable, since the class represents a &#8220;message&#8221; versus actual domain data. I think I refer to it somewhere as &#8220;an immutable snapshot of mutable data&#8221; in yet _another_ upcoming blog post.</p>
+<p>I like functional style mostly because concurrency is the next &#8220;big thing&#8221; in programming, and it&#8217;s really easy to achieve that with functional programming.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Marius Soutier</title>
+		<link>http://www.underflow.ca/blog/606/scala-play-and-databases#comment-154</link>
+		<dc:creator>Marius Soutier</dc:creator>
+		<pubDate>Tue, 17 Apr 2012 11:03:13 +0000</pubDate>
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=606#comment-154</guid>
+		<description>No I can’t easily come up with a good example of shooting yourself in the foot. But generally speaking, it’s just better and safer style. Even in domain-driven design, value objects are immutable. I think it should be a goal to keep to your publicly usable classes referentially transparent (I really try to embrace the functional way of thinking, which is not easy either coming from Java). I think this way of thinking already pays off when working in a team with other people – you’re guaranteed that no one can mess around with your objects 
+You’ also right about monads, I never understood them until I had to use them 
+Keep up the good work.</description>
+		<content:encoded><![CDATA[<p>No I can’t easily come up with a good example of shooting yourself in the foot. But generally speaking, it’s just better and safer style. Even in domain-driven design, value objects are immutable. I think it should be a goal to keep to your publicly usable classes referentially transparent (I really try to embrace the functional way of thinking, which is not easy either coming from Java). I think this way of thinking already pays off when working in a team with other people – you’re guaranteed that no one can mess around with your objects<br />
+You’ also right about monads, I never understood them until I had to use them<br />
+Keep up the good work.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Marius Soutier</title>
+		<link>http://www.underflow.ca/blog/606/scala-play-and-databases#comment-153</link>
+		<dc:creator>Marius Soutier</dc:creator>
+		<pubDate>Tue, 17 Apr 2012 11:02:57 +0000</pubDate>
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=606#comment-153</guid>
+		<description>No I can&#039;t easily come up with a good example of shooting yourself in the foot. But generally speaking, it&#039;s just better and safer style. Even in domain-driven design, value objects are immutable. I think it should be a goal to keep to your publicly usable classes referentially transparent (I really try to embrace the functional way of thinking, which is not easy either coming from Java). I think this way of thinking already pays off when working in a team with other people - you&#039;re guaranteed that no one can mess around with your objects ;)
+
+You&#039; also right about monads, I never understood them until I had to use them :)
+
+Keep up the good work.</description>
+		<content:encoded><![CDATA[<p>No I can&#8217;t easily come up with a good example of shooting yourself in the foot. But generally speaking, it&#8217;s just better and safer style. Even in domain-driven design, value objects are immutable. I think it should be a goal to keep to your publicly usable classes referentially transparent (I really try to embrace the functional way of thinking, which is not easy either coming from Java). I think this way of thinking already pays off when working in a team with other people &#8211; you&#8217;re guaranteed that no one can mess around with your objects <img src='../../../wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+<p>You&#8217; also right about monads, I never understood them until I had to use them <img src='../../../wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>Keep up the good work.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: jacob</title>
+		<link>http://www.underflow.ca/blog/606/scala-play-and-databases#comment-152</link>
+		<dc:creator>jacob</dc:creator>
+		<pubDate>Tue, 17 Apr 2012 10:55:51 +0000</pubDate>
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=606#comment-152</guid>
+		<description>One thing I like to do in introductory posts is discuss the problems and benefits with using certain methods. Can you come up with a good example of shooting yourself in the foot with non-immutable case classes? In general, I agree immutable &gt; mutable. However as G.I. Joe says, knowing is half the battle; I like to give a examples of screw ups that people can remember.
+
+Option is definitely waaaaay better than exceptions. I am working on a post about monads in Scala right now. I feel like all the good monad introductions suck, I talk more there about how using them in your program can produce more elegant code.
+
+Thanks for the feedback, much appreciated!</description>
+		<content:encoded><![CDATA[<p>One thing I like to do in introductory posts is discuss the problems and benefits with using certain methods. Can you come up with a good example of shooting yourself in the foot with non-immutable case classes? In general, I agree immutable > mutable. However as G.I. Joe says, knowing is half the battle; I like to give a examples of screw ups that people can remember.</p>
+<p>Option is definitely waaaaay better than exceptions. I am working on a post about monads in Scala right now. I feel like all the good monad introductions suck, I talk more there about how using them in your program can produce more elegant code.</p>
+<p>Thanks for the feedback, much appreciated!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Marius Soutier</title>
+		<link>http://www.underflow.ca/blog/606/scala-play-and-databases#comment-150</link>
+		<dc:creator>Marius Soutier</dc:creator>
+		<pubDate>Tue, 17 Apr 2012 10:48:58 +0000</pubDate>
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=606#comment-150</guid>
+		<description>Nice blog post, good introduction and to the point. Two things I&#039;d do differently from my experience with Play and Scala so far:
+* Use immutable case classes and change them using the `copy`method
+* `find()` should return `Option[Person]` instead of `Person`; you could also use it with `create()` to avoid exception handling (which I find messy compared to Option)</description>
+		<content:encoded><![CDATA[<p>Nice blog post, good introduction and to the point. Two things I&#8217;d do differently from my experience with Play and Scala so far:<br />
+* Use immutable case classes and change them using the `copy`method<br />
+* `find()` should return `Option[Person]` instead of `Person`; you could also use it with `create()` to avoid exception handling (which I find messy compared to Option)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: jacob</title>
+		<link>http://www.underflow.ca/blog/606/scala-play-and-databases#comment-95</link>
+		<dc:creator>jacob</dc:creator>
+		<pubDate>Mon, 26 Mar 2012 08:10:48 +0000</pubDate>
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=606#comment-95</guid>
+		<description>You&#039;re right. I sacrificed correctness a bit to keep the article focused. I&#039;m very new to Scala and am likely going to tread down the wrong path on more than a few occasions.</description>
+		<content:encoded><![CDATA[<p>You&#8217;re right. I sacrificed correctness a bit to keep the article focused. I&#8217;m very new to Scala and am likely going to tread down the wrong path on more than a few occasions.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Piotr Zolnierek</title>
+		<link>http://www.underflow.ca/blog/606/scala-play-and-databases#comment-94</link>
+		<dc:creator>Piotr Zolnierek</dc:creator>
+		<pubDate>Mon, 26 Mar 2012 07:53:57 +0000</pubDate>
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=606#comment-94</guid>
+		<description>Using the companion object as a repository is fine with me, however I think you should start a project thinking about business logic and not about persistance. The persistance layer is just a tool... it is NOT the application. That&#039;s also a common mistake in Rails... fat-model-centric applications.</description>
+		<content:encoded><![CDATA[<p>Using the companion object as a repository is fine with me, however I think you should start a project thinking about business logic and not about persistance. The persistance layer is just a tool&#8230; it is NOT the application. That&#8217;s also a common mistake in Rails&#8230; fat-model-centric applications.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 6/9 queries in 0.228 seconds using disk: basic
+Object Caching 389/416 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:30:15 -->
+<!-- Localized -->

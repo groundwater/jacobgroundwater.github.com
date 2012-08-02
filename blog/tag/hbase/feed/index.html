@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Underflow &#187; hbase</title>
+	<atom:link href="http://www.underflow.ca/blog/tag/hbase/feed" rel="self" type="application/rss+xml" />
+	<link>http://www.underflow.ca/blog</link>
+	<description>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</description>
+	<lastBuildDate>Wed, 25 Apr 2012 07:12:26 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.4.1</generator>
+	<div style="color: #C09853;background-color: #FCF8E3;border: 1px solid #FBEED5;padding: 8px 35px 8px 14px;margin-bottom: 18px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">This site has been archived, for my current blog please go <a href=../../../../index.html>here</a>.</div>	<item>
+		<title>Asynchbase Scalaized</title>
+		<link>http://www.underflow.ca/blog/1053/asynchbase-scalaized?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=asynchbase-scalaized</link>
+		<comments>http://www.underflow.ca/blog/1053/asynchbase-scalaized#comments</comments>
+		<pubDate>Sat, 21 Apr 2012 02:23:10 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Gist]]></category>
+		<category><![CDATA[async]]></category>
+		<category><![CDATA[asynchbase]]></category>
+		<category><![CDATA[hbase]]></category>
+		<category><![CDATA[scala]]></category>
+		<category><![CDATA[stumbleupon]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=1053</guid>
+		<description><![CDATA[I gave asynchbase a try and scalaized it a little. Very neat, however I notice a few things missing.
+
+<ol>
+<li><code>checkAndPut</code></li>
+<li>Coprocessor Support</li>
+</ol>
+]]></description>
+			<content:encoded><![CDATA[<p>I gave asynchbase a try and scalaized it a little. Very neat, however I notice a few things missing.</p>
+<ol>
+<li><code>checkAndPut</code></li>
+<li>Coprocessor Support</li>
+</ol>
+<p><html><script src="https://gist.github.com/2430613.js"> </script></html></p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/1053/asynchbase-scalaized/feed</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Coprocessor Transactions in HBase and Scala</title>
+		<link>http://www.underflow.ca/blog/1050/coprocessor-transactions-in-hbase-and-scala?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=coprocessor-transactions-in-hbase-and-scala</link>
+		<comments>http://www.underflow.ca/blog/1050/coprocessor-transactions-in-hbase-and-scala#comments</comments>
+		<pubDate>Fri, 20 Apr 2012 10:33:52 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Gist]]></category>
+		<category><![CDATA[coprocessor]]></category>
+		<category><![CDATA[hbase]]></category>
+		<category><![CDATA[scala]]></category>
+		<category><![CDATA[transaction]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=1050</guid>
+		<description><![CDATA[My attempt to design a protocol for implementing cross-row transactions in HBase.]]></description>
+			<content:encoded><![CDATA[<p>My attempt to design a protocol for implementing cross-row transactions in HBase.</p>
+<p><html><script src="https://gist.github.com/2426469.js"> </script></html></p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/1050/coprocessor-transactions-in-hbase-and-scala/feed</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>HBase Coprocessor Test with Mocked HTableInterface and CoprocessorEnvironment</title>
+		<link>http://www.underflow.ca/blog/1040/hbase-coprocessor-test-with-mocked-htableinterface-and-coprocessorenvironment?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=hbase-coprocessor-test-with-mocked-htableinterface-and-coprocessorenvironment</link>
+		<comments>http://www.underflow.ca/blog/1040/hbase-coprocessor-test-with-mocked-htableinterface-and-coprocessorenvironment#comments</comments>
+		<pubDate>Fri, 20 Apr 2012 10:28:38 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Gist]]></category>
+		<category><![CDATA[hbase]]></category>
+		<category><![CDATA[mockito]]></category>
+		<category><![CDATA[scala]]></category>
+		<category><![CDATA[specs2]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=1040</guid>
+		<description><![CDATA[I wanted to inject a a mock HTable into my HBase application. We can mock <code>HTableInterface</code> using mockito. It's quite simple and straightforward to check that the application is calling the HTable correctly.]]></description>
+			<content:encoded><![CDATA[<p>I wanted to inject a a mock HTable into my HBase application. We can mock <code>HTableInterface</code> using mockito. It's quite simple and straightforward to check that the application is calling the HTable correctly.</p>
+<p><b>Edit: Sat 21 Apr 2012 13:51:34 HKT</b></p>
+<p>We want to provide a mock HBase table to our application in order to test that HBase is being called correctly. <a href="http://code.google.com/p/mockito/">Mockito</a> is provided and scalaized by Specs2.</p>
+<p>Mockito let's us quickly create a mock table and coprocessor environment, wiring the relevant parts together.</p>
+<p>In our application below, we call an operation that would insert a row to the HTable, thus we check to see if a <em>put</em> has been called.</p>
+<h2>From Github</h2>
+<p><html><script src="https://gist.github.com/2427340.js"> </script></html></p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/1040/hbase-coprocessor-test-with-mocked-htableinterface-and-coprocessorenvironment/feed</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>HBase, Scala and Play 2</title>
+		<link>http://www.underflow.ca/blog/1006/hbase-scala-and-play-2?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=hbase-scala-and-play-2</link>
+		<comments>http://www.underflow.ca/blog/1006/hbase-scala-and-play-2#comments</comments>
+		<pubDate>Thu, 19 Apr 2012 10:04:49 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[hbase]]></category>
+		<category><![CDATA[play]]></category>
+		<category><![CDATA[playframework]]></category>
+		<category><![CDATA[scala]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=1006</guid>
+		<description><![CDATA[I would like to use HBase as my primary go-to data store for Scala and Play applications. Rows in HBase will store Google Protocol Buffers as serialize byte arrays. Non-trivial database access will be handled by coprocessors and client libraries. I would like to mention that even though HBase scales extremely well, that is now why I am choosing it. I like that HBase is simple; it makes no attempt to interpret the data. The job of encapsulating data is entirely up to the protobufs, which are forward-compatible with future changes. Protocol buffers are a flexible, efficient, automated mechanism for serializing structured data … You can even update your data structure without breaking deployed programs that are compiled against the “old” format. — Source Now I certainly do not object to RDBMS, but I prefer not to use them as a global representation of my application. Should a piece of my application require complex transactions, yes an RDBMS is the way to go, however the default data store will be HBase. HBase HBase is what I call a database primitive. HBase is a sparse, distributed, persistent multidimensional sorted map of uninterpreted array of bytes. More… Like any primitive construct, HBase requires a higher-level interface built upon its infrastructure to be useful. HBase can be downloaded from the apache website and immediately operated standalone mode. Standalone is production-ready, but does not use HDFS as the underlying file system, thus data is susceptible to corruption. HDFS is a distributed file system that requires no underlying RAID, as every block is replicated to 3 machines. Standalone HBase is no more volatile than a standalone MySQL instance, so use that as your yardstick. Another advantage of HBase, you can use a single HBase cluster to host all your applications. I recommend following the Quick Start Guide before proceeding. HBase with Play Play requires only the following dependencies to connect to an HBase instance: Make sure you’re using the same client version as the HBase server! Here is a minimal Play application that connects to an existing coprocessor. That’s it! Simple no? A quick reminder, always start HBase before your applications. Should HBase need to be restarted, you should also restart your play application. Coprocessors First, apologies. I coded the coprocessor section in Java because... okay I'm not sure, just forgive me. One of the primitives provided by HBase is something called a coprocessor. A coprocessor is a type of inverted control. Instead of querying the database by calling database functions, you pass the database a program that directly walks the underlying data-structure. These programs are called coprocessors. Coprocessors use RPCs to communicate between the client code and database. Like other RPC implementations we need to define a remote interface, and a local class that satisfies the interface. The remote interface must extend CoprocessorProtocol. Any class that satisfies the above interface can be used as the local implementation, however HBase provides the abstract class BaseEndpointCoprocessor for convenience. The BaseEndpointCoprocessor class contains a getEnvironment() method to [...]]]></description>
+			<content:encoded><![CDATA[<p>I would like to use <a href="http://hbase.apache.org/">HBase</a> as my primary go-to data store for Scala and <a href="http://www.playframework.org/">Play</a> applications.
+Rows in HBase will store <a href="http://code.google.com/p/protobuf/">Google Protocol Buffers</a> as serialize byte arrays.
+Non-trivial database access will be handled by coprocessors and client libraries.</p>
+
+<p>I would like to mention that even though HBase scales extremely well, that is now why I am choosing it.
+I like that HBase is simple; it makes no attempt to interpret the data.
+The job of encapsulating data is entirely up to the protobufs, which are forward-compatible with future changes.</p>
+
+<blockquote>
+  <p>Protocol buffers are a flexible, efficient, automated mechanism for serializing structured data … You can even update your data structure without breaking deployed programs that are compiled against the “old” format. — <a href="https://developers.google.com/protocol-buffers/docs/overview">Source</a></p>
+</blockquote>
+
+<p>Now I certainly do not object to RDBMS, but I prefer not to use them as a <em>global</em> representation of my application.
+Should a piece of my application require complex transactions, yes an RDBMS is the way to go, however the default data store will be HBase.</p>
+
+<h2>HBase</h2>
+
+<p>HBase is what I call a database primitive.
+HBase is a sparse, distributed, persistent multidimensional sorted map of uninterpreted array of bytes. <a href="http://jimbojw.com/wiki/index.php?title=Understanding_Hbase_and_BigTable">More…</a></p>
+
+<p>Like any primitive construct, HBase requires a higher-level interface built upon its infrastructure to be useful.</p>
+
+<p>HBase can be downloaded from the <a href="http://hbase.apache.org/">apache website</a> and immediately operated standalone mode.
+Standalone is production-ready, but does not use HDFS as the underlying file system, thus data is susceptible to corruption.
+HDFS is a distributed file system that requires no underlying RAID, as every block is replicated to 3 machines.
+Standalone HBase is no more volatile than a standalone MySQL instance, so use that as your yardstick.
+Another advantage of HBase, you can use a single HBase cluster to host <em>all</em> your applications.</p>
+
+<p>I recommend following the <a href="http://hbase.apache.org/book/quickstart.html">Quick Start Guide</a> before proceeding.</p>
+
+<h2>HBase with Play</h2>
+
+<p>Play requires only the following dependencies to connect to an HBase instance:</p>
+
+<pre><pre class="brush: plain; title: ; notranslate">
+&quot;org.apache.hadoop&quot; % &quot;hadoop-core&quot; % &quot;1.0.2&quot;
+
+&quot;org.apache.hbase&quot;  % &quot;hbase&quot;       % &quot;0.92.1&quot;
+</pre></pre>
+
+<p><em>Make sure you’re using the same client version as the HBase server!</em></p>
+
+<p>Here is a minimal Play application that connects to an <a href="https://github.com/jacobgroundwater/HBase-Coprocessors-and-Play/blob/master/HBaseCoprocessors/src/main/java/ca/underflow/hbase/Simple.java">existing coprocessor</a>.</p>
+
+<pre><pre class="brush: scala; title: ; notranslate">
+object Application extends Controller {
+
+    val conf = HBaseConfiguration.create()
+    val table: HTableInterface = new HTable(conf, &quot;demo&quot;)
+
+    def index = Action {
+
+        val byt = Bytes.toBytes(&quot;row1&quot;)
+        val proxy = table.coprocessorProxy(classOf[Simple],byt)
+
+        // proxy is the RPC interface to your coprocessor
+        Ok( proxy.poll() )
+
+    }
+
+}
+</pre></pre>
+
+<p>That’s it! Simple no?</p>
+
+<p>A quick reminder, always start HBase <em>before</em> your applications.
+Should HBase need to be restarted, you should also restart your play application.</p>
+
+<h2>Coprocessors</h2>
+
+<p>First, apologies. I coded the coprocessor section in Java because... okay I'm not sure, just forgive me.</p>
+
+<p>One of the primitives provided by HBase is something called a coprocessor.
+A coprocessor is a type of inverted control. 
+Instead of querying the database by calling database functions, you pass the database a program that directly walks the underlying data-structure.
+These programs are called coprocessors.</p>
+
+<p>Coprocessors use RPCs to communicate between the client code and database.
+Like other RPC implementations we need to define a remote interface, and a local class that satisfies the interface.</p>
+
+<p>The remote interface must extend <a href="http://hbase.apache.org/apidocs/org/apache/hadoop/hbase/ipc/CoprocessorProtocol.html"><code>CoprocessorProtocol</code></a>.</p>
+
+<pre><pre class="brush: scala; title: ; notranslate">
+public interface Simple extends CoprocessorProtocol {
+
+    // Very simple example that returns some 
+    // information about the database
+    public String about() throws IOException;
+    
+}
+</pre></pre>
+
+<p>Any class that satisfies the above interface can be used as the local implementation,
+however HBase provides the abstract class <a href="http://hbase.apache.org/apidocs/org/apache/hadoop/hbase/coprocessor/BaseEndpointCoprocessor.html"><code>BaseEndpointCoprocessor</code></a> for convenience.
+The <code>BaseEndpointCoprocessor</code> class contains a <code>getEnvironment()</code> method to help access the data store.</p>
+
+<p>Coprocessors have two flavours, Observers and Endpoints.
+Observers watch the underlying table and intercept method calls transparently to the client.
+An observer can only modify an incoming request, or throw an IOException to cancel the request.
+Since observers are transparent to the client, I think their behaviour cannot be checked by the compiler.
+If you want complex behavioural changes, it's probably better to use an Endpoint, since it creates a new interface between the client and server than can be type checked.</p>
+
+<p>An endpoint coprocessors needs to be</p>
+
+<ol>
+<li>in the hbase classpath (set in <code>hbase-env.sh: HBASE_CLASSPATH</code>)</li>
+<li><p>have an implementation specified in <code>hbase-site.xml</code></p>
+</ol>
+<pre><pre class="brush: xml; title: ; notranslate">
+&lt;property&gt;
+  &lt;name&gt;hbase.coprocessor.region.classes&lt;/name&gt;
+  &lt;value&gt;ca.underflow.hbase.SimpleExec&lt;/value&gt;
+&lt;/property&gt;
+</pre></pre>
+
+<p>A coprocessor loaded by the above configuration can be implemented as follows:</p>
+
+<pre><pre class="brush: scala; title: ; notranslate">
+public class SimpleImpl extends BaseEndpointCoprocessor 
+        implements Simple {
+
+    public String about() throws IOException {
+
+        RegionCoprocessorEnvironment env = 
+                (RegionCoprocessorEnvironment) getEnvironment();
+        HRegion region = env.getRegion();
+
+        return region.getRegionNameAsString();
+
+    }
+}
+</pre></pre>
+
+<p>The <code>CoprocessorEnvironment</code> can be cast to <code>RegionCoprocessorEnvironment</code> because it was loaded via <code>hbase.coprocessor.region.classes</code> in the <code>hbase-site.xml</code> configuration file.</p>
+
+<p>Coprocessors are a lot like wrappers for libraries, in fact there is nothing that a coprocessor can do that a client library cannot.
+The principal advantage of coprocessors is performance.
+By executing on the data store directly, there is much less cross-network traffic involved during multi-stage operations.</p>
+
+<p>From an RPC standpoint, coprocessors add new method calls to your database interface.</p>
+
+<h2>Lessons Learned</h2>
+
+<p>My first idea was to create a coprocessor that accepted Google Protocol Buffers (Protobuf) and transparently serialized them to the database. 
+A complimentary de-serialization process would make HBase appear to the client like a Protobuf storage system.
+Behold the problems with my logic.</p>
+
+<p>The coprocessors would have to de-serialize the protobufs directly, but that would require having every buffer on the HBase class-path. In addition, de-serialization requires a lot of internal reflection, extra unnecessary code. It makes much more sense to interpret the serialized bytes in the client code.</p>
+
+<p>Coprocessors should be used to encapsulate logic that would require multiple trips to the database to complete.
+Higher level encapsulation should be defined in the application.</p>
+
+<h3>Examples</h3>
+<div style="padding:15px; margin:15px;border:1px dotted black; text-align:center;">
+I have posted some working code on <a href="https://github.com/jacobgroundwater/HBase-Coprocessors-and-Play">my github</a> page.
+</div>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/8224907/re-download-a-snapshot-version-of-a-dependency-using-sbt">http://stackoverflow.com/questions/8224907/re-download-a-snapshot-version-of-a-dependency-using-sbt</a></li>
+<li><a href="http://www.thecloudavenue.com/2012/02/getting-started-with-hbase_20.html">http://www.thecloudavenue.com/2012/02/getting-started-with-hbase_20.html</a></li>
+<li><a href="http://hbase.apache.org/apidocs/org/apache/hadoop/hbase/ipc/CoprocessorProtocol.html">http://hbase.apache.org/apidocs/org/apache/hadoop/hbase/ipc/CoprocessorProtocol.html</a></li>
+</ul>]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/1006/hbase-scala-and-play-2/feed</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 22/26 queries in 0.025 seconds using disk: basic
+Object Caching 579/606 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:28:02 -->
+<!-- Localized -->

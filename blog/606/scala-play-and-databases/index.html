@@ -1,0 +1,533 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Scala, Play! and Databases &laquo; Underflow</title>
+<link rel="shortcut icon" href="../../wp-content/themes/lightword/favicon.ico" />
+<link rel="pingback" href="../../xmlrpc.php.html" />
+
+
+<link rel="alternate" type="application/rss+xml" title="Underflow &raquo; Feed" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Underflow &raquo; Comments Feed" href="../../comments/feed/index.html" />
+				
+	<script type="text/javascript">//<![CDATA[
+	// Google Analytics for WordPress by Yoast v4.2.3 | http://yoast.com/wordpress/google-analytics/
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount','UA-25329958-3']);
+	_gaq.push(['_trackPageview']);
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+	//]]></script>
+<link rel="alternate" type="application/rss+xml" title="Underflow &raquo; Scala, Play! and Databases Comments Feed" href="feed/index.html" />
+<link rel='stylesheet' id='lightword_stylesheet-css'  href='../../wp-content/themes/lightword/style-ver=2.0.0.6.css' type='text/css' media='all' />
+<link rel='stylesheet' id='lightword_stylesheet_wider-css'  href='../../wp-content/themes/lightword/wider-ver=2.0.0.6.css' type='text/css' media='all' />
+<link rel='stylesheet' id='wfm-highslide-css-css'  href='../../wp-content/plugins/wordpress-flickr-manager/css/highslide-ver=3.4.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='NextGEN-css'  href='../../wp-content/plugins/nextgen-gallery/css/nggallery-ver=1.0.0.css' type='text/css' media='screen' />
+<link rel='stylesheet' id='shutter-css'  href='../../wp-content/plugins/nextgen-gallery/shutter/shutter-reloaded-ver=1.3.4.css' type='text/css' media='screen' />
+<link rel='stylesheet' id='contact-form-7-css'  href='../../wp-content/plugins/contact-form-7/includes/css/styles-ver=3.2.css' type='text/css' media='all' />
+<link rel='stylesheet' id='stbCSS-css'  href='../../../wp-special-textboxes-ver=4.3.72.css' type='text/css' media='all' />
+<script type='text/javascript' src='../../wp-content/plugins/wordpress-flickr-manager/js/highslide-full.min.js?ver=3.4.1'></script>
+<script type='text/javascript' src='../../wp-includes/js/jquery/jquery.js?ver=1.7.2'></script>
+<script type='text/javascript' src='../../wp-includes/js/swfobject.js?ver=2.2-20120417'></script>
+<script type='text/javascript' src='../../wp-content/plugins/wordpress-flickr-manager/js/wfm-highslide.js?ver=20110428'></script>
+<script type='text/javascript' src='../../wp-content/plugins/wordpress-flickr-manager/js/wfm-common.js?ver=20110429'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var shutterSettings = {"msgLoading":"L O A D I N G","msgClose":"Click to Close","imageCount":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='../../wp-content/plugins/nextgen-gallery/shutter/shutter-reloaded.js?ver=1.3.3'></script>
+<script type='text/javascript' src='../../wp-content/plugins/nextgen-gallery/js/jquery.cycle.all.min.js?ver=2.9995'></script>
+<script type='text/javascript' src='../../wp-content/plugins/nextgen-gallery/js/ngg.slideshow.min.js?ver=1.06'></script>
+<script type='text/javascript' src='../../wp-includes/js/comment-reply.js?ver=3.4.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../xmlrpc-rsd.php.html" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="../../wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Learning Scala: Case Classes and Pattern Matching' href='../../584/learning-scala-case-classes-and-pattern-matching/index.html' />
+<link rel='next' title='Preventing CSRF in Scala and Play! [2.0]' href='../../774/preventing-csrf-in-scala-and-play-2-0/index.html' />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index-p=606.html' />
+<!-- <meta name="NextGEN" version="1.9.3" /> -->
+		<style type="text/css">
+						ol.footnotes li {list-style-type:decimal;}
+						ol.footnotes{font-size:0.8em; color:#666666;}		</style>
+		<!--[if IE 6]>
+<link rel='stylesheet' href='../../wp-content/plugins/wordpress-flickr-manager/css/highslide-ie6.css' type='text/css' />
+<![endif]--><script type='text/javascript'>
+//<![CDATA
+var WFM_iFrameSRC = 'http://www.underflow.ca/blog/wp-content/plugins/wordpress-flickr-manager/overlays/HighslideOverlay.php';
+//]]>
+</script><script type='text/javascript'>
+//<![CDATA[
+var WFM_PluginDir = 'http://www.underflow.ca/blog/wp-content/plugins/wordpress-flickr-manager/';
+var WFM_ViewOnFlickr = 'View on Flickr';
+var WFM_CaptionLink = '';
+//]]>
+</script><style type="text/css">
+#content-body,x:-moz-any-link{float:left;margin-right:28px;}#content-body, x:-moz-any-link, x:default{float:none;margin-right:25px;} 
+</style>
+
+<script src="../../wp-content/themes/lightword/js/cufon-yui.js" type="text/javascript"></script>
+<script src="../../wp-content/themes/lightword/js/vera.font.js" type="text/javascript"></script>
+<script type="text/javascript">/*<![CDATA[*/Cufon.replace(['h1','h2','h3#reply-title'], { fontFamily: 'Vera' });/*]]>*/</script>
+<!--[if IE 6]><style type="text/css">#header{background-image: none; filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://www.underflow.ca/blog/wp-content/themes/lightword/images/wider/content_top.png',sizingMethod='scale'); }#footer{background:transparent url(../../wp-content/themes/lightword/images/wider/content_bottom.gif) no-repeat;height:8px;}.comm_date{background-image: none; filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://www.underflow.ca/blog/wp-content/themes/lightword/images/date_comm_box.png',sizingMethod='scale'); }</style><![endif]-->
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #201f37; }
+</style>
+<meta id="syntaxhighlighteranchor" name="syntaxhighlighter-version" content="3.1.3" />
+</head>
+
+<body class="single single-post postid-606 single-format-standard custom-background">
+<div id="wrapper">
+
+<div id="top_cufon"><h1 id="logo"><a name="top" title="Underflow" href="../../index.html">Underflow</a> <small>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</small></h1></div>
+
+<div id="header">
+<a id="rss-feed" title="Syndicate this site using RSS" href="../../feed/index.html">Subscribe via RSS</a>
+
+<div id="top_bar">
+<div class="center_menu">
+<ul id="front_menu" >
+<li id="menu-item-518" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-518"><a href="../../index.html" ><span>Home</span></a></li>
+<li id="menu-item-39" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-39"><a href="../../about/index.html" ><span>About</span></a>
+<ul class="sub-menu">
+	<li id="menu-item-380" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-380"><a href="../../about/index.html" ><span>About the Author</span></a></li>
+	<li id="menu-item-379" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-379"><a href="../../about-the-editor/index.html" ><span>About the Editor</span></a></li>
+</ul>
+</li>
+<li id="menu-item-1056" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-1056"><a href="../../category/journal/index.html" ><span>Journals</span></a></li>
+<li id="menu-item-1057" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1057"><a href="../../category/gist/index.html" ><span>Gists</span></a></li></ul>
+</div>
+<form method="get" id="searchform" action="http://www.underflow.ca/blog"> <input type="text" value="" name="s" id="s" /> <input type="submit" id="go" value="" alt="Search" title="Search" /></form>
+</div>
+
+</div>
+<div id="content"><div id="content-body">
+<div style="color: #C09853;background-color: #FCF8E3;border: 1px solid #FBEED5;padding: 8px 35px 8px 14px;margin-bottom: 18px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">This site has been archived, for my current blog please go <a href=../../../index.html>here</a>.</div><div class="post-606 post type-post status-publish format-standard hentry category-journal tag-anorm tag-database tag-lean-startup tag-pattern-matching tag-play tag-playframework tag-programming tag-rapid-application-development tag-scala tag-sql" id="post-606">
+<div class="comm_date"><span class="data"><span class="j">25</span>Mar/12</span><span class="nr_comm"><a class="nr_comm_spot" href="index.html#comments">7</a></span></div>
+<h2><a title="Scala, Play! and Databases" href="index.html" rel="bookmark">Scala, Play! and Databases</a></h2>
+<p>I keep thinking that Play! is a Scala version of Ruby on Rails. I'm also drinking the Lean Startup cool-aid, so rapid application development pre-empts doing it <em>right</em><sup><a href="index.html#footnote_0_606"  id="identifier_0_606" class="footnote-link footnote-identifier-link" title="See Pretotyping by Jeremy Clark and Patrick Copeland">1</a></sup>. I'm interested to know how quickly and easily I can throw up an application.</p>
+<div id='stb-container-8667' class='stb-container'><div id='stb-caption-box-8667' class='stb-info-caption_box stb_caption' >Note</div><div id='stb-body-box-8667' class='stb-info-body_box stb_body' ></p>
+<div style="text-align:justify; padding:0 25px;">I write these blogs not as an expert, but as someone learning these topics for the first time. </p>
+<p>I choose to write them now because I can better identify the points of confusion in learning the material and address them. My examples are not always the best or most advanced way of doing things; in fact they are usually not the way you would write production code. What I attempt to do is focus in on thing at a time, leaving all else as simple as possible to avoid unnecessary confusion. </p>
+<p>I will, whenever possible, include links to more complete references.</p></div>
+<p></div></div>
+<p>When planning a project, I often think first of the data I wish to store. The speed at which I can define and modify the data model is important. The Play! framework comes with Anorm, a low-level yet pragmatic layer to manage persistent objects.</p>
+<p>Anorm is basically a collection of clever methods for generating and parsing SQL queries, and interfacing with the JDBC layer. It is not an ORM<sup><a href="index.html#footnote_1_606"  id="identifier_1_606" class="footnote-link footnote-identifier-link" title="See the Anorm Documentation">2</a></sup>, however Anorm provides a lot of tools to create your own ORM with very little code. In fact, you just may end up writing less code that using Java annotations with JPA or Hibernate.</p>
+<p>You can create your classes any way you wish, but most people use case classes because the compiler does half the work for you<sup><a href="index.html#footnote_2_606"  id="identifier_2_606" class="footnote-link footnote-identifier-link" title="The compiler generates a companion object, giving you access to the staticy method MyObject() vs. calling new MyObject(). See Scala for the Impatient by Cay Horstmann">3</a></sup>.</p>
+<pre><pre class="brush: scala; title: ; notranslate" title="">
+import anorm.Pk
+
+case class Person( 
+    var id: Pk[Long], 
+    var firstName: String, 
+    var lastName: String 
+)
+</pre>
+<div id='stb-container-4110' class='stb-container'><div id='stb-caption-box-4110' class='stb-black-caption_box stb_caption' >Note</div><div id='stb-body-box-4110' class='stb-black-body_box stb_body' ><br />
+There is a lot of debate about creating mutable case classes. Most notably that the compiler overrides the <code>hash</code> method creating a time-dependent hash of your object.</p>
+<p>I'm the type of person who believes that any style works, as long as you bear in mind the consequences. Yes, there are perhaps better ways. That is left as an exercise to the reader =]<br />
+</div></div>
+<p>Here, it's typical (but not required) to create a companion object in the same file to handle the ORM functionality. This is handy if your object has private members, since the companion object will have access to those fields.</p>
+<p>In the companion object you can create any methods here you wish, for example:</p>
+<ol>
+<li><code>create</code> - create a new saved object</li>
+<li><code>update</code> - update a previously saved object</li>
+<li><code>findAll</code> - retrieve all saved objects</li>
+<li><code>find</code> - retrieve a saved object identified by a specific key</li>
+</ol>
+<p>Eager coders might want to combine <code>create</code> and <code>update</code> into a single method. That's probably a good idea, but it would pollute the introductory material here. </p>
+<p>Define your companion object as follows:</p>
+<pre><pre class="brush: scala; title: ; notranslate" title="">
+object Person {
+    def create( p:Person ) : Pk[Long] = {...}
+    def update( p:Person ) {...}
+    def find( id:Long ) : Person = {...}
+    def findAll() : List[Person] = {...}
+}
+</pre>
+<p>Your controllers specified in <code>/app/controllers</code> will then use code similar to the following snippets:</p>
+<p><strong>To Create and Save a New Person:</strong></p>
+<pre><pre class="brush: scala; title: ; notranslate" title="">
+import anorm.NotAssigned
+
+// let the database set the primary key
+val me = Person( id:NotAssigned, firstName:&quot;Big&quot;, lastName:&quot;Guy&quot; )
+
+Person.create(me)
+</pre>
+<p><strong>To Retrieve an Existing Person:</strong></p>
+<pre><pre class="brush: scala; title: ; notranslate" title="">
+// Assuming we have an object with Primary Key = 12
+val person = Person.find(12)
+</pre>
+<h2>Writing Queries</h2>
+<p>Okay time to complete those methods in your <code>Person</code> object. We must manually decide how the database table is structured, and write the query that will create it. These are called database evolutions and they belong in the file <code>conf/evolutions/default/1.sq</code>. As we create more evolutions later, they will go into files <code>2.sql</code> and so on.</p>
+<p>You can design your database any way you wish, it just has to be consistent between the SQL definitions in your evolution files, and the code in your <code>Person</code> object. Here is a snipped of the evolution file<sup><a href="index.html#footnote_3_606"  id="identifier_3_606" class="footnote-link footnote-identifier-link" title="See Managing Database Evolutions on how to write the complete file.">4</a></sup>:</p>
+<pre class="brush: sql; title: ; notranslate" title="">
+CREATE TABLE todo (
+  id          SERIAL PRIMARY KEY,
+  firstName   VARCHAR(255),
+  lastName    VARCHAR(255)
+);
+</pre>
+<p>The code to save an object would be simple, if not for the fact that we should retrieve the newly created primary key associated with the newly saved object. The <code>executeInsert()</code> method returns the optional value <code>Option[Long]</code><sup><a href="index.html#footnote_4_606"  id="identifier_4_606" class="footnote-link footnote-identifier-link" title="See Scala Options: http://www.scala-lang.org/api/current/scala/Option.html">5</a></sup>. Use <code>match</code> to extract the primary key.</p>
+<pre><pre class="brush: scala; title: ; notranslate" title="">
+object Person {
+    def create(p:Person) : Pk[Long] {
+        
+        // Open the default database
+        DB.withConnection (&quot;default&quot;) { implicit connection =&gt;
+            
+            // Use string-replacement to construct the SQL query
+            SQL(&quot;&quot;&quot;INSERT INTO person(firstName,lastName) 
+                 values ({firstName},{lastName})&quot;&quot;&quot;).on(
+                &quot;firstName&quot; -&gt; p.firstName,
+                &quot;lastName&quot;  -&gt; p.lastName
+            
+            // Execute the statement
+            ).executeInsert() // returns Option[Long] 
+        } match {
+            
+            // Extracts the Long value, if it exists
+            case Some(long) =&gt; new Id[Long](long)
+            
+            // If no value is returned, the Insert failed
+            case None    =&gt; throw new Exception(
+               &quot;SQL Error - Did not save Person&quot;
+            )
+        }
+        p
+    }
+}
+</pre>
+<p>Notice this method will generate a new row in the database each time it's called, even if called twice on the same object. The <code>executeInsert</code> code is useful because it return the new primary key.</p>
+<p>The Primary key is not automatically added to the <code>Person</code> object. Another implementation would insert the primary key into <code>Person</code> and return the <em>tagged</em> object.</p>
+<h2>Retrieval</h2>
+<p>Retrieving an object is tricker, at first. Anorm lends a hand with something called a <code>RowParser</code>. The parser is the piece that asserts types coming from the database.</p>
+<p>A parser is created by joining smaller parsers together by the tilde (~) method. The following is a parser:</p>
+<pre><pre class="brush: scala; title: ; notranslate" title="">
+import anorm.SqlParser.{get,str}
+import anorm.Pk
+
+val rowparser = get[Pk[Long]](&quot;id&quot;) ~ str(&quot;firstName&quot;) ~ str(&quot;lastName&quot;)
+</pre>
+<p>The above will extract the rows named "id", "firstName", and "lastName"; the types <code>Pk[Long]</code>, <code>String</code>, and <code>String</code> will be checked against the results coming from the database.</p>
+<p>Okay, now comes the pattern-matching-gymnastics. The following could be contained in your <code>findAll</code> method. I have added types signatures for clarity.</p>
+<pre><pre class="brush: scala; title: ; notranslate" title="">
+// Create a row parser object
+val rp: RowParser[Pk[Long]~String~String] = 
+    get[Pk[Long]](&quot;id&quot;) ~ str(&quot;firstName&quot;) ~ str(&quot;lastName&quot;)
+
+DB.withConnection { implicit connection =&gt;
+
+    // Parse All Results from SQL Statement
+    val rsp : ResultSetParser[List[Pk[Long]~String~String]] = rp *
+
+    // The type of results depends on the type of rsp
+    // In this case List[Pk[Long]~String~String]
+    val results = SQL(&quot;SELECT * FROM person&quot;) as ( rsp )
+
+    // Use pattern matching to re-construct our objects
+    results map {
+        case pk~fname~lname =&gt; Person(pk,fname,lname)
+    }
+
+}
+</pre>
+<p>From here you can get creative. Clearly pattern matching can be stored and reused. It also has the nice property of not caring about exactly <em>what</em> the SQL statement returned, it will do it's best to extract the necessary column data.</p>
+<h2>Footnotes</h2>
+<ol class="footnotes"><li id="footnote_0_606" class="footnote">See <a href="http://www.pretotyping.org/" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://www.pretotyping.org']);">Pretotyping</a> by Jeremy Clark and Patrick Copeland [<a href="index.html#identifier_0_606"  class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_1_606" class="footnote">See the <a href="https://github.com/playframework/Play20/wiki/ScalaAnorm" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://github.com']);">Anorm Documentation</a> [<a href="index.html#identifier_1_606"  class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_2_606" class="footnote">The compiler generates a companion object, giving you access to the <em>staticy</em> method <code>MyObject()</code> vs. calling <code>new MyObject()</code>. See <a href="http://typesafe.com/resources/scala-for-the-impatient" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://typesafe.com']);">Scala for the Impatient</a> by Cay Horstmann [<a href="index.html#identifier_2_606"  class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_3_606" class="footnote">See <a href="http://www.playframework.org/documentation/2.0/Evolutions" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://www.playframework.org']);">Managing Database Evolutions</a> on how to write the complete file. [<a href="index.html#identifier_3_606"  class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_4_606" class="footnote">See Scala Options: <a href="http://www.scala-lang.org/api/current/scala/Option.html" onclick="javascript:_gaq.push(['_trackEvent','outbound-article','http://www.scala-lang.org']);">http://www.scala-lang.org/api/current/scala/Option.html</a> [<a href="index.html#identifier_4_606"  class="footnote-link footnote-back-link">&#8617;</a>]</li></ol>
+
+
+<div class="cat_tags clear">
+<span class="category">Tagged as: <a href="../../tag/anorm/index.html" rel="tag">anorm</a>, <a href="../../tag/database/index.html" rel="tag">database</a>, <a href="../../tag/lean-startup/index.html" rel="tag">lean-startup</a>, <a href="../../tag/pattern-matching/index.html" rel="tag">pattern-matching</a>, <a href="../../tag/play/index.html" rel="tag">play</a>, <a href="../../tag/playframework/index.html" rel="tag">playframework</a>, <a href="../../tag/programming/index.html" rel="tag">programming</a>, <a href="../../tag/rapid-application-development/index.html" rel="tag">rapid-application-development</a>, <a href="../../tag/scala/index.html" rel="tag">scala</a>, <a href="../../tag/sql/index.html" rel="tag">sql</a></span>
+<span class="continue"><a class="nr_comm_spot" href="index.html#respond">Leave a comment</a></span><div class="clear"></div>
+</div>
+<div class="cat_tags_close"></div>
+
+
+</div>
+
+<div id="tabsContainer">
+<a href="#" class="tabs selected"><span>Comments (7)</span></a>
+<a href="#" class="tabs"><span>Trackbacks (0)</span></a>
+<span class="subscribe_comments"><a href='feed/index.html'>( subscribe to comments on this post )</a></span>
+<div class="clear_tab"></div>
+<div class="tab-content selected">
+<a name="comments"></a>
+
+<div id="comentarii">
+<ol class="commentlist">
+<li class="comment even thread-even depth-1" id="li-comment-94"><div id="comment-94">
+<div class="comment_content"><div class="comment-meta commentmetadata"><div class="alignleft avatar"><img alt='' src='http://1.gravatar.com/avatar/9309e55d2d0b42bc99e96b57357b8c1b?s=36&d=http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=36&r=PG' class='avatar avatar-36 photo' height='36' width='36' /></div>
+<div class="alignleft" style="padding-top:5px;"><strong class="comment_author"><a href="http://twitter.com/pzol" onclick="javascript:_gaq.push(['_trackEvent','outbound-commentauthor','http://twitter.com']);"  rel='external nofollow' class='url'>Piotr Zolnierek</a></strong><br/><a href="#comment-94" title="">March 25th, 2012 - 23:53</a></div><div class="clear"></div></div>
+<p>Using the companion object as a repository is fine with me, however I think you should start a project thinking about business logic and not about persistance. The persistance layer is just a tool&#8230; it is NOT the application. That&#8217;s also a common mistake in Rails&#8230; fat-model-centric applications.</p>
+<div class="reply"><a class='comment-reply-link' href='index-replytocom=94.html#respond' onclick='return addComment.moveForm("comment-94", "94", "respond", "606")'>( REPLY )</a></div>
+</div><div class="clear"></div></div>
+<ul class='children'>
+<li class="comment byuser comment-author-jacob bypostauthor odd alt depth-2" id="li-comment-95"><div id="comment-95">
+<div class="comment_content"><div class="comment-meta commentmetadata"><div class="alignleft avatar"><img alt='' src='http://0.gravatar.com/avatar/60f1d97dcc47c78778af94e6cf2f0099?s=36&d=http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=36&r=PG' class='avatar avatar-36 photo' height='36' width='36' /></div>
+<div class="alignleft" style="padding-top:5px;"><strong class="comment_author"><a href="../../../../underflow.ca/index.html"   rel='external nofollow' class='url'>jacob</a></strong><br/><a href="#comment-95" title="">March 26th, 2012 - 00:10</a></div><div class="clear"></div></div>
+<p>You&#8217;re right. I sacrificed correctness a bit to keep the article focused. I&#8217;m very new to Scala and am likely going to tread down the wrong path on more than a few occasions.</p>
+<div class="reply"><a class='comment-reply-link' href='index-replytocom=95.html#respond' onclick='return addComment.moveForm("comment-95", "95", "respond", "606")'>( REPLY )</a></div>
+</div><div class="clear"></div></div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-odd thread-alt depth-1" id="li-comment-150"><div id="comment-150">
+<div class="comment_content"><div class="comment-meta commentmetadata"><div class="alignleft avatar"><img alt='' src='http://1.gravatar.com/avatar/b6ee5f42c2d89afdac2e4587bcb4d126?s=36&d=http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=36&r=PG' class='avatar avatar-36 photo' height='36' width='36' /></div>
+<div class="alignleft" style="padding-top:5px;"><strong class="comment_author"><a href="http://soutier.de/blog" onclick="javascript:_gaq.push(['_trackEvent','outbound-commentauthor','http://soutier.de']);"  rel='external nofollow' class='url'>Marius Soutier</a></strong><br/><a href="#comment-150" title="">April 17th, 2012 - 02:48</a></div><div class="clear"></div></div>
+<p>Nice blog post, good introduction and to the point. Two things I&#8217;d do differently from my experience with Play and Scala so far:<br />
+* Use immutable case classes and change them using the `copy`method<br />
+* `find()` should return `Option[Person]` instead of `Person`; you could also use it with `create()` to avoid exception handling (which I find messy compared to Option)</p>
+<div class="reply"><a class='comment-reply-link' href='index-replytocom=150.html#respond' onclick='return addComment.moveForm("comment-150", "150", "respond", "606")'>( REPLY )</a></div>
+</div><div class="clear"></div></div>
+<ul class='children'>
+<li class="comment byuser comment-author-jacob bypostauthor odd alt depth-2" id="li-comment-152"><div id="comment-152">
+<div class="comment_content"><div class="comment-meta commentmetadata"><div class="alignleft avatar"><img alt='' src='http://0.gravatar.com/avatar/60f1d97dcc47c78778af94e6cf2f0099?s=36&d=http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=36&r=PG' class='avatar avatar-36 photo' height='36' width='36' /></div>
+<div class="alignleft" style="padding-top:5px;"><strong class="comment_author"><a href="../../../../underflow.ca/index.html"   rel='external nofollow' class='url'>jacob</a></strong><br/><a href="#comment-152" title="">April 17th, 2012 - 02:55</a></div><div class="clear"></div></div>
+<p>One thing I like to do in introductory posts is discuss the problems and benefits with using certain methods. Can you come up with a good example of shooting yourself in the foot with non-immutable case classes? In general, I agree immutable > mutable. However as G.I. Joe says, knowing is half the battle; I like to give a examples of screw ups that people can remember.</p>
+<p>Option is definitely waaaaay better than exceptions. I am working on a post about monads in Scala right now. I feel like all the good monad introductions suck, I talk more there about how using them in your program can produce more elegant code.</p>
+<p>Thanks for the feedback, much appreciated!</p>
+<div class="reply"><a class='comment-reply-link' href='index-replytocom=152.html#respond' onclick='return addComment.moveForm("comment-152", "152", "respond", "606")'>( REPLY )</a></div>
+</div><div class="clear"></div></div>
+<ul class='children'>
+<li class="comment even depth-3" id="li-comment-154"><div id="comment-154">
+<div class="comment_content"><div class="comment-meta commentmetadata"><div class="alignleft avatar"><img alt='' src='http://1.gravatar.com/avatar/b6ee5f42c2d89afdac2e4587bcb4d126?s=36&d=http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=36&r=PG' class='avatar avatar-36 photo' height='36' width='36' /></div>
+<div class="alignleft" style="padding-top:5px;"><strong class="comment_author"><a href="http://soutier.de/blog" onclick="javascript:_gaq.push(['_trackEvent','outbound-commentauthor','http://soutier.de']);"  rel='external nofollow' class='url'>Marius Soutier</a></strong><br/><a href="#comment-154" title="">April 17th, 2012 - 03:03</a></div><div class="clear"></div></div>
+<p>No I can’t easily come up with a good example of shooting yourself in the foot. But generally speaking, it’s just better and safer style. Even in domain-driven design, value objects are immutable. I think it should be a goal to keep to your publicly usable classes referentially transparent (I really try to embrace the functional way of thinking, which is not easy either coming from Java). I think this way of thinking already pays off when working in a team with other people – you’re guaranteed that no one can mess around with your objects<br />
+You’ also right about monads, I never understood them until I had to use them<br />
+Keep up the good work.</p>
+<div class="reply"><a class='comment-reply-link' href='index-replytocom=154.html#respond' onclick='return addComment.moveForm("comment-154", "154", "respond", "606")'>( REPLY )</a></div>
+</div><div class="clear"></div></div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="comment odd alt thread-even depth-1" id="li-comment-153"><div id="comment-153">
+<div class="comment_content"><div class="comment-meta commentmetadata"><div class="alignleft avatar"><img alt='' src='http://1.gravatar.com/avatar/b6ee5f42c2d89afdac2e4587bcb4d126?s=36&d=http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=36&r=PG' class='avatar avatar-36 photo' height='36' width='36' /></div>
+<div class="alignleft" style="padding-top:5px;"><strong class="comment_author"><a href="http://soutier.de/blog" onclick="javascript:_gaq.push(['_trackEvent','outbound-commentauthor','http://soutier.de']);"  rel='external nofollow' class='url'>Marius Soutier</a></strong><br/><a href="#comment-153" title="">April 17th, 2012 - 03:02</a></div><div class="clear"></div></div>
+<p>No I can&#8217;t easily come up with a good example of shooting yourself in the foot. But generally speaking, it&#8217;s just better and safer style. Even in domain-driven design, value objects are immutable. I think it should be a goal to keep to your publicly usable classes referentially transparent (I really try to embrace the functional way of thinking, which is not easy either coming from Java). I think this way of thinking already pays off when working in a team with other people &#8211; you&#8217;re guaranteed that no one can mess around with your objects <img src='../../wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+<p>You&#8217; also right about monads, I never understood them until I had to use them <img src='../../wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>Keep up the good work.</p>
+<div class="reply"><a class='comment-reply-link' href='index-replytocom=153.html#respond' onclick='return addComment.moveForm("comment-153", "153", "respond", "606")'>( REPLY )</a></div>
+</div><div class="clear"></div></div>
+<ul class='children'>
+<li class="comment byuser comment-author-jacob bypostauthor even depth-2" id="li-comment-156"><div id="comment-156">
+<div class="comment_content"><div class="comment-meta commentmetadata"><div class="alignleft avatar"><img alt='' src='http://0.gravatar.com/avatar/60f1d97dcc47c78778af94e6cf2f0099?s=36&d=http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=36&r=PG' class='avatar avatar-36 photo' height='36' width='36' /></div>
+<div class="alignleft" style="padding-top:5px;"><strong class="comment_author"><a href="../../../../underflow.ca/index.html"   rel='external nofollow' class='url'>jacob</a></strong><br/><a href="#comment-156" title="">April 17th, 2012 - 03:10</a></div><div class="clear"></div></div>
+<p>Thread safety is an obvious example, but to illustrate that almost requires an entire blog post.</p>
+<p>When you pair case classes with Akka it&#8217;s easier to justify why they should be immutable, since the class represents a &#8220;message&#8221; versus actual domain data. I think I refer to it somewhere as &#8220;an immutable snapshot of mutable data&#8221; in yet _another_ upcoming blog post.</p>
+<p>I like functional style mostly because concurrency is the next &#8220;big thing&#8221; in programming, and it&#8217;s really easy to achieve that with functional programming.</p>
+<div class="reply"><a class='comment-reply-link' href='index-replytocom=156.html#respond' onclick='return addComment.moveForm("comment-156", "156", "respond", "606")'>( REPLY )</a></div>
+</div><div class="clear"></div></div>
+</li>
+</ul>
+</li>
+</ol>
+
+</div>
+
+
+ 
+<br/>
+
+								<div id="respond">
+				<h3 id="reply-title">Leave a comment <small><a rel="nofollow" id="cancel-comment-reply-link" href="index.html#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://www.underflow.ca/blog/wp-comments-post.php" method="post" id="commentform">
+																										<p class="comment-form-author"><input id="author" name="author" type="text" value="" size="30" aria-required='true' /><label for="author">Name</label><span class="required">(required)</span></p>
+<p class="comment-form-email"><input id="email" name="email" type="text" value="" size="30" aria-required='true' /><label for="email">Email</label><span class="required">(required)</span></p>
+<p class="comment-form-url"><input id="url" name="url" type="text" value="" size="30" /><label for="url">Website</label></p>
+												<p class="comment-form-comment"><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>												<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Submit" />
+							<input type='hidden' name='comment_post_ID' value='606' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="2c02e1d5d3" /></p>					</form>
+							</div><!-- #respond -->
+			<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery('#commentform').submit(function() {
+            _gaq.push(
+                ['_setAccount','UA-25329958-3'],
+                ['_trackEvent','comment','submit']
+            );
+        });
+    });    
+</script>
+			
+
+</div>
+
+<div class="tab-content">
+<p class="no">Trackbacks are disabled.</p></div>
+</div>
+<div class="next_previous_links">
+<span class="alignleft"><a href="../../774/preventing-csrf-in-scala-and-play-2-0/index.html" rel="next">Preventing CSRF in Scala and Play! [2.0]</a> &raquo;</span>
+<span class="alignright">&laquo; <a href="../../584/learning-scala-case-classes-and-pattern-matching/index.html" rel="prev">Learning Scala: Case Classes and Pattern Matching</a></span>
+<div class="clear"></div>
+
+</div>
+</div>
+<div class="content-sidebar">
+<h3>Tags</h3><div class="tagcloud"><a href='../../tag/actions/index.html' class='tag-link-58' title='1 topic' style='font-size: 8pt;'>actions</a>
+<a href='../../tag/akka/index.html' class='tag-link-54' title='1 topic' style='font-size: 8pt;'>akka</a>
+<a href='../../tag/anorm/index.html' class='tag-link-53' title='1 topic' style='font-size: 8pt;'>anorm</a>
+<a href='../../tag/apache/index.html' class='tag-link-69' title='1 topic' style='font-size: 8pt;'>apache</a>
+<a href='../../tag/bay-area/index.html' class='tag-link-37' title='1 topic' style='font-size: 8pt;'>Bay Area</a>
+<a href='../../tag/bfn/index.html' class='tag-link-43' title='1 topic' style='font-size: 8pt;'>BFN</a>
+<a href='../../tag/blog/index.html' class='tag-link-13' title='2 topics' style='font-size: 10.964705882353pt;'>blog</a>
+<a href='../../tag/calculus/index.html' class='tag-link-19' title='1 topic' style='font-size: 8pt;'>calculus</a>
+<a href='../../tag/case-class/index.html' class='tag-link-46' title='1 topic' style='font-size: 8pt;'>case-class</a>
+<a href='../../tag/communication/index.html' class='tag-link-30' title='1 topic' style='font-size: 8pt;'>communication</a>
+<a href='../../tag/computers/index.html' class='tag-link-41' title='1 topic' style='font-size: 8pt;'>computers</a>
+<a href='../../tag/csrf/index.html' class='tag-link-56' title='1 topic' style='font-size: 8pt;'>csrf</a>
+<a href='../../tag/database/index.html' class='tag-link-51' title='1 topic' style='font-size: 8pt;'>database</a>
+<a href='../../tag/education/index.html' class='tag-link-39' title='1 topic' style='font-size: 8pt;'>education</a>
+<a href='../../tag/functions/index.html' class='tag-link-42' title='1 topic' style='font-size: 8pt;'>functions</a>
+<a href='../../tag/hbase/index.html' class='tag-link-74' title='4 topics' style='font-size: 14.588235294118pt;'>hbase</a>
+<a href='../../tag/javascript/index.html' class='tag-link-9' title='2 topics' style='font-size: 10.964705882353pt;'>Javascript</a>
+<a href='../../tag/latex/index.html' class='tag-link-10' title='1 topic' style='font-size: 8pt;'>LaTeX</a>
+<a href='../../tag/lean-startup/index.html' class='tag-link-49' title='1 topic' style='font-size: 8pt;'>lean-startup</a>
+<a href='../../tag/math/index.html' class='tag-link-8' title='3 topics' style='font-size: 12.941176470588pt;'>math</a>
+<a href='../../tag/monad/index.html' class='tag-link-64' title='1 topic' style='font-size: 8pt;'>monad</a>
+<a href='../../tag/mvc/index.html' class='tag-link-59' title='1 topic' style='font-size: 8pt;'>mvc</a>
+<a href='../../tag/nginx/index.html' class='tag-link-70' title='1 topic' style='font-size: 8pt;'>nginx</a>
+<a href='../../tag/notation/index.html' class='tag-link-21' title='1 topic' style='font-size: 8pt;'>notation</a>
+<a href='../../tag/oakland/index.html' class='tag-link-36' title='1 topic' style='font-size: 8pt;'>Oakland</a>
+<a href='../../tag/pattern-matching/index.html' class='tag-link-47' title='2 topics' style='font-size: 10.964705882353pt;'>pattern-matching</a>
+<a href='../../tag/performance/index.html' class='tag-link-68' title='1 topic' style='font-size: 8pt;'>performance</a>
+<a href='../../tag/play/index.html' class='tag-link-48' title='4 topics' style='font-size: 14.588235294118pt;'>play</a>
+<a href='../../tag/playframework/index.html' class='tag-link-45' title='7 topics' style='font-size: 17.882352941176pt;'>playframework</a>
+<a href='../../tag/plugins/index.html' class='tag-link-66' title='1 topic' style='font-size: 8pt;'>plugins</a>
+<a href='../../tag/programming/index.html' class='tag-link-11' title='9 topics' style='font-size: 19.529411764706pt;'>programming</a>
+<a href='../../tag/rackspace/index.html' class='tag-link-16' title='1 topic' style='font-size: 8pt;'>Rackspace</a>
+<a href='../../tag/rapid-application-development/index.html' class='tag-link-50' title='1 topic' style='font-size: 8pt;'>rapid-application-development</a>
+<a href='../../tag/san-francisco/index.html' class='tag-link-35' title='1 topic' style='font-size: 8pt;'>San Francisco</a>
+<a href='../../tag/scala/index.html' class='tag-link-44' title='13 topics' style='font-size: 22pt;'>scala</a>
+<a href='../../tag/security/index.html' class='tag-link-57' title='1 topic' style='font-size: 8pt;'>security</a>
+<a href='../../tag/server/index.html' class='tag-link-67' title='1 topic' style='font-size: 8pt;'>server</a>
+<a href='../../tag/sql/index.html' class='tag-link-52' title='1 topic' style='font-size: 8pt;'>sql</a>
+<a href='../../tag/system/index.html' class='tag-link-14' title='1 topic' style='font-size: 8pt;'>system</a>
+<a href='../../tag/teaching/index.html' class='tag-link-38' title='1 topic' style='font-size: 8pt;'>teaching</a>
+<a href='../../tag/testing/index.html' class='tag-link-65' title='1 topic' style='font-size: 8pt;'>testing</a>
+<a href='../../tag/types/index.html' class='tag-link-40' title='3 topics' style='font-size: 12.941176470588pt;'>types</a>
+<a href='../../tag/ubuntu/index.html' class='tag-link-15' title='2 topics' style='font-size: 10.964705882353pt;'>Ubuntu</a>
+<a href='../../tag/wiki/index.html' class='tag-link-17' title='1 topic' style='font-size: 8pt;'>wiki</a>
+<a href='../../tag/writing/index.html' class='tag-link-29' title='2 topics' style='font-size: 10.964705882353pt;'>writing</a></div>
+<h3>Sponsors</h3>			<div class="textwidget"><div style="margin-left:-5px;">
+<a href="http://itunes.apple.com/us/app/crop-duster/id447663858?mt=8" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://itunes.apple.com']);"><img src="../../wp-content/uploads/2012/04/cropduster.jpg" alt="Crop Duster"/></a>
+</div></div>
+		<h3>Categories</h3>		<ul>
+	<li class="cat-item cat-item-31"><a href="../../category/editorial/index.html" title="View all posts filed under Editorial">Editorial</a> (2)
+</li>
+	<li class="cat-item cat-item-75"><a href="../../category/gist/index.html" title="View all posts filed under Gist">Gist</a> (3)
+</li>
+	<li class="cat-item cat-item-34"><a href="../../category/journal/index.html" title="View all posts filed under Journal">Journal</a> (12)
+</li>
+	<li class="cat-item cat-item-1"><a href="../../category/note/index.html" title="View all posts filed under Note">Note</a> (1)
+</li>
+	<li class="cat-item cat-item-32"><a href="../../category/technology/index.html" title="View all posts filed under Technology">Technology</a> (3)
+</li>
+		</ul>
+<h3>People Worth Knowing</h3>
+	<ul class='xoxo blogroll'>
+<li><a href="http://itsmedia.ca" title="A team of highly caffeinated website and mobile designers in Kelowna, B.C." target="" onclick="javascript:_gaq.push(['_trackEvent','outbound-blogroll','http://itsmedia.ca']);">ITS Media</a>
+A team of highly caffeinated website and mobile designers in Kelowna, B.C.</li>
+<li><a href="http://misswishful.com" target="" onclick="javascript:_gaq.push(['_trackEvent','outbound-blogroll','http://misswishful.com']);">Miss Wishful</a></li>
+
+	</ul>
+
+<h3>Archives</h3>		<ul>
+			<li><a href='../../date/2012/04/index.html' title='April 2012'>April 2012</a>&nbsp;(11)</li>
+	<li><a href='../../date/2012/03/index.html' title='March 2012'>March 2012</a>&nbsp;(4)</li>
+	<li><a href='../../date/2011/09/index.html' title='September 2011'>September 2011</a>&nbsp;(1)</li>
+	<li><a href='../../date/2011/08/index.html' title='August 2011'>August 2011</a>&nbsp;(5)</li>
+		</ul>
+			<div class="textwidget"><div style="text-align:center; padding:10px;"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://creativecommons.org']);"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" /></a><br />This work by <a xmlns:cc="http://creativecommons.org/ns#" href="../../../index.html"  property="cc:attributionName" rel="cc:attributionURL">Jacob Groundwater</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://creativecommons.org']);">Creative Commons Attribution 3.0 Unported License</a>.
+</div></div>
+		</div><div class="clear"></div>
+</div>
+<div id="footer">
+<span class="text">
+Copyright &copy; 2012 <a href="../../index.html">Underflow</a> &middot; Powered by <a href="http://www.wordpress.org" title="WordPress" target="_blank">WordPress</a> <br/><a href="http://www.lightword-design.com/" target="_blank" title="Lightword Theme">Lightword Theme</a> by Andrei Luca</em>
+<a title="Go to top" class="top" href="#top">Go to top &uarr;</a>
+</span>
+</div>
+<script type="text/javascript" src="../../wp-content/themes/lightword/js/menu.js"></script>
+</div>
+<!-- MathJax Latex Plugin installed: Disabled as no shortcodes on this page -->
+<script type="text/javascript">/* <![CDATA[ */ Cufon.now(); /* ]]> */ </script>
+<script type="text/javascript" src="../../wp-content/themes/lightword/js/tabs.js"></script>
+<script type="text/javascript">jQuery(document).ready(function(){jQuery('tabs').lightword_tabs({linkClass : 'tabs',containerClass : 'tab-content',linkSelectedClass : 'selected',containerSelectedClass : 'selected',onComplete : function(){}});});</script>
+<script type='text/javascript' src='../../wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='../../wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushScala.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='../../wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushSql.js?ver=3.0.83c'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://www.underflow.ca/blog/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.83c";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://www.underflow.ca/blog/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.83c";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='../../wp-includes/js/jquery/ui/jquery.effects.core.min.js?ver=1.8.20'></script>
+<script type='text/javascript' src='../../wp-includes/js/jquery/ui/jquery.effects.blind.min.js?ver=1.8.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var stbUserOptions = {"mode":"css","cssOptions":{"roundedCorners":true,"mbottom":10,"imgHide":"http:\/\/www.underflow.ca\/blog\/wp-content\/plugins\/wp-special-textboxes\/images\/hide.png","imgShow":"http:\/\/www.underflow.ca\/blog\/wp-content\/plugins\/wp-special-textboxes\/images\/show.png","strHide":"Hide","strShow":"Show"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='../../wp-content/plugins/wp-special-textboxes/js/wstb.min.js?ver=4.3.72'></script>
+<script type='text/javascript' src='../../wp-content/plugins/contact-form-7/includes/js/jquery.form.js?ver=3.09'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.underflow.ca\/blog\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='../../wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=3.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 14/23 queries in 0.023 seconds using disk: basic
+Object Caching 1143/1182 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:28:05 -->
+<!-- Localized -->

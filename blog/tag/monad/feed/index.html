@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Underflow &#187; monad</title>
+	<atom:link href="http://www.underflow.ca/blog/tag/monad/feed" rel="self" type="application/rss+xml" />
+	<link>http://www.underflow.ca/blog</link>
+	<description>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</description>
+	<lastBuildDate>Wed, 25 Apr 2012 07:12:26 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.4.1</generator>
+	<div style="color: #C09853;background-color: #FCF8E3;border: 1px solid #FBEED5;padding: 8px 35px 8px 14px;margin-bottom: 18px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">This site has been archived, for my current blog please go <a href=../../../../index.html>here</a>.</div>	<item>
+		<title>Monads in Scala</title>
+		<link>http://www.underflow.ca/blog/820/monads-in-scala?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=monads-in-scala</link>
+		<comments>http://www.underflow.ca/blog/820/monads-in-scala#comments</comments>
+		<pubDate>Mon, 23 Apr 2012 10:22:00 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[monad]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[scala]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=820</guid>
+		<description><![CDATA[Preamble I hate it when I don't understand something. It bugs me; it nags at me. I like to straddle that thin line between confidence and over-confidence, believing that there is no topic I can't learn. There are of course many topics I don't care to learn, but there is an endless sea of topics I do want MUST learn. I like programming, not pure theory, not pure application. I am obsessed with good practices. This at times radically cuts into my productivity, but I am too stubborn to change. Instead I try to find how to apply my obsession. I like to think I'm a decent teacher, thankfully I usually receive feedback validating my opinion. I enjoy tackling complex ideas and breaking them down into more teachable components. This applies as much to programming as anything. My most recent conceptual-nemesis has been Monads. (I think the name Monad belongs in the hall of mathematical jargon that makes me giggle, along with Homomorphism, Wiener Measure1, and the Hairy Ball Theorem2.) *ahem* Anyways... &#60;awkward silence&#62; if you pay any attention to functional programming you'll have heard of them. I don't know why, but Monads just would not mentally digest for the longest time. I read Wikipedia, I read blogs, I watched videos. I just couldn't fully realize them in my head. Mission Accomplished? I think I now understand Monads, and if what I said above is true now I should be able to teach them to others. One technique I've learned from teaching is that teaching is a lot like the movie Inception... I mean I N C E P T I O N. One only needs to completely communicate the seed of the idea, not the complete picture. The complete picture should however follow from a series of what I call natural questions3. I will explain Monads not as a complete picture, but as a seed of an idea. Further more, I will explain in the context of programming, not category theory. What is a Monad? A Monad is an object that wraps another object. Instead of manipulating the underlying object directly, you pass the Monad mini-programs, i.e. functions, to perform the data manipulation of the underlying object. The Monad chooses how to apply the program to the underlying object. A trivial Monad just applies any such function directly, game over. Non-trivial Monads will do something else entirely. It is not a requirement of the Monad to apply the function in a specific way, or at all. One example of a Monad that ignores all programs it receives is the None Monad from Scala. The Monad None indicates its wrapped data is either incomplete, missing or corrupt, so further data manipulation, via received programs, makes no sense. Monads in Action Imagine that we are building an e-commerce site. It's our first attempt so we wish to remain agile and prefer loose coupling between the various components. When it comes to processing orders, we imagine a workflow roughly as follows: However [...]]]></description>
+			<content:encoded><![CDATA[<h2>Preamble</h2>
+<p>I hate it when I don't understand something. It bugs me; it nags at me. I like to straddle that thin line between confidence and over-confidence, believing that there is no topic I can't learn. There are of course many topics I don't care to learn, but there is an endless sea of topics I do <del>want</del> MUST learn.</p>
+<p>I like programming, not pure theory, not pure application. I am obsessed with good practices. This at times radically cuts into my productivity, but I am too stubborn to change. Instead I try to find how to apply my obsession.</p>
+<p>I like to think I'm a decent teacher, thankfully I usually receive feedback validating my opinion. I enjoy tackling complex ideas and breaking them down into more teachable components. This applies as much to programming as anything.</p>
+<p>My most recent conceptual-nemesis has been Monads. (I think the name Monad belongs in the hall of mathematical jargon that makes me giggle, along with Homomorphism, Wiener Measure<sup><a href="../../../820/monads-in-scala/index.html#footnote_0_820" id="identifier_0_820" class="footnote-link footnote-identifier-link" title="http://planetmath.org/encyclopedia/WienerMeasure.html">1</a></sup>, and the Hairy Ball Theorem<sup><a href="../../../820/monads-in-scala/index.html#footnote_1_820" id="identifier_1_820" class="footnote-link footnote-identifier-link" title="http://en.wikipedia.org/wiki/Hairy_ball_theorem">2</a></sup>.) *ahem*</p>
+<p>Anyways... &lt;awkward silence&gt; if you pay any attention to functional programming you'll have heard of them. I don't know why, but Monads just would not mentally digest for the longest time.</p>
+<p>I read Wikipedia, I read blogs, I watched videos. I just couldn't fully realize them in my head.</p>
+<h2>Mission Accomplished?</h2>
+<p>I think I now understand Monads, and if what I said above is true now I should be able to teach them to others. One technique I've learned from teaching is that teaching is a lot like the movie Inception...<br />
+I mean <strong>I N C E P T I O N</strong>.</p>
+<p>One only needs to completely communicate the seed of the idea, not the complete picture. The complete picture should however follow from a series of what I call <strong>natural questions</strong><sup><a href="../../../820/monads-in-scala/index.html#footnote_2_820" id="identifier_2_820" class="footnote-link footnote-identifier-link" title="A natural question is hard to explain, I don&#039;t have a good definition just yet. It&#039;s kind of a what if question.">3</a></sup>.</p>
+<p>I will explain Monads not as a complete picture, but as a seed of an idea. Further more, I will explain in the context of programming, not category theory.</p>
+<h3>What is a Monad?</h3>
+<p>A Monad is an object that wraps another object. Instead of manipulating the underlying object directly, you pass the Monad mini-programs, i.e. functions, to perform the data manipulation <em>of the underlying object</em>. The Monad chooses how to apply the program to the underlying object.</p>
+<p>A trivial Monad just applies any such function directly, game over. Non-trivial Monads will do something else entirely. It is not a requirement of the Monad to apply the function in a specific way, or at all.</p>
+<p>One example of a Monad that ignores all programs it receives is the <code>None</code> Monad from Scala. The Monad <code>None</code> indicates its wrapped data is either incomplete, missing or corrupt, so further data manipulation, via received programs, makes no sense.</p>
+<h2>Monads in Action</h2>
+<p>Imagine that we are building an e-commerce site. It's our first attempt so we wish to remain agile and prefer loose coupling between the various components.</p>
+<p>When it comes to processing orders, we imagine a workflow roughly as follows:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+getOrderForm -&gt; creditCheck -&gt; stockCheck -&gt; process
+</pre>
+<p>However being a first attempt, there may be other steps required along the way. Any step can alter the order, or produce an error. We choose to capture any errors or deviations not by throwing an exception but by wrapping orders in a <code>MaybeOrder</code> trait:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class Order()
+
+trait MaybeOrder {
+    def -&gt; ( process: Order =&gt; Order )      : MaybeOrder
+    def ~&gt; ( process: Order =&gt; MaybeOrder ) : MaybeOrder
+}
+</pre>
+<p>Any object with the <code>MaybeOrder</code> trait qualifies as a monad since it accepts programs that manipulate its underlying type <code>Order</code>. Notice we cannot modify the data directly, we can only pass the monad functions for manipulating an <code>Order</code>. Back to our example.</p>
+<p>We call this monad <code>MaybeOrder</code> because it can contain two basic types of orders, good and bad. A bad order indicates an error has occurred somewhere while processing the order. Bad orders should not be processed further once they occur. We represent these two states with two classes implementing the <code>MaybeOrder</code> trait:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+case class GoodOrder( order: Order ) extends MaybeOrder {
+    def -&gt; ( process: Order =&gt; Order ) = {
+        GoodOrder( process(order) )
+    }
+    def ~&gt; ( process: Order =&gt; MaybeOrder ) = {
+        process(order)
+    }
+}
+case class BadOrder() extends MaybeOrder {
+    def -&gt; ( process: Order =&gt; Order ) = {
+        BadOrder()
+    }
+    def ~&gt; ( process: Order =&gt; MaybeOrder ) = {
+        BadOrder()
+    }
+}
+</pre>
+<p>Notice that the bad order will always return another bad order, further more bad orders do not call any processes they are passed. This will matter because it has the effect of stopping bad orders from being processed further by the system. The behaviour we have encoded is that bad orders stay bad, good orders propagate through the system.</p>
+<p>We can apply this setup as follows:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+val goodOrder = GoodOrder( new Order() )
+val badOrder  = BadOrder()
+
+def creditCheck ( order: Order ) : MaybeOrder = {
+    GoodOrder(order)
+}
+
+def stockCheck  ( order: Order ) : MaybeOrder = {
+    GoodOrder(order)
+}
+
+def process ( order: Order ) : Order = {
+    println(&quot;Order Successfully Placed&quot;)
+    order
+}
+
+def save( order: Order ) : Order = {
+    println(&quot;Order Saved to System&quot;)
+    order
+}
+</pre>
+<p>The entire business process can be captured in the following:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+getGoodOrder ~&gt; { creditCheck } ~&gt; { stockCheck } -&gt; process -&gt; save
+getBadOrder  ~&gt; { creditCheck } ~&gt; { stockCheck } -&gt; process -&gt; save
+</pre>
+<p>The first line will print <code>"Order Successfully Placed"</code> however the second line will not. This is the why the above pattern is useful. We can easily develop new functions to process the order and chain them without much modification to the code:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+def addressValid  ( order: Order ) : MaybeOrder = {
+    GoodOrder(order)
+}
+</pre>
+<p>Our order processes then becomes:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+goodOrder ~&gt; { creditCheck } ~&gt; { stockCheck } ~&gt;
+    { addressValid } -&gt; process -&gt; save
+</pre>
+<h2>Monadic Conventions</h2>
+<p>The previous example was nice, but I think the syntax obscures what's really going on. First of all, why are there two continuation methods <code>~></code> and <code>-></code>? When you generalize this concept, the two methods are required because method overloading can produce ambiguous situations.</p>
+<p>Let's rename our methods in the <code>MaybeOrder</code> trait to the more standard <code>map</code> and <code>flatMap</code> :</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+trait MaybeOrder {
+    def map     ( process: Order =&gt; Order )      : MaybeOrder
+    def flatMap ( process: Order =&gt; MaybeOrder ) : MaybeOrder
+}
+</pre>
+<p>If we rewrite the previous section with <code>map</code> and <code>flatMap</code> we can use for-loop comprehension in Scala to rewrite the order processing code to<sup><a href="../../../820/monads-in-scala/index.html#footnote_3_820" id="identifier_3_820" class="footnote-link footnote-identifier-link" title="I highly recommend watching Scala Monads: Declutter Your Code With Monadic Design">4</a></sup></p>
+<pre><pre class="brush: scala; title: ; notranslate">
+for ( o1 &lt;- goodOrder;
+      o2 &lt;- creditCheck (o1);
+      o3 &lt;- stockCheck  (o2);
+      o4 &lt;- addressValid(o3)
+    ) yield process     (o4)
+</pre>
+<p>Understanding for-comprehension is a little tricky at first. What you need to know is that each subsequent step in the for-loop (<code>foo <- bar</code>) is invoked by either <code>map</code> or <code>flatMap</code>. It is syntactic shorthand, and entirely equivalent to calling <code>map</code> and <code>flatMap</code> directly. Thus should a <code>BadOrder</code> creep in at <code>stockCheck</code> the functions <code>addressValid</code> and <code>process</code> will not be called.</p>
+<h2>Conclusion</h2>
+<p>I do not expect anyone to walk away from this understanding monads in their entirety. What I hope is to have planted a seed around which your understanding of them can grow.</p>
+<h2>Code</h2>
+<p>A runnable example of the above is available on my github page: </p>
+<ul>
+<li><a href="https://github.com/jacobgroundwater/Monads-in-Scala">https://github.com/jacobgroundwater/Monads-in-Scala</a></li>
+</ul>
+<h2>Footnotes</h2>
+<ol class="footnotes"><li id="footnote_0_820" class="footnote"><a href="http://planetmath.org/encyclopedia/WienerMeasure.html">http://planetmath.org/encyclopedia/WienerMeasure.html</a></li><li id="footnote_1_820" class="footnote"><a href="http://en.wikipedia.org/wiki/Hairy_ball_theorem">http://en.wikipedia.org/wiki/Hairy_ball_theorem</a></li><li id="footnote_2_820" class="footnote">A natural question is hard to explain, I don't have a good definition just yet. It's kind of a <strong>what if</strong> question.</li><li id="footnote_3_820" class="footnote">I highly recommend watching <a href="http://www.youtube.com/watch?v=Mw_Jnn_Y5iA">Scala Monads: Declutter Your Code With Monadic Design</a></li></ol>]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/820/monads-in-scala/feed</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 13/17 queries in 0.021 seconds using disk: basic
+Object Caching 423/450 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:28:01 -->
+<!-- Localized -->

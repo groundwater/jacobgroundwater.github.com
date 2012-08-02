@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+		>
+<channel>
+	<title>Comments on: Monads in Scala</title>
+	<atom:link href="http://www.underflow.ca/blog/820/monads-in-scala/feed" rel="self" type="application/rss+xml" />
+	<link>http://www.underflow.ca/blog/820/monads-in-scala?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=monads-in-scala</link>
+	<description>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</description>
+	<lastBuildDate>Fri, 29 Jun 2012 08:43:47 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.4.1</generator>
+	<item>
+		<title>By: jacob</title>
+		<link>http://www.underflow.ca/blog/820/monads-in-scala#comment-197</link>
+		<dc:creator>jacob</dc:creator>
+		<pubDate>Wed, 25 Apr 2012 04:27:55 +0000</pubDate>
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=820#comment-197</guid>
+		<description>I mean practically BadOrder should contain some sort of reason for failure.
+
+&lt;pre&gt;[scala]
+case class BadOrder(reason: String) extends MaybeOrder
+[/scala]&lt;/pre&gt;</description>
+		<content:encoded><![CDATA[<p>I mean practically BadOrder should contain some sort of reason for failure.</p>
+<pre></pre>
+<pre class="brush: scala; title: ; notranslate">
+case class BadOrder(reason: String) extends MaybeOrder
+</pre>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Marius Soutier</title>
+		<link>http://www.underflow.ca/blog/820/monads-in-scala#comment-194</link>
+		<dc:creator>Marius Soutier</dc:creator>
+		<pubDate>Tue, 24 Apr 2012 16:21:00 +0000</pubDate>
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=820#comment-194</guid>
+		<description>Not only from a technical pov, but it clearly communicates there&#039;s no need to instantiate a BadOrder because it represents an error in the ordering process.</description>
+		<content:encoded><![CDATA[<p>Not only from a technical pov, but it clearly communicates there&#8217;s no need to instantiate a BadOrder because it represents an error in the ordering process.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: jacob</title>
+		<link>http://www.underflow.ca/blog/820/monads-in-scala#comment-193</link>
+		<dc:creator>jacob</dc:creator>
+		<pubDate>Tue, 24 Apr 2012 13:24:45 +0000</pubDate>
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=820#comment-193</guid>
+		<description>I wonder are there any benefits to that other than reduced allocation and no GC? Tho those might be pretty big benefits in a large application.</description>
+		<content:encoded><![CDATA[<p>I wonder are there any benefits to that other than reduced allocation and no GC? Tho those might be pretty big benefits in a large application.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Marius Soutier</title>
+		<link>http://www.underflow.ca/blog/820/monads-in-scala#comment-190</link>
+		<dc:creator>Marius Soutier</dc:creator>
+		<pubDate>Tue, 24 Apr 2012 10:54:05 +0000</pubDate>
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=820#comment-190</guid>
+		<description>Nice post!
+
+Just one remark, shouldn&#039;t BadOrder be a case object?</description>
+		<content:encoded><![CDATA[<p>Nice post!</p>
+<p>Just one remark, shouldn&#8217;t BadOrder be a case object?</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 6/9 queries in 0.006 seconds using disk: basic
+Object Caching 345/372 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:27:59 -->
+<!-- Localized -->

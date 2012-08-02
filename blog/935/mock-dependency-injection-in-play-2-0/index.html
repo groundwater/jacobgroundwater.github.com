@@ -1,0 +1,454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Mock Dependency Injection in Play! 2.0 &laquo; Underflow</title>
+<link rel="shortcut icon" href="../../wp-content/themes/lightword/favicon.ico" />
+<link rel="pingback" href="../../xmlrpc.php.html" />
+
+
+<link rel="alternate" type="application/rss+xml" title="Underflow &raquo; Feed" href="../../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="Underflow &raquo; Comments Feed" href="../../comments/feed/index.html" />
+				
+	<script type="text/javascript">//<![CDATA[
+	// Google Analytics for WordPress by Yoast v4.2.3 | http://yoast.com/wordpress/google-analytics/
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount','UA-25329958-3']);
+	_gaq.push(['_trackPageview']);
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+	//]]></script>
+<link rel="alternate" type="application/rss+xml" title="Underflow &raquo; Mock Dependency Injection in Play! 2.0 Comments Feed" href="feed/index.html" />
+<link rel='stylesheet' id='lightword_stylesheet-css'  href='../../wp-content/themes/lightword/style-ver=2.0.0.6.css' type='text/css' media='all' />
+<link rel='stylesheet' id='lightword_stylesheet_wider-css'  href='../../wp-content/themes/lightword/wider-ver=2.0.0.6.css' type='text/css' media='all' />
+<link rel='stylesheet' id='wfm-highslide-css-css'  href='../../wp-content/plugins/wordpress-flickr-manager/css/highslide-ver=3.4.1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='NextGEN-css'  href='../../wp-content/plugins/nextgen-gallery/css/nggallery-ver=1.0.0.css' type='text/css' media='screen' />
+<link rel='stylesheet' id='shutter-css'  href='../../wp-content/plugins/nextgen-gallery/shutter/shutter-reloaded-ver=1.3.4.css' type='text/css' media='screen' />
+<link rel='stylesheet' id='contact-form-7-css'  href='../../wp-content/plugins/contact-form-7/includes/css/styles-ver=3.2.css' type='text/css' media='all' />
+<link rel='stylesheet' id='stbCSS-css'  href='../../../wp-special-textboxes-ver=4.3.72.css' type='text/css' media='all' />
+<script type='text/javascript' src='../../wp-content/plugins/wordpress-flickr-manager/js/highslide-full.min.js?ver=3.4.1'></script>
+<script type='text/javascript' src='../../wp-includes/js/jquery/jquery.js?ver=1.7.2'></script>
+<script type='text/javascript' src='../../wp-includes/js/swfobject.js?ver=2.2-20120417'></script>
+<script type='text/javascript' src='../../wp-content/plugins/wordpress-flickr-manager/js/wfm-highslide.js?ver=20110428'></script>
+<script type='text/javascript' src='../../wp-content/plugins/wordpress-flickr-manager/js/wfm-common.js?ver=20110429'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var shutterSettings = {"msgLoading":"L O A D I N G","msgClose":"Click to Close","imageCount":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='../../wp-content/plugins/nextgen-gallery/shutter/shutter-reloaded.js?ver=1.3.3'></script>
+<script type='text/javascript' src='../../wp-content/plugins/nextgen-gallery/js/jquery.cycle.all.min.js?ver=2.9995'></script>
+<script type='text/javascript' src='../../wp-content/plugins/nextgen-gallery/js/ngg.slideshow.min.js?ver=1.06'></script>
+<script type='text/javascript' src='../../wp-includes/js/comment-reply.js?ver=3.4.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../xmlrpc-rsd.php.html" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="../../wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Monads in Scala' href='../../820/monads-in-scala/index.html' />
+<link rel='canonical' href='index.html' />
+<link rel='shortlink' href='../../index-p=935.html' />
+<!-- <meta name="NextGEN" version="1.9.3" /> -->
+		<style type="text/css">
+						ol.footnotes li {list-style-type:decimal;}
+						ol.footnotes{font-size:0.8em; color:#666666;}		</style>
+		<!--[if IE 6]>
+<link rel='stylesheet' href='../../wp-content/plugins/wordpress-flickr-manager/css/highslide-ie6.css' type='text/css' />
+<![endif]--><script type='text/javascript'>
+//<![CDATA
+var WFM_iFrameSRC = 'http://www.underflow.ca/blog/wp-content/plugins/wordpress-flickr-manager/overlays/HighslideOverlay.php';
+//]]>
+</script><script type='text/javascript'>
+//<![CDATA[
+var WFM_PluginDir = 'http://www.underflow.ca/blog/wp-content/plugins/wordpress-flickr-manager/';
+var WFM_ViewOnFlickr = 'View on Flickr';
+var WFM_CaptionLink = '';
+//]]>
+</script><style type="text/css">
+#content-body,x:-moz-any-link{float:left;margin-right:28px;}#content-body, x:-moz-any-link, x:default{float:none;margin-right:25px;} 
+</style>
+
+<script src="../../wp-content/themes/lightword/js/cufon-yui.js" type="text/javascript"></script>
+<script src="../../wp-content/themes/lightword/js/vera.font.js" type="text/javascript"></script>
+<script type="text/javascript">/*<![CDATA[*/Cufon.replace(['h1','h2','h3#reply-title'], { fontFamily: 'Vera' });/*]]>*/</script>
+<!--[if IE 6]><style type="text/css">#header{background-image: none; filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://www.underflow.ca/blog/wp-content/themes/lightword/images/wider/content_top.png',sizingMethod='scale'); }#footer{background:transparent url(../../wp-content/themes/lightword/images/wider/content_bottom.gif) no-repeat;height:8px;}.comm_date{background-image: none; filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://www.underflow.ca/blog/wp-content/themes/lightword/images/date_comm_box.png',sizingMethod='scale'); }</style><![endif]-->
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #201f37; }
+</style>
+<meta id="syntaxhighlighteranchor" name="syntaxhighlighter-version" content="3.1.3" />
+</head>
+
+<body class="single single-post postid-935 single-format-standard custom-background">
+<div id="wrapper">
+
+<div id="top_cufon"><h1 id="logo"><a name="top" title="Underflow" href="../../index.html">Underflow</a> <small>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</small></h1></div>
+
+<div id="header">
+<a id="rss-feed" title="Syndicate this site using RSS" href="../../feed/index.html">Subscribe via RSS</a>
+
+<div id="top_bar">
+<div class="center_menu">
+<ul id="front_menu" >
+<li id="menu-item-518" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-518"><a href="../../index.html" ><span>Home</span></a></li>
+<li id="menu-item-39" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-39"><a href="../../about/index.html" ><span>About</span></a>
+<ul class="sub-menu">
+	<li id="menu-item-380" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-380"><a href="../../about/index.html" ><span>About the Author</span></a></li>
+	<li id="menu-item-379" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-379"><a href="../../about-the-editor/index.html" ><span>About the Editor</span></a></li>
+</ul>
+</li>
+<li id="menu-item-1056" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-1056"><a href="../../category/journal/index.html" ><span>Journals</span></a></li>
+<li id="menu-item-1057" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1057"><a href="../../category/gist/index.html" ><span>Gists</span></a></li></ul>
+</div>
+<form method="get" id="searchform" action="http://www.underflow.ca/blog"> <input type="text" value="" name="s" id="s" /> <input type="submit" id="go" value="" alt="Search" title="Search" /></form>
+</div>
+
+</div>
+<div id="content"><div id="content-body">
+<div style="color: #C09853;background-color: #FCF8E3;border: 1px solid #FBEED5;padding: 8px 35px 8px 14px;margin-bottom: 18px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">This site has been archived, for my current blog please go <a href=../../../index.html>here</a>.</div><div class="post-935 post type-post status-publish format-standard hentry category-journal tag-playframework tag-plugins tag-programming tag-scala tag-testing" id="post-935">
+<div class="comm_date"><span class="data"><span class="j">24</span>Apr/12</span><span class="nr_comm"><a class="nr_comm_spot" href="index.html#comments">1</a></span></div>
+<h2><a title="Mock Dependency Injection in Play! 2.0" href="index.html" rel="bookmark">Mock Dependency Injection in Play! 2.0</a></h2>
+<p>Dependency injection can look elegant, or like a nightmare. I appreciate elegance, sometimes too much. In the last few months I've been learning the discipline of getting things done at the expense of elegance.</p>
+<p>I have been learning the Playframework, a rapid development platform using Scala, and blogging about my experiences. Although dependency injection is a more-or-less solved problem in Scala with the cake pattern, meshing it with play is a little more difficult. I would like a DI strategy that accommodates the easy mocking of controllers, actors and database without much effort.</p>
+<p>Some of my goals before proceeding:</p>
+<ul>
+<li>i don't want to revolve my code around it</li>
+<li>not yet <em>another</em> framework</li>
+<li>should not interfere with RAD</li>
+<li>the compiler should be able to notify me of problems (no casting)</li>
+<li>not a lot of thinking to get it right (get it right the first time)</li>
+</ul>
+<p>The road I set down, and ultimately settled upon is by using the Play plugins. Whether this road is practical and/or elegant remains to be seen.</p>
+<p>The main reason for plugins is because anything that loads via a plugin can be swapped out during testing. Thus, anything we need to mock must load via a plugin.</p>
+<p>From here there are two approaches, either:</p>
+<ol>
+<li>use micro-plugins, i.e. one for each controller, actor and database</li>
+<li>use a single, monolithic plugin</li>
+</ol>
+<p>A micro-plugin architecture would define a plugin for each controller, set of actors, and other testable components. Dependencies are injected via plugins at runtime. Plugins are capable of querying for other plugins when booting. While this would define an incredibly modular design, I think it's massive overkill.</p>
+<p>I want a design that is easy to understand at a single glance.</p>
+<p>The micro plugin approach requires many configuration lines in the play.plugins file. It's easy to miss one, and the compiler errors are not that helpful.</p>
+<p>In addition, in all your efforts to become modular you can accidentally couple your code in some other way.</p>
+<p>At some point in the future, I believe we will shift to a more modular design, but that idea is still immature and needs time to form.</p>
+<p>Thus we're left with monolithic plugins.</p>
+<p>Monolithic plugins are nice because all your wiring is in one place.<br />
+There should be no surprises. A quick glance at the plugin code reveals all your applications configurations and components.</p>
+<p>What's nice is that the monolithic plugin is somewhat orthogonal to your dependency injection framework, you can define and wire your dependencies with the standard cake pattern.</p>
+<h2>Use the Cake Pattern</h2>
+<p>The cake pattern has been described as _slices_ of a cake. I prefer to think in terms of ingredients, or mixins.</p>
+<pre><pre class="brush: scala; title: ; notranslate" title="">
+package controllers
+
+case class Application(actor: ActorRef) extends Controller {
+    def index = Action{...}
+}
+
+trait ApplicationMixin {
+    val actor: ActorRef
+    lazy val application = Application(actor)
+}
+
+object MixingBowl extends ApplicationMixin {
+    val actor = current.actorOf(Props[MyActor])
+}
+
+// a valid application controller is avaialble
+// at controllers.MixingBowl.application
+</pre>
+<h2>The Kitchen Pattern</h2>
+<p>I would love to coin a new scale term, so here is my attempt. I present what I call the kitchen pattern for play applications, which is inspired by the following quote.</p>
+<blockquote><p>All problems in computer science can be solved by another level of indirection</p></blockquote>
+<p>The kitchen pattern <em>uses</em> the cake patter. It does not modify the cake ingredients, your dependency injection code remains <em>unchanged</em>. Instead the kitchen pattern is used to serve various cakes, depending on the requirements. The three components of the kitchen patter are:</p>
+<ol>
+<li>the menu (trait)</li>
+<li>the chef (class)</li>
+<li>the kitchen (object)</li>
+</ol>
+<p>The menu makes promises of what to expect, like a chocolate cake or an application controller. The chef decides <em>how</em> to bake the cake; different chefs can satisfy the menu in different ways. Your <code>test</code> chefs will serve up mock cakes, your production chef serves the real deal. The kitchen is necessary to combine the menu and chef. Without the kitchen, nothing gets made. In summary:</p>
+<ul>
+<li>there is one menu</li>
+<li>there can be many chefs</li>
+<li>there is one kitchen</li>
+</ul>
+<p>The kitchen pattern is another layer on top of the cake pattern. Keep the above cake pattern intact, but add the following:</p>
+<pre><pre class="brush: scala; title: ; notranslate" title="">
+// --- Kitchen pattern --- //
+package restaurant
+
+import play.api.Play.current
+import play.api.Plugin
+
+trait Menu extends Plugin {
+    val application: controllers.Application
+}
+
+class HeadChef(playapp: play.api.Application) extends Menu {
+    val application = controllers.MixingBowl.application
+}
+
+object Kitchen {
+    val menu: Menu = current.plugin(classOf[Menu]).get
+}
+
+// A pluggable controller is available at
+// restaurant.Kitchen.menu.application
+</pre>
+<p>The head chef will not be found by the application unless it is listed as a plugin.<br />
+Add the following to the <code>conf/play.plugins</code> file:</p>
+<pre><pre class="brush: plain; title: ; notranslate" title="">5000:restaurant.HeadChef</pre>
+<p>The number is used to weigh competing plugins, I use 5000 because that's what the plugin tutorial uses.</p>
+<p>Our application will now load the head chef whenever running in production.</p>
+<h2>Testing</h2>
+<p>By having the router traverse the kitchen plugin, our application can be re-programmed at test time.</p>
+<pre><pre class="brush: scala; title: ; notranslate" title="">
+class TestChef extends Menu {
+    val application = // Mock Controller
+}
+
+class Test extends Specification {
+    &quot;application&quot; should {
+        &quot;load mock dependency&quot; in {
+            running(TestServer(9000, FakeApplication(
+
+            additionalPlugins = Seq(&quot;test.TestChef&quot;)
+
+            )), HTMLUNIT) { browser =&amp;gt;
+            browser.goTo(&quot;http://localhost:9000&quot;)
+            // Test mock controller
+            }
+        }
+    }
+}
+</pre>
+<p>The TestChef plugin loaded by our test server will override the HeadChef. Since the application router traverses our kitchen, which has now load the test chef, and selenium tests will encounter mock controllers along the way. A mock controller can be used to test your views. Create additional chefs for mocking other components such as actors and databases.</p>
+
+
+
+<div class="cat_tags clear">
+<span class="category">Tagged as: <a href="../../tag/playframework/index.html" rel="tag">playframework</a>, <a href="../../tag/plugins/index.html" rel="tag">plugins</a>, <a href="../../tag/programming/index.html" rel="tag">programming</a>, <a href="../../tag/scala/index.html" rel="tag">scala</a>, <a href="../../tag/testing/index.html" rel="tag">testing</a></span>
+<span class="continue"><a class="nr_comm_spot" href="index.html#respond">Leave a comment</a></span><div class="clear"></div>
+</div>
+<div class="cat_tags_close"></div>
+
+
+</div>
+
+<div id="tabsContainer">
+<a href="#" class="tabs selected"><span>Comments (1)</span></a>
+<a href="#" class="tabs"><span>Trackbacks (0)</span></a>
+<span class="subscribe_comments"><a href='feed/index.html'>( subscribe to comments on this post )</a></span>
+<div class="clear_tab"></div>
+<div class="tab-content selected">
+<a name="comments"></a>
+
+<div id="comentarii">
+<ol class="commentlist">
+<li class="comment even thread-even depth-1" id="li-comment-235"><div id="comment-235">
+<div class="comment_content"><div class="comment-meta commentmetadata"><div class="alignleft avatar"><img alt='' src='http://1.gravatar.com/avatar/ddbae8e950c62e63d18a2651c8076609?s=36&d=http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=36&r=PG' class='avatar avatar-36 photo' height='36' width='36' /></div>
+<div class="alignleft" style="padding-top:5px;"><strong class="comment_author">carl</strong><br/><a href="#comment-235" title="">June 29th, 2012 - 00:43</a></div><div class="clear"></div></div>
+<p>Don&#8217;t you need class TestChef(app: play.api.Application)  extends Menu for it to compile?</p>
+<div class="reply"><a class='comment-reply-link' href='index-replytocom=235.html#respond' onclick='return addComment.moveForm("comment-235", "235", "respond", "935")'>( REPLY )</a></div>
+</div><div class="clear"></div></div>
+</li>
+</ol>
+
+</div>
+
+
+ 
+<br/>
+
+								<div id="respond">
+				<h3 id="reply-title">Leave a comment <small><a rel="nofollow" id="cancel-comment-reply-link" href="index.html#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://www.underflow.ca/blog/wp-comments-post.php" method="post" id="commentform">
+																										<p class="comment-form-author"><input id="author" name="author" type="text" value="" size="30" aria-required='true' /><label for="author">Name</label><span class="required">(required)</span></p>
+<p class="comment-form-email"><input id="email" name="email" type="text" value="" size="30" aria-required='true' /><label for="email">Email</label><span class="required">(required)</span></p>
+<p class="comment-form-url"><input id="url" name="url" type="text" value="" size="30" /><label for="url">Website</label></p>
+												<p class="comment-form-comment"><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>												<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Submit" />
+							<input type='hidden' name='comment_post_ID' value='935' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="2d70004c45" /></p>					</form>
+							</div><!-- #respond -->
+			<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery('#commentform').submit(function() {
+            _gaq.push(
+                ['_setAccount','UA-25329958-3'],
+                ['_trackEvent','comment','submit']
+            );
+        });
+    });    
+</script>
+			
+
+</div>
+
+<div class="tab-content">
+<p class="no">Trackbacks are disabled.</p></div>
+</div>
+<div class="next_previous_links">
+<span class="alignleft"></span>
+<span class="alignright">&laquo; <a href="../../820/monads-in-scala/index.html" rel="prev">Monads in Scala</a></span>
+<div class="clear"></div>
+
+</div>
+</div>
+<div class="content-sidebar">
+<h3>Tags</h3><div class="tagcloud"><a href='../../tag/actions/index.html' class='tag-link-58' title='1 topic' style='font-size: 8pt;'>actions</a>
+<a href='../../tag/akka/index.html' class='tag-link-54' title='1 topic' style='font-size: 8pt;'>akka</a>
+<a href='../../tag/anorm/index.html' class='tag-link-53' title='1 topic' style='font-size: 8pt;'>anorm</a>
+<a href='../../tag/apache/index.html' class='tag-link-69' title='1 topic' style='font-size: 8pt;'>apache</a>
+<a href='../../tag/bay-area/index.html' class='tag-link-37' title='1 topic' style='font-size: 8pt;'>Bay Area</a>
+<a href='../../tag/bfn/index.html' class='tag-link-43' title='1 topic' style='font-size: 8pt;'>BFN</a>
+<a href='../../tag/blog/index.html' class='tag-link-13' title='2 topics' style='font-size: 10.964705882353pt;'>blog</a>
+<a href='../../tag/calculus/index.html' class='tag-link-19' title='1 topic' style='font-size: 8pt;'>calculus</a>
+<a href='../../tag/case-class/index.html' class='tag-link-46' title='1 topic' style='font-size: 8pt;'>case-class</a>
+<a href='../../tag/communication/index.html' class='tag-link-30' title='1 topic' style='font-size: 8pt;'>communication</a>
+<a href='../../tag/computers/index.html' class='tag-link-41' title='1 topic' style='font-size: 8pt;'>computers</a>
+<a href='../../tag/csrf/index.html' class='tag-link-56' title='1 topic' style='font-size: 8pt;'>csrf</a>
+<a href='../../tag/database/index.html' class='tag-link-51' title='1 topic' style='font-size: 8pt;'>database</a>
+<a href='../../tag/education/index.html' class='tag-link-39' title='1 topic' style='font-size: 8pt;'>education</a>
+<a href='../../tag/functions/index.html' class='tag-link-42' title='1 topic' style='font-size: 8pt;'>functions</a>
+<a href='../../tag/hbase/index.html' class='tag-link-74' title='4 topics' style='font-size: 14.588235294118pt;'>hbase</a>
+<a href='../../tag/javascript/index.html' class='tag-link-9' title='2 topics' style='font-size: 10.964705882353pt;'>Javascript</a>
+<a href='../../tag/latex/index.html' class='tag-link-10' title='1 topic' style='font-size: 8pt;'>LaTeX</a>
+<a href='../../tag/lean-startup/index.html' class='tag-link-49' title='1 topic' style='font-size: 8pt;'>lean-startup</a>
+<a href='../../tag/math/index.html' class='tag-link-8' title='3 topics' style='font-size: 12.941176470588pt;'>math</a>
+<a href='../../tag/monad/index.html' class='tag-link-64' title='1 topic' style='font-size: 8pt;'>monad</a>
+<a href='../../tag/mvc/index.html' class='tag-link-59' title='1 topic' style='font-size: 8pt;'>mvc</a>
+<a href='../../tag/nginx/index.html' class='tag-link-70' title='1 topic' style='font-size: 8pt;'>nginx</a>
+<a href='../../tag/notation/index.html' class='tag-link-21' title='1 topic' style='font-size: 8pt;'>notation</a>
+<a href='../../tag/oakland/index.html' class='tag-link-36' title='1 topic' style='font-size: 8pt;'>Oakland</a>
+<a href='../../tag/pattern-matching/index.html' class='tag-link-47' title='2 topics' style='font-size: 10.964705882353pt;'>pattern-matching</a>
+<a href='../../tag/performance/index.html' class='tag-link-68' title='1 topic' style='font-size: 8pt;'>performance</a>
+<a href='../../tag/play/index.html' class='tag-link-48' title='4 topics' style='font-size: 14.588235294118pt;'>play</a>
+<a href='../../tag/playframework/index.html' class='tag-link-45' title='7 topics' style='font-size: 17.882352941176pt;'>playframework</a>
+<a href='../../tag/plugins/index.html' class='tag-link-66' title='1 topic' style='font-size: 8pt;'>plugins</a>
+<a href='../../tag/programming/index.html' class='tag-link-11' title='9 topics' style='font-size: 19.529411764706pt;'>programming</a>
+<a href='../../tag/rackspace/index.html' class='tag-link-16' title='1 topic' style='font-size: 8pt;'>Rackspace</a>
+<a href='../../tag/rapid-application-development/index.html' class='tag-link-50' title='1 topic' style='font-size: 8pt;'>rapid-application-development</a>
+<a href='../../tag/san-francisco/index.html' class='tag-link-35' title='1 topic' style='font-size: 8pt;'>San Francisco</a>
+<a href='../../tag/scala/index.html' class='tag-link-44' title='13 topics' style='font-size: 22pt;'>scala</a>
+<a href='../../tag/security/index.html' class='tag-link-57' title='1 topic' style='font-size: 8pt;'>security</a>
+<a href='../../tag/server/index.html' class='tag-link-67' title='1 topic' style='font-size: 8pt;'>server</a>
+<a href='../../tag/sql/index.html' class='tag-link-52' title='1 topic' style='font-size: 8pt;'>sql</a>
+<a href='../../tag/system/index.html' class='tag-link-14' title='1 topic' style='font-size: 8pt;'>system</a>
+<a href='../../tag/teaching/index.html' class='tag-link-38' title='1 topic' style='font-size: 8pt;'>teaching</a>
+<a href='../../tag/testing/index.html' class='tag-link-65' title='1 topic' style='font-size: 8pt;'>testing</a>
+<a href='../../tag/types/index.html' class='tag-link-40' title='3 topics' style='font-size: 12.941176470588pt;'>types</a>
+<a href='../../tag/ubuntu/index.html' class='tag-link-15' title='2 topics' style='font-size: 10.964705882353pt;'>Ubuntu</a>
+<a href='../../tag/wiki/index.html' class='tag-link-17' title='1 topic' style='font-size: 8pt;'>wiki</a>
+<a href='../../tag/writing/index.html' class='tag-link-29' title='2 topics' style='font-size: 10.964705882353pt;'>writing</a></div>
+<h3>Sponsors</h3>			<div class="textwidget"><div style="margin-left:-5px;">
+<a href="http://itunes.apple.com/us/app/crop-duster/id447663858?mt=8" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://itunes.apple.com']);"><img src="../../wp-content/uploads/2012/04/cropduster.jpg" alt="Crop Duster"/></a>
+</div></div>
+		<h3>Categories</h3>		<ul>
+	<li class="cat-item cat-item-31"><a href="../../category/editorial/index.html" title="View all posts filed under Editorial">Editorial</a> (2)
+</li>
+	<li class="cat-item cat-item-75"><a href="../../category/gist/index.html" title="View all posts filed under Gist">Gist</a> (3)
+</li>
+	<li class="cat-item cat-item-34"><a href="../../category/journal/index.html" title="View all posts filed under Journal">Journal</a> (12)
+</li>
+	<li class="cat-item cat-item-1"><a href="../../category/note/index.html" title="View all posts filed under Note">Note</a> (1)
+</li>
+	<li class="cat-item cat-item-32"><a href="../../category/technology/index.html" title="View all posts filed under Technology">Technology</a> (3)
+</li>
+		</ul>
+<h3>People Worth Knowing</h3>
+	<ul class='xoxo blogroll'>
+<li><a href="http://itsmedia.ca" title="A team of highly caffeinated website and mobile designers in Kelowna, B.C." target="" onclick="javascript:_gaq.push(['_trackEvent','outbound-blogroll','http://itsmedia.ca']);">ITS Media</a>
+A team of highly caffeinated website and mobile designers in Kelowna, B.C.</li>
+<li><a href="http://misswishful.com" target="" onclick="javascript:_gaq.push(['_trackEvent','outbound-blogroll','http://misswishful.com']);">Miss Wishful</a></li>
+
+	</ul>
+
+<h3>Archives</h3>		<ul>
+			<li><a href='../../date/2012/04/index.html' title='April 2012'>April 2012</a>&nbsp;(11)</li>
+	<li><a href='../../date/2012/03/index.html' title='March 2012'>March 2012</a>&nbsp;(4)</li>
+	<li><a href='../../date/2011/09/index.html' title='September 2011'>September 2011</a>&nbsp;(1)</li>
+	<li><a href='../../date/2011/08/index.html' title='August 2011'>August 2011</a>&nbsp;(5)</li>
+		</ul>
+			<div class="textwidget"><div style="text-align:center; padding:10px;"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://creativecommons.org']);"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" /></a><br />This work by <a xmlns:cc="http://creativecommons.org/ns#" href="../../../index.html"  property="cc:attributionName" rel="cc:attributionURL">Jacob Groundwater</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://creativecommons.org']);">Creative Commons Attribution 3.0 Unported License</a>.
+</div></div>
+		</div><div class="clear"></div>
+</div>
+<div id="footer">
+<span class="text">
+Copyright &copy; 2012 <a href="../../index.html">Underflow</a> &middot; Powered by <a href="http://www.wordpress.org" title="WordPress" target="_blank">WordPress</a> <br/><a href="http://www.lightword-design.com/" target="_blank" title="Lightword Theme">Lightword Theme</a> by Andrei Luca</em>
+<a title="Go to top" class="top" href="#top">Go to top &uarr;</a>
+</span>
+</div>
+<script type="text/javascript" src="../../wp-content/themes/lightword/js/menu.js"></script>
+</div>
+<!-- MathJax Latex Plugin installed: Disabled as no shortcodes on this page -->
+<script type="text/javascript">/* <![CDATA[ */ Cufon.now(); /* ]]> */ </script>
+<script type="text/javascript" src="../../wp-content/themes/lightword/js/tabs.js"></script>
+<script type="text/javascript">jQuery(document).ready(function(){jQuery('tabs').lightword_tabs({linkClass : 'tabs',containerClass : 'tab-content',linkSelectedClass : 'selected',containerSelectedClass : 'selected',onComplete : function(){}});});</script>
+<script type='text/javascript' src='../../wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='../../wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushScala.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='../../wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPlain.js?ver=3.0.83c'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://www.underflow.ca/blog/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.83c";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://www.underflow.ca/blog/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.83c";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='../../wp-includes/js/jquery/ui/jquery.effects.core.min.js?ver=1.8.20'></script>
+<script type='text/javascript' src='../../wp-includes/js/jquery/ui/jquery.effects.blind.min.js?ver=1.8.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var stbUserOptions = {"mode":"css","cssOptions":{"roundedCorners":true,"mbottom":10,"imgHide":"http:\/\/www.underflow.ca\/blog\/wp-content\/plugins\/wp-special-textboxes\/images\/hide.png","imgShow":"http:\/\/www.underflow.ca\/blog\/wp-content\/plugins\/wp-special-textboxes\/images\/show.png","strHide":"Hide","strShow":"Show"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='../../wp-content/plugins/wp-special-textboxes/js/wstb.min.js?ver=4.3.72'></script>
+<script type='text/javascript' src='../../wp-content/plugins/contact-form-7/includes/js/jquery.form.js?ver=3.09'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.underflow.ca\/blog\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='../../wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=3.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 7/19 queries in 0.012 seconds using disk: basic
+Object Caching 938/971 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:27:23 -->
+<!-- Localized -->

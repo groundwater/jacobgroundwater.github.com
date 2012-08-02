@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Underflow &#187; csrf</title>
+	<atom:link href="http://www.underflow.ca/blog/tag/csrf/feed" rel="self" type="application/rss+xml" />
+	<link>http://www.underflow.ca/blog</link>
+	<description>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</description>
+	<lastBuildDate>Wed, 25 Apr 2012 07:12:26 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.4.1</generator>
+	<div style="color: #C09853;background-color: #FCF8E3;border: 1px solid #FBEED5;padding: 8px 35px 8px 14px;margin-bottom: 18px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">This site has been archived, for my current blog please go <a href=../../../../index.html>here</a>.</div>	<item>
+		<title>Preventing CSRF in Scala and Play! [2.0]</title>
+		<link>http://www.underflow.ca/blog/774/preventing-csrf-in-scala-and-play-2-0?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=preventing-csrf-in-scala-and-play-2-0</link>
+		<comments>http://www.underflow.ca/blog/774/preventing-csrf-in-scala-and-play-2-0#comments</comments>
+		<pubDate>Sun, 01 Apr 2012 16:48:25 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[csrf]]></category>
+		<category><![CDATA[play]]></category>
+		<category><![CDATA[playframework]]></category>
+		<category><![CDATA[scala]]></category>
+		<category><![CDATA[security]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=774</guid>
+		<description><![CDATA[Any web developer must keep in mind modern attack vectors in web development. Most are easily preventable. What are Cross Site Request Forgeries? Quite simply, the web was not designed from the ground up to meet todays needs and applications. The web is a sea of slowly evolving standards and technologies, most of which have outgrown their original purpose long ago. Submitting form data is one such technology that cannot keep pace with todays needs. The biggest problem by far is the lack of authenticity behind incoming form data. This is a combination of how HTML, web-browsers and HTTP work; the bottom line is that you must take steps to ensure you are accepting only legitimate requests. Standard Defense Techniques The most standard common defense method today is by signing each form with hidden data that can be authenticated. Thus every legitimate incoming request should contain data that can authenticate the entire form. Example Whenever a new session is opened, a unique session key (a random string) is generated and stored as a cookie on the users browser. Both the server and client now know this value, however a third-party should never know the value. A third-party has a number of attack vectors, the CSRF involves having a user submit a malicious form originating on one website but targeted at another. The submitted form will also carry with it any cookie values the user may have, including logged in sessions. This could, for example, be used to auto-post status updates on social news sites behind the users back. For this attack to work, the third-party must construct and host the complete form. Because of this their form should never contain our randomly generated session key. If our site requires and validates a session key with each form submission the third-parties forms will never pass validation. Play! [2.0] Example Play is a full stack Scala framework for rapid web application development. Scala compiles and executes on the JVM but does not use servlets. Play presents its own idioms for creating applications and follows a Model-View-Controller architecture. A controller creates Action objects that parse HTTP requests. Actions can be chained together, which makes adding CSRF protection very easy. Generate the Session Key and Sign the Form Create and chain an extra action that checks for a session key (or generates a new one) and passes it to the next action. Validate Incoming Forms A corresponding action to check for signed formes can be chained to other actions. An invalid form will generate a Bad Request error. In order to insert the session key into the form, your template must both accept and write the key to the page. I've posted the full example to my github page.]]></description>
+			<content:encoded><![CDATA[<p>Any web developer must keep in mind modern attack vectors in web development. Most are easily preventable.</p>
+<h2>What are Cross Site Request Forgeries?</h2>
+<p>Quite simply, the web was not designed from the ground up to meet todays needs and applications. The web is a sea of slowly evolving standards and technologies, most of which have outgrown their original purpose long ago.</p>
+<p>Submitting form data is one such technology that cannot keep pace with todays needs. The biggest problem by far is the lack of authenticity behind incoming form data. This is a combination of how HTML, web-browsers and HTTP work; the bottom line is that you must take steps to ensure you are accepting only legitimate requests.</p>
+<h2>Standard Defense Techniques</h2>
+<p>The most standard common defense method today is by <strong>signing</strong> each form with hidden data that <em>can</em> be authenticated. Thus every legitimate incoming request should contain data that can authenticate the entire form.</p>
+<h3>Example</h3>
+<p>Whenever a new session is opened, a unique session key (a random string) is generated and stored as a cookie on the users browser. Both the server and client now know this value, however a third-party should never know the value.</p>
+<p>A third-party has a number of attack vectors, the CSRF involves having a user submit a malicious form originating on one website but targeted at another. The submitted form will also carry with it any cookie values the user may have, including logged in sessions. This could, for example, be used to auto-post status updates on social news sites behind the users back. </p>
+<p>For this attack to work, the third-party must construct and host the complete form. Because of this their form should never contain our randomly generated session key. If our site requires and validates a session key with each form submission the third-parties forms will never pass validation.</p>
+<h2>Play! [2.0] Example</h2>
+<p>Play is a full stack Scala framework for rapid web application development. Scala compiles and executes on the JVM but does not use servlets. Play presents its own idioms for creating applications and follows a Model-View-Controller architecture.</p>
+<p>A controller creates Action objects that parse HTTP requests. Actions can be chained together, which makes adding CSRF protection very easy.</p>
+<h3>Generate the Session Key and Sign the Form</h3>
+<p>Create and chain an extra action that checks for a session key (or generates a new one) and passes it to the next action.</p>
+<pre><pre class="brush: scala; highlight: [2]; title: ; notranslate">
+class Application extends Controller {
+    def login = SessionKey{ (key,signature) =&gt; 
+    	Action { implicit request =&gt;
+    		Ok( views.html.login(signature) ).withSession( key-&gt;signature )
+    	}
+    }
+}
+</pre>
+<h3>Validate Incoming Forms</h3>
+<p>A corresponding action to check for signed formes can be chained to other actions. An invalid form will generate a Bad Request error.</p>
+<pre><pre class="brush: scala; highlight: [2]; title: ; notranslate">
+class Security extends Controller {
+    def login = ValidateForm {
+    	Action { implicit request =&gt;
+	    Ok(&quot;Okay&quot;)
+        }
+    }
+}
+</pre>
+<p>In order to insert the session key into the form, your template must both accept and write the key to the page.</p>
+<pre><pre class="brush: xml; highlight: [6]; title: ; notranslate">
+@(key: String)
+&lt;form id=&quot;form-login&quot; action=&quot;/login&quot; method=&quot;POST&quot;&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;username&quot; value=&quot;username&quot;/&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;password&quot; value=&quot;password&quot;/&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;submit&quot;   value=&quot;Submit&quot;/&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;sessionkey&quot; value=&quot;@key&quot;/&gt;
+&lt;/form&gt;
+</pre>
+<p>I've posted the full example to my <a href="https://github.com/jacobgroundwater/Scala-Play-CSRF">github page</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/774/preventing-csrf-in-scala-and-play-2-0/feed</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 13/17 queries in 0.355 seconds using disk: basic
+Object Caching 379/406 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:29:31 -->
+<!-- Localized -->

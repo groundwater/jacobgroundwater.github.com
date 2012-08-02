@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Underflow &#187; mvc</title>
+	<atom:link href="http://www.underflow.ca/blog/tag/mvc/feed" rel="self" type="application/rss+xml" />
+	<link>http://www.underflow.ca/blog</link>
+	<description>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</description>
+	<lastBuildDate>Wed, 25 Apr 2012 07:12:26 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.4.1</generator>
+	<div style="color: #C09853;background-color: #FCF8E3;border: 1px solid #FBEED5;padding: 8px 35px 8px 14px;margin-bottom: 18px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">This site has been archived, for my current blog please go <a href=../../../../index.html>here</a>.</div>	<item>
+		<title>Play[ing] with Actions</title>
+		<link>http://www.underflow.ca/blog/798/playing-with-actions?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=playing-with-actions</link>
+		<comments>http://www.underflow.ca/blog/798/playing-with-actions#comments</comments>
+		<pubDate>Tue, 17 Apr 2012 05:42:05 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[actions]]></category>
+		<category><![CDATA[mvc]]></category>
+		<category><![CDATA[play]]></category>
+		<category><![CDATA[playframework]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[scala]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=798</guid>
+		<description><![CDATA[Introduction Actions in the Play framework could also be called Request Processors. They are designed in such a way that it is easy to compose actions to create rich controller behaviour without excess code clutter. In Play, incoming HTTP requests are matched against the conf/routes file and routed to a single controller method. These methods must return an Action object, or any object satisfying the interface: Looking closer, the controller does not actually handle the request, but generates an object that will handle it. A controller can even re-use objects as the following trivial example shows: In each case, only a single object is created and used to handle each request. Why then create multiple objects? It's not really necessary unless you have concurrency-issues or closures in the action that are time-dependent. Syntax The syntax of an action can catch you off guard, especially for newcomers to Scala like myself. The code can be rewritten as The apply method accepts either a Result type, or a Request[A]=>Result type. Composing Actions Actions can be composed in a way that maintains code clarity in your controller code. Not only can actions pre-process requests, they can inject new values into other actions. For example: The first action Authenticated will read the request and parse out the current user, providing the user object in the scope of the second action. Any number of actions can be combined in this way, there are endless possibilities. I like actions because they promote re-usable code. Actions exhibit just the right abstractions to be useful, however figuring out how to code an Action can be difficult. I have provided some templates: Single Injection Use the following template for creating your own actions. This example injects a single variable into the scope of the next: Actions are monadic, they invert control of the application. Any action may return early, effectively terminating the chain of actions. Terminations are handled gracefully, exceptions are not necessary to interrupt the chain.]]></description>
+			<content:encoded><![CDATA[<h2>Introduction</h2>
+<p>Actions in the Play framework could also be called <strong>Request Processors</strong>. They are designed in such a way that it is easy to compose actions to create rich controller behaviour without excess code clutter.</p>
+<p>In Play, incoming HTTP requests are matched against the <code>conf/routes</code> file and routed to a single controller method. These methods must return an <code>Action</code> object, or any object satisfying the interface:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+Request[A] =&gt; Result
+</pre>
+<p>Looking closer, the controller does not actually handle the request, but generates an object that will handle it. A controller can even re-use objects as the following trivial example shows:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object Application extends Controller {
+    val page1 = Action { Ok(&quot;Hello&quot;) } 
+    val page2 = page1
+    val page3 = page2
+}
+</pre>
+<p>In each case, only a single object is created and used to handle each request. Why then create multiple objects? It's not really necessary unless you have concurrency-issues or closures in the action that are time-dependent.</p>
+<h2>Syntax</h2>
+<p>The syntax of an action can catch you off guard, especially for newcomers to Scala like myself. The code</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object Application extends Controller {
+	def page1 = Action { Ok(&quot;Hello&quot;) } 
+}
+</pre>
+<p>can be rewritten as</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object Application extends Controller {
+    val f : Result = { Ok(&quot;Hello&quot;) }
+    def page1 = Action( f )
+    // i.e. Action.apply( f )
+}
+</pre>
+<p>The <code>apply</code> method accepts either a <code>Result</code> type, or a <code>Request[A]=>Result</code> type. </p>
+<h2>Composing Actions</h2>
+<p>Actions can be composed in a way that maintains code clarity in your controller code. Not only can actions pre-process requests, they can inject new values into other actions. For example:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+object Application extends Controller {
+    def home = Authenticated { implicit user =&gt; 
+        Action { implicit request =&gt;
+            Ok( views.html.hello(user) )
+        }
+    }
+}
+</pre>
+<p>The first action <code>Authenticated</code> will read the request and parse out the current user, providing the user object in the scope of the second action. Any number of actions can be combined in this way, there are endless possibilities.</p>
+<p>I like actions because they promote re-usable code. Actions exhibit just the right abstractions to be useful, however figuring out how to code an <code>Action</code> can be difficult. I have provided some templates:</p>
+<h3>Single Injection</h3>
+<p>Use the following template for creating your own actions. This example injects a single variable into the scope of the next:</p>
+<pre><pre class="brush: scala; title: ; notranslate">
+trait InjectionAction[A] extends Action[A]
+object InjectionAction {
+    def apply[A] (bodyParser: BodyParser[A])
+                 (block: INJECTED_TYPE =&gt; Request[A] =&gt; Result ) = 
+                 new InjectionAction[A] {
+        def parser = bodyParser
+        def apply(request: Request[A]) = {
+            val injected = // Anything you wish, can access request object
+            block(injected)(request)
+        }
+    }
+    def apply (block: INJECTED_TYPE =&gt; 
+                      Request[AnyContent] =&gt; 
+                      Result): InjectionAction[AnyContent] = {
+        InjectionAction(BodyParsers.parse.anyContent)(block)
+    }
+}
+</pre>
+<p>Actions are monadic, they invert control of the application. Any action may return early, effectively terminating the chain of actions. Terminations are handled gracefully, exceptions are not necessary to interrupt the chain. </p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/798/playing-with-actions/feed</wfw:commentRss>
+		<slash:comments>11</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 13/17 queries in 0.204 seconds using disk: basic
+Object Caching 384/411 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:29:39 -->
+<!-- Localized -->

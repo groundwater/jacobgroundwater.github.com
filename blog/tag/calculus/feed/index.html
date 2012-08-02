@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Underflow &#187; calculus</title>
+	<atom:link href="http://www.underflow.ca/blog/tag/calculus/feed" rel="self" type="application/rss+xml" />
+	<link>http://www.underflow.ca/blog</link>
+	<description>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</description>
+	<lastBuildDate>Wed, 25 Apr 2012 07:12:26 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.4.1</generator>
+	<div style="color: #C09853;background-color: #FCF8E3;border: 1px solid #FBEED5;padding: 8px 35px 8px 14px;margin-bottom: 18px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">This site has been archived, for my current blog please go <a href=../../../../index.html>here</a>.</div>	<item>
+		<title>Block Function Notation</title>
+		<link>http://www.underflow.ca/blog/477/block-function-notation?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=block-function-notation</link>
+		<comments>http://www.underflow.ca/blog/477/block-function-notation#comments</comments>
+		<pubDate>Sun, 18 Mar 2012 03:03:23 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[BFN]]></category>
+		<category><![CDATA[calculus]]></category>
+		<category><![CDATA[functions]]></category>
+		<category><![CDATA[math]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=477</guid>
+		<description><![CDATA[Foreword I am presenting what I call block function notation or BFN for short. I believe BFN is clearer, easier to learn and fits more naturally with computational mathematics. It basically turns this \[ f(g(x)) \] into this \[ x\ \big&#124;\ f\ \big&#124;\ g \] Goals to create a notation that is intuitive for both beginners and non-beginners to avoid conflicting existing notation whenever possible to be as explicit as possible to admit advanced ideas easily into the system to work well with numerical an computational mathematics Introduction Functions, Functions, Function Abstractions are the fuel of mathematics, and the function is an abstraction matched by few others. In a world of petrol fuelled racing cars, functions are a 200 tonne solid booster rocket strapped to a volkswagen beetle. A good driver will get you to the finish line before the other cars have even changed gears. My goal is to emphasize how powerful functions are as a tool, but equally how dangerous they can be. When I say dangerous I mean they are too powerful an idea for many people to handle, even university students. The Good, The Bad, The Ugly The following are not functions : \( x+1 \) \( x^2 - 2x - 1\) \( \frac{d}{dx}e^{-x^2} \) The former are expressions which are very much not functions. This distinction is subtle and often missed in math courses. It's overlooked because math goes between the two so often it's simply not relevant to a students ability to pass the exam. A function is often a cog in a much larger program, programming languages understand this that is why they have compilers. A compiler typically checks that the output of one function is allowed to be input into the next. When a program has thousands or millions of function calls, this cannot be checked with anything other than a computer. Function signatures matter, i.e. the types of values that functions accept and return. In traditional notation we define a function \(f\) by \[ f : \mathbb{R}\rightarrow\mathbb{R}\] This implies \(f\ \) accepts a real number as an argument and returns a value of the same type. This notation isn't too bad, despite my personal dislike. The real danger comes in the next step, when defining the function explicitly. How many calculus textbooks write something like the following \[\begin{align}f : \mathbb{R}\rightarrow\mathbb{R} \\ f(x) = x^2\end{align}\] What exactly is occurring in the second line? Is \(f(x)\) a function, expression or something else? If we assume that \(x^2\) cannot possibly represent a function then by equality \(f(x)\) is not a function. Its just an odd statement to have lying around. It gets worse when realizing that, in calculus, we often act like \(f(x)\) represents a function. My suggestion is as follow \[ \begin{align} f =&#38; \mathbb{R}\Rightarrow\mathbb{R} : \\ &#38;x\rightarrow x^2 \end{align}\] I hope there is less confusion about what each piece is. \(f\) is definitely a function, \(x\) is some real number. It shouldn't be too hard to figure out that \(x\rightarrow x^2\) represents the behaviour of the function. [...]]]></description>
+			<content:encoded><![CDATA[<p><br />
+<div id='stb-box-8489' class='stb-warning_box' style="background-image: url(../../../wp-content/plugins/wp-special-textboxes/images/warning-b.png); min-height: 40px; padding-left: 50px; "></p>
+<p><strong>This is <em>not</em> introductory material in mathematics</strong></p>
+<p>It is expected that to enjoy this posting, once has a firm grasp of what a function is, as well as how they are applied in mathematics, specifically calculus.</p>
+<p>A followup introductory will be eventually posted, aimed at those who have little to no math experience outside of basic arithmetic — please be patient.</div></p>
+<h4>Foreword</h4>
+<p>I am presenting what I call <strong>block function notation</strong> or BFN for short.</p>
+<p>I believe BFN is clearer, easier to learn and fits more naturally with computational mathematics. It basically turns this \[ f(g(x)) \] into this \[ x\ \big|\ f\ \big|\ g \]</p>
+<h4>Goals</h4>
+<ol>
+<li>to create a notation that is intuitive for both beginners and non-beginners</li>
+<li>to avoid conflicting existing notation whenever possible</li>
+<li>to be as explicit as possible</li>
+<li>to admit advanced ideas easily into the system</li>
+<li>to work well with numerical an computational mathematics</li>
+</ol>
+<h4>Introduction</h4>
+<p><em>Functions, Functions, Function</em></p>
+<p>Abstractions are the fuel of mathematics, and the function is an abstraction matched by few others. In a world of petrol fuelled racing cars, functions are a 200 tonne solid booster rocket strapped to a volkswagen beetle. A good driver will get you to the finish line before the other cars have even changed gears.</p>
+<p>My goal is to emphasize how powerful functions are as a tool, but equally how dangerous they can be. When I say dangerous I mean they are too powerful an idea for many people to handle, even university students.</p>
+<h4>The Good, The Bad, The Ugly</h4>
+<p>The following are not functions :</p>
+<ul>
+<li>\( x+1 \)</li>
+<li>\( x^2 - 2x - 1\)</li>
+<li>\( \frac{d}{dx}e^{-x^2} \)</li>
+</ul>
+<p>The former are expressions which are very much not functions. This distinction is subtle and often missed in math courses. It's overlooked because math goes between the two so often it's simply not relevant to a students ability to pass the exam.</p>
+<p>A function is often a cog in a much larger program, programming languages understand this that is why they have compilers. A compiler typically checks that the output of one function is allowed to be input into the next. When a program has thousands or millions of function calls, this cannot be checked with anything other than a computer.</p>
+<p>Function signatures matter, i.e. the types of values that functions accept and return. In traditional notation we define a function \(f\) by \[ f : \mathbb{R}\rightarrow\mathbb{R}\] This implies \(f\ \) accepts a real number as an argument and returns a value of the same type. This notation isn't too bad, despite my personal dislike. The real danger comes in the next step, when defining the function explicitly. How many calculus textbooks write something like the following \[\begin{align}f : \mathbb{R}\rightarrow\mathbb{R} \\ f(x) = x^2\end{align}\] What exactly is occurring in the second line? Is \(f(x)\) a function, expression or something else? If we assume that \(x^2\) cannot possibly represent a function then by equality \(f(x)\) is not a function. Its just an odd statement to have lying around. It gets worse when realizing that, in calculus, we often act like \(f(x)\) represents a function.</p>
+<p>My suggestion is as follow</p>
+<p>\[ \begin{align}<br />
+f =&amp; \mathbb{R}\Rightarrow\mathbb{R} : \\<br />
+&amp;x\rightarrow x^2<br />
+\end{align}\]</p>
+<p>I hope there is less confusion about what each piece is. \(f\) is definitely a function, \(x\) is some real number. It shouldn't be too hard to figure out that \(x\rightarrow x^2\) represents the behaviour of the function.</p>
+<h4>Functions in Action</h4>
+<p>Using our new notation let's get started</p>
+<p>\[\begin{align}<br />
+f =&amp; \mathbb{Z} \Rightarrow \mathbb{R} :\\<br />
+&amp; x \rightarrow \frac{1}{2}x<br />
+\end{align} \]</p>
+<p>and</p>
+<p>\[\begin{align}<br />
+g= &amp; \mathbb{Z^+} \Rightarrow \mathbb{Z} :\\<br />
+&amp; x \rightarrow -x<br />
+\end{align} \]</p>
+<p>Then \( g | f  \) is a function with signature<br />
+\[ \mathbb{Z^+}\Rightarrow\mathbb{R} \]<br />
+normally written as \( f(g(x))\).</p>
+<p>Why this new notation \( g|f \)? If we replace \(g\) and \(f\) with their signatures the usefulness becomes much clearer \[ g | f \text{ or } (\mathbb{Z^+}\Rightarrow\mathbb{Z}) \big| (\mathbb{Z}\Rightarrow\mathbb{R})\] which becomes \[ \mathbb{Z^+}\Rightarrow\mathbb{R}  \] The terms no either side of the vertical slash \(\big|\) <em>must</em> agree (specifically the left-hand-side must be a subset of the right-hand-side). The center terms essentially cancel out, leaving a type signature of only the outer types. We can create long compositions of functions this way with clarity.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/477/block-function-notation/feed</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 14/19 queries in 0.296 seconds using disk: basic
+Object Caching 376/403 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:29:01 -->
+<!-- Localized -->

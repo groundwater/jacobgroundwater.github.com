@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Underflow &#187; math</title>
+	<atom:link href="http://www.underflow.ca/blog/tag/math/feed" rel="self" type="application/rss+xml" />
+	<link>http://www.underflow.ca/blog</link>
+	<description>Thoughts, Ideas, Articles, and Essays by Jacob Groundwater</description>
+	<lastBuildDate>Wed, 25 Apr 2012 07:12:26 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.4.1</generator>
+	<div style="color: #C09853;background-color: #FCF8E3;border: 1px solid #FBEED5;padding: 8px 35px 8px 14px;margin-bottom: 18px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;">This site has been archived, for my current blog please go <a href=../../../../index.html>here</a>.</div>	<item>
+		<title>Block Function Notation</title>
+		<link>http://www.underflow.ca/blog/477/block-function-notation?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=block-function-notation</link>
+		<comments>http://www.underflow.ca/blog/477/block-function-notation#comments</comments>
+		<pubDate>Sun, 18 Mar 2012 03:03:23 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Journal]]></category>
+		<category><![CDATA[BFN]]></category>
+		<category><![CDATA[calculus]]></category>
+		<category><![CDATA[functions]]></category>
+		<category><![CDATA[math]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=477</guid>
+		<description><![CDATA[Foreword I am presenting what I call block function notation or BFN for short. I believe BFN is clearer, easier to learn and fits more naturally with computational mathematics. It basically turns this \[ f(g(x)) \] into this \[ x\ \big&#124;\ f\ \big&#124;\ g \] Goals to create a notation that is intuitive for both beginners and non-beginners to avoid conflicting existing notation whenever possible to be as explicit as possible to admit advanced ideas easily into the system to work well with numerical an computational mathematics Introduction Functions, Functions, Function Abstractions are the fuel of mathematics, and the function is an abstraction matched by few others. In a world of petrol fuelled racing cars, functions are a 200 tonne solid booster rocket strapped to a volkswagen beetle. A good driver will get you to the finish line before the other cars have even changed gears. My goal is to emphasize how powerful functions are as a tool, but equally how dangerous they can be. When I say dangerous I mean they are too powerful an idea for many people to handle, even university students. The Good, The Bad, The Ugly The following are not functions : \( x+1 \) \( x^2 - 2x - 1\) \( \frac{d}{dx}e^{-x^2} \) The former are expressions which are very much not functions. This distinction is subtle and often missed in math courses. It's overlooked because math goes between the two so often it's simply not relevant to a students ability to pass the exam. A function is often a cog in a much larger program, programming languages understand this that is why they have compilers. A compiler typically checks that the output of one function is allowed to be input into the next. When a program has thousands or millions of function calls, this cannot be checked with anything other than a computer. Function signatures matter, i.e. the types of values that functions accept and return. In traditional notation we define a function \(f\) by \[ f : \mathbb{R}\rightarrow\mathbb{R}\] This implies \(f\ \) accepts a real number as an argument and returns a value of the same type. This notation isn't too bad, despite my personal dislike. The real danger comes in the next step, when defining the function explicitly. How many calculus textbooks write something like the following \[\begin{align}f : \mathbb{R}\rightarrow\mathbb{R} \\ f(x) = x^2\end{align}\] What exactly is occurring in the second line? Is \(f(x)\) a function, expression or something else? If we assume that \(x^2\) cannot possibly represent a function then by equality \(f(x)\) is not a function. Its just an odd statement to have lying around. It gets worse when realizing that, in calculus, we often act like \(f(x)\) represents a function. My suggestion is as follow \[ \begin{align} f =&#38; \mathbb{R}\Rightarrow\mathbb{R} : \\ &#38;x\rightarrow x^2 \end{align}\] I hope there is less confusion about what each piece is. \(f\) is definitely a function, \(x\) is some real number. It shouldn't be too hard to figure out that \(x\rightarrow x^2\) represents the behaviour of the function. [...]]]></description>
+			<content:encoded><![CDATA[<p><br />
+<div id='stb-box-9769' class='stb-warning_box' style="background-image: url(../../../wp-content/plugins/wp-special-textboxes/images/warning-b.png); min-height: 40px; padding-left: 50px; "></p>
+<p><strong>This is <em>not</em> introductory material in mathematics</strong></p>
+<p>It is expected that to enjoy this posting, once has a firm grasp of what a function is, as well as how they are applied in mathematics, specifically calculus.</p>
+<p>A followup introductory will be eventually posted, aimed at those who have little to no math experience outside of basic arithmetic — please be patient.</div></p>
+<h4>Foreword</h4>
+<p>I am presenting what I call <strong>block function notation</strong> or BFN for short.</p>
+<p>I believe BFN is clearer, easier to learn and fits more naturally with computational mathematics. It basically turns this \[ f(g(x)) \] into this \[ x\ \big|\ f\ \big|\ g \]</p>
+<h4>Goals</h4>
+<ol>
+<li>to create a notation that is intuitive for both beginners and non-beginners</li>
+<li>to avoid conflicting existing notation whenever possible</li>
+<li>to be as explicit as possible</li>
+<li>to admit advanced ideas easily into the system</li>
+<li>to work well with numerical an computational mathematics</li>
+</ol>
+<h4>Introduction</h4>
+<p><em>Functions, Functions, Function</em></p>
+<p>Abstractions are the fuel of mathematics, and the function is an abstraction matched by few others. In a world of petrol fuelled racing cars, functions are a 200 tonne solid booster rocket strapped to a volkswagen beetle. A good driver will get you to the finish line before the other cars have even changed gears.</p>
+<p>My goal is to emphasize how powerful functions are as a tool, but equally how dangerous they can be. When I say dangerous I mean they are too powerful an idea for many people to handle, even university students.</p>
+<h4>The Good, The Bad, The Ugly</h4>
+<p>The following are not functions :</p>
+<ul>
+<li>\( x+1 \)</li>
+<li>\( x^2 - 2x - 1\)</li>
+<li>\( \frac{d}{dx}e^{-x^2} \)</li>
+</ul>
+<p>The former are expressions which are very much not functions. This distinction is subtle and often missed in math courses. It's overlooked because math goes between the two so often it's simply not relevant to a students ability to pass the exam.</p>
+<p>A function is often a cog in a much larger program, programming languages understand this that is why they have compilers. A compiler typically checks that the output of one function is allowed to be input into the next. When a program has thousands or millions of function calls, this cannot be checked with anything other than a computer.</p>
+<p>Function signatures matter, i.e. the types of values that functions accept and return. In traditional notation we define a function \(f\) by \[ f : \mathbb{R}\rightarrow\mathbb{R}\] This implies \(f\ \) accepts a real number as an argument and returns a value of the same type. This notation isn't too bad, despite my personal dislike. The real danger comes in the next step, when defining the function explicitly. How many calculus textbooks write something like the following \[\begin{align}f : \mathbb{R}\rightarrow\mathbb{R} \\ f(x) = x^2\end{align}\] What exactly is occurring in the second line? Is \(f(x)\) a function, expression or something else? If we assume that \(x^2\) cannot possibly represent a function then by equality \(f(x)\) is not a function. Its just an odd statement to have lying around. It gets worse when realizing that, in calculus, we often act like \(f(x)\) represents a function.</p>
+<p>My suggestion is as follow</p>
+<p>\[ \begin{align}<br />
+f =&amp; \mathbb{R}\Rightarrow\mathbb{R} : \\<br />
+&amp;x\rightarrow x^2<br />
+\end{align}\]</p>
+<p>I hope there is less confusion about what each piece is. \(f\) is definitely a function, \(x\) is some real number. It shouldn't be too hard to figure out that \(x\rightarrow x^2\) represents the behaviour of the function.</p>
+<h4>Functions in Action</h4>
+<p>Using our new notation let's get started</p>
+<p>\[\begin{align}<br />
+f =&amp; \mathbb{Z} \Rightarrow \mathbb{R} :\\<br />
+&amp; x \rightarrow \frac{1}{2}x<br />
+\end{align} \]</p>
+<p>and</p>
+<p>\[\begin{align}<br />
+g= &amp; \mathbb{Z^+} \Rightarrow \mathbb{Z} :\\<br />
+&amp; x \rightarrow -x<br />
+\end{align} \]</p>
+<p>Then \( g | f  \) is a function with signature<br />
+\[ \mathbb{Z^+}\Rightarrow\mathbb{R} \]<br />
+normally written as \( f(g(x))\).</p>
+<p>Why this new notation \( g|f \)? If we replace \(g\) and \(f\) with their signatures the usefulness becomes much clearer \[ g | f \text{ or } (\mathbb{Z^+}\Rightarrow\mathbb{Z}) \big| (\mathbb{Z}\Rightarrow\mathbb{R})\] which becomes \[ \mathbb{Z^+}\Rightarrow\mathbb{R}  \] The terms no either side of the vertical slash \(\big|\) <em>must</em> agree (specifically the left-hand-side must be a subset of the right-hand-side). The center terms essentially cancel out, leaving a type signature of only the outer types. We can create long compositions of functions this way with clarity.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/477/block-function-notation/feed</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Math Should be Easier to Learn</title>
+		<link>http://www.underflow.ca/blog/374/math-should-be-easier-to-learn?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=math-should-be-easier-to-learn</link>
+		<comments>http://www.underflow.ca/blog/374/math-should-be-easier-to-learn#comments</comments>
+		<pubDate>Fri, 02 Sep 2011 18:14:28 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Editorial]]></category>
+		<category><![CDATA[computers]]></category>
+		<category><![CDATA[education]]></category>
+		<category><![CDATA[math]]></category>
+		<category><![CDATA[notation]]></category>
+		<category><![CDATA[teaching]]></category>
+		<category><![CDATA[types]]></category>
+		<category><![CDATA[writing]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=374</guid>
+		<description><![CDATA[The Standard Model in Physics explains everything we see and feel in the universe today, but remains utterly inaccessible to almost everyone Having gone through close to 40 math courses in my academic career, I can tell you without doubt that math notation, in all instance, sucks. I believe it is needlessly complicated, obfuscated, inauspicious and often full of erroneous assumptions. Least of all, it's difficult to learn. Science makes new discoveries by standing on the shoulders of giants - WikiMedia Commons The great insights of modern science, such as quantum mechanics, relativity, the standard model, are rooted in complex mathematical notation. Each theory supposedly explains its own slice of the universe, but all are generally inaccessible to even those schooled advanced mathematics, let alone the casual observer. Today there exists a generation unlike any before, a group of people growing up with unprecedented access to information via the internet. To most online-savvy individuals, questions are merely a few Google searches away from answers. For example many individuals can now make informed health decisions once delegated purely to medical professionals. There exist fully interactive 3D visualizations of the body's interior. Knowledge with the aid of a computer is suddenly accessible like never before. Why then is mathematics still so inaccessible? While there are emerging tools such as Wolfram Alpha, I think something is still missing. Mathematical objects are abstract - we cannot interact with them the same way that one can interact with a ball, a rock or even a distant planet. Balls can be bounced, rocks can be weighed and even distant planets can be directly observed through a telescope. Mathematical objects are not tangible, cannot be seen and have no physical analogue with which to compare. We learn about mathematics by moving notation around, thinking, and then if possible performing some type of visualization like a graph. This is tedious work, and it often interferes with the learning process. I think math notation needs to be computer friendly. In technical terms we need type-safe notation; those wishing for more detail will have to wait for my next post. We need a way to iteratively and incrementally learn more mathematics in a recreational fashion much as we can learn about biology and the planets. Math needs more consistent and computer-friendly notation so users can transfer their knowledge between branches and so I can ask a computer how to interact with the objects being described. I will present my own ideas in subsequent posts. In the meantime, please let me know your thoughts and opinions.]]></description>
+			<content:encoded><![CDATA[<div style="margin: 1em auto; padding: .25em 0; width: 460px; text-align: center; border-bottom: 1px solid #666; font-size: 16pt;"><a href="http://www.flickr.com/photos/jwg/6106962505/" title="The Standard Model" rel="flickr-mgr" class="flickr-image"><img src="http://farm7.static.flickr.com/6210/6106962505_050794e8f2.jpg" alt="The Standard Model" class="flickr-medium" title="A part of the standard model's formulaic description of the universe" longdesc="" /></a></p>
+<p style="text-align: justify;">The <a href="http://en.wikipedia.org/wiki/Standard_Model">Standard Model</a> in Physics explains everything we see and feel in the universe today, but remains utterly inaccessible to almost everyone</p>
+</div>
+<p style="text-align: justify;">Having gone through close to 40 math courses in my academic career, I can tell you without doubt that math notation, in all instance, sucks. I believe it is needlessly complicated, obfuscated, inauspicious and often full of erroneous assumptions. Least of all, it's difficult to learn.</p>
+<div style="float: right; border: 1px solid #aaa; margin: 0.5em; padding: 0.5em; width: 190px;"><a href="http://www.flickr.com/photos/jwg/6107508156/" title="Standing on the Shoulders of Giants" rel="flickr-mgr" class="flickr-image"><img src="http://farm7.static.flickr.com/6187/6107508156_69b36aba9e_m.jpg" alt="Standing on the Shoulders of Giants" class="flickr-large" title="" longdesc="" /></a></p>
+<p style="margin: 0; padding: 0; text-align: right; font-size: 10pt;">Science makes new discoveries by standing on the shoulders of giants - <a href="http://en.wikipedia.org/wiki/Standing_on_the_shoulders_of_giants">WikiMedia Commons</a></p>
+</div>
+<p style="text-align: justify;">The great insights of modern science, such as quantum mechanics, relativity, the standard model, are rooted in <span style="background-color: #ffff99;">complex mathematical notation</span>. Each theory supposedly explains its own slice of the universe, but all are generally inaccessible to even those schooled advanced mathematics, let alone the casual observer.</p>
+<p style="text-align: justify;">Today there exists a generation unlike any before, a group of people growing up with <span style="background-color: #ffff99;">unprecedented access to information</span> via the internet. To most online-savvy individuals, questions are merely a few Google searches away from answers. For example many individuals can now make informed health decisions once delegated purely to medical professionals.</p>
+<p style="text-align: justify;">There exist <a href="http://bodybrowser.googlelabs.com/">fully interactive 3D visualizations</a> of the body's interior. Knowledge with the aid of a computer is suddenly accessible like never before.</p>
+<a href="http://www.flickr.com/photos/jwg/6106959669/" title="Body Works - by Google" rel="flickr-mgr" class="flickr-image"><img src="http://farm7.static.flickr.com/6076/6106959669_179de8f804_m.jpg" alt="Body Works - by Google" class="flickr-large alignleft" title="" longdesc="" /></a>
+<p style="text-align: justify;">Why then is mathematics still so inaccessible? While there are emerging tools such as <a href="http://www.wolframalpha.com/">Wolfram Alpha</a>, I think something is still missing.</p>
+<p style="text-align: justify;">Mathematical objects are abstract - we cannot interact with them the same way that one can interact with a ball, a rock or even a distant planet. Balls can be bounced, rocks can be weighed and even distant planets can be directly observed through a telescope. <span style="background-color: #ffff99;">Mathematical objects are not tangible</span>, cannot be seen and have no physical analogue with which to compare.</p>
+<p style="text-align: justify;">We learn about mathematics by moving notation around, thinking, and then if possible performing some type of visualization like a graph. This is tedious work, and it often interferes with the learning process.</p>
+<a href="http://www.flickr.com/photos/jwg/6107500004/" title="Wolfram Alpha" rel="flickr-mgr" class="flickr-image"><img src="http://farm7.static.flickr.com/6070/6107500004_7bc9c8b5de_m.jpg" alt="Wolfram Alpha" class="flickr-large alignleft" title="" longdesc="" /></a>
+<p style="text-align: justify;">I think math notation needs to be computer friendly. In technical terms we need type-safe notation; those wishing for more detail will have to wait for my next post.</p>
+<p style="text-align: justify;">We need a way to iteratively and incrementally learn more mathematics in a recreational fashion much as we can learn about biology and the planets. Math needs more consistent and <span style="background-color: #ffff99;">computer-friendly notation</span> so users can transfer their knowledge between branches and so I can ask a computer how to interact with the objects being described.</p>
+<p style="text-align: justify;">I will present my own ideas in subsequent posts. In the meantime, please let me know your thoughts and opinions.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/374/math-should-be-easier-to-learn/feed</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Math Jax</title>
+		<link>http://www.underflow.ca/blog/3/math-jax?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=math-jax</link>
+		<comments>http://www.underflow.ca/blog/3/math-jax#comments</comments>
+		<pubDate>Fri, 19 Aug 2011 01:56:35 +0000</pubDate>
+		<dc:creator>jacob</dc:creator>
+				<category><![CDATA[Technology]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[LaTeX]]></category>
+		<category><![CDATA[math]]></category>
+
+		<guid isPermaLink="false">http://www.underflow.ca/blog/?p=3</guid>
+		<description><![CDATA[MathJax is a wonderful project, its a javascript implementation that renders \(\LaTeX\) code in-browser. Let \( f(x) = \int_0^x \sin(y) dy\). I have installed it via the mathjax-latex plugin hosted via the wordpress website.]]></description>
+			<content:encoded><![CDATA[<p><a href="http://www.mathjax.org/"><img title="Powered by MathJax" src="http://www.mathjax.org/badge.gif" border="0" alt="Powered by MathJax" /></a></p>
+<p>MathJax is a wonderful project, its a javascript implementation that renders \(\LaTeX\) code in-browser. </p>
+<p> Let \( f(x) = \int_0^x \sin(y) dy\).</p>
+<p>I have installed it via the <a href="http://wordpress.org/extend/plugins/mathjax-latex/">mathjax-latex plugin</a> hosted via the <a href="http://wordpress.org">wordpress</a> website.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.underflow.ca/blog/3/math-jax/feed</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: basic
+Database Caching 30/39 queries in 0.153 seconds using disk: basic
+Object Caching 550/577 objects using disk: basic
+
+Served from: www.underflow.ca @ 2012-08-01 22:29:39 -->
+<!-- Localized -->
